@@ -1,0 +1,40 @@
+#TODO: replace main with the actual name
+#TODO: add headers
+
+GAME := main
+BINDIR := bin
+GAMEDIR := $(addprefix $(BINDIR)/,$(GAME).exe)
+SRCS := $(wildcard src/*/*.c) src/$(GAME).c
+HEADERS := $(wildcard src/headers/*.h)
+OBJDIR := build
+OBJS := $(SRCS:src/%.c=$(OBJDIR)/%.o)
+
+all: build
+	@./bin/$(GAME)
+
+dev-%: build
+	@./bin/$(GAME) $@
+
+build: $(OBJS) $(HEADERS)
+	@gcc -Wfatal-errors \
+	-std=c99 \
+	$^ \
+	-I ".\SDL\include" \
+	-L ".\SDL\lib" \
+	-l mingw32 \
+	-l SDL2main \
+	-l SDL2 \
+	-l SDL2_ttf \
+	-l SDL2_mixer \
+	-l SDL2_image \
+	-o $(GAMEDIR)
+
+
+$(OBJDIR)/%.o: src/%.c
+	@gcc -c -o $@ $<
+
+
+clean:
+	@rm -f build/*/*
+	@rm -f build/$(GAME).o
+	@rm -f bin/$(GAME).exe
