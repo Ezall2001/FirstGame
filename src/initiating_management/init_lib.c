@@ -1,4 +1,6 @@
-#include "../headers/common.h"
+#include "../headers/dev.h"
+#include "../headers/init.h"
+
 void init_lib()
 {
   // init mainSDL

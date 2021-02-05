@@ -15,8 +15,8 @@ all: build
 dev-%: build
 	@./bin/$(GAME) $@
 
-build: $(OBJS) $(HEADERS)
-	@gcc -Wfatal-errors \
+build: $(OBJS)
+	@gcc \
 	-std=c99 \
 	$^ \
 	-I ".\SDL\include" \
@@ -30,7 +30,7 @@ build: $(OBJS) $(HEADERS)
 	-o $(GAMEDIR)
 
 
-$(OBJDIR)/%.o: src/%.c
+$(OBJDIR)/%.o: src/%.c $(HEADERS)
 	@gcc -c -o $@ $<
 
 

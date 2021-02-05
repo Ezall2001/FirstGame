@@ -1,12 +1,15 @@
-#ifndef COMMON_H_DEFINED
-#define COMMON_H_DEFFINED
+#ifndef DEV_H_DEFINED
+#define DEV_H_DEFINED
 
-void dev_manager(char *flags[]);
+#include "./common.h"
 
-// FPS
+void dev_manager(int argc, char *argv[], GameObject *G);
+
+// flags
 void displayFPS();
+void set_fullScreen(GameWindow *window);
 
 // errors handling
-void lib_errorLog(char msg[],char error[]);
+void lib_errorLog(char msg[], const char *error);
 
 #endif

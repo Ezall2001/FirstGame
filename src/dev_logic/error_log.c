@@ -1,6 +1,6 @@
-#include "../headers/common.h"
+#include "../headers/dev.h"
 
-void lib_errorLog(char msg[], char *error)
+void lib_errorLog(char msg[], const char *error)
 {
   printf("%s: %s\n", msg, error);
 }
