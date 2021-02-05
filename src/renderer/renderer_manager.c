@@ -6,7 +6,8 @@ void renderer_manager(GameObject *G)
 
   render_firstLayer(&(G->window));
 
-  render_FPS(&(G->window), &(G->ui), G->dev);
+  if (G->dev.show_FPS)
+    render_FPS(&(G->window), &(G->ui), G->dev);
 
   update_window(&(G->window));
 }

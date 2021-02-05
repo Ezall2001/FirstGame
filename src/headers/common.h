@@ -10,6 +10,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 
+#define defaultFps 60
 typedef struct
 {
   SDL_Window *mainWindow;
@@ -32,6 +33,7 @@ typedef struct
   int frameDelayCount;
   int frameDelayIndex;
   float frameDelayAvg;
+  float deltaTime;
 } GameDev;
 
 typedef struct

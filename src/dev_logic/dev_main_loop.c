@@ -4,6 +4,8 @@ void dev_loop(GameObject *G)
 {
   if (G->dev.show_FPS == 1)
     calcFPS(&(G->dev));
+
+  set_DeltaTime(&(G->dev));
 }
 
 void calcFPS(GameDev *dev)
@@ -28,6 +30,20 @@ void calcFPS(GameDev *dev)
     dev->FPS = 1000 / dev->frameDelayAvg;
   else
     dev->FPS = dev->FPS_cap;
+}
+
+void set_DeltaTime(GameDev *dev)
+{
+  int local_frameDelayIndex = 0;
+
+  if (dev->frameDelayIndex == 0)
+    local_frameDelayIndex = dev->frameDelayCount - 1;
+  else
+    local_frameDelayIndex = dev->frameDelayIndex - 1;
+
+  dev->deltaTime = dev->frameDelays[local_frameDelayIndex] * 0.001;
+
+  printf("%.2f\n", dev->deltaTime);
 }
 
 void cap_FPS(GameDev dev)

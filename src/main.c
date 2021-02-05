@@ -20,9 +20,10 @@ int main(int argc, char *argv[])
     // hundling all game events
     event_manager(&G);
 
-    //hundling dev loop functionalities
+    // hundling dev loop functionalities
     dev_loop(&G);
 
+    // render everything
     renderer_manager(&G);
 
     cap_FPS(G.dev);

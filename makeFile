@@ -1,5 +1,4 @@
 #TODO: replace main with the actual name
-#TODO: add headers
 
 GAME := main
 BINDIR := bin
@@ -38,3 +37,6 @@ clean:
 	@rm -f build/*/*
 	@rm -f build/$(GAME).o
 	@rm -f bin/$(GAME).exe
+
+count_lines:
+	@find ./src -name *.h -o -name *.c | xargs wc -l

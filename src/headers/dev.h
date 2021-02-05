@@ -13,6 +13,7 @@ void set_FPS_cap(char flag[], GameDev *dev);
 
 //main loop
 void calcFPS(GameDev *dev);
+void set_DeltaTime(GameDev *dev);
 
 //direct call functions
 void cap_FPS(GameDev dev);
