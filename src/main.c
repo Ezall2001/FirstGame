@@ -1,5 +1,6 @@
 #include "./headers/dev.h"
 #include "./headers/init.h"
+#include "./headers/event.h"
 
 int main(int argc, char *argv[])
 {
@@ -9,14 +10,14 @@ int main(int argc, char *argv[])
   init_manager(&G);
 
   // hundling dev flags
-  if (argc > 0)
+  if (argc > 1)
     dev_manager(argc, argv, &G);
 
-  int running = 1;
-  while (running)
+  while (G.running)
   {
+    // hundling all game events
+    event_manager(&G);
 
-    // running -= 0.1;
     SDL_Delay(100);
   }
 

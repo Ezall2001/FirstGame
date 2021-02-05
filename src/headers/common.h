@@ -14,6 +14,8 @@ typedef struct
 {
   SDL_Window *mainWindow;
   int fullScreen;
+
+  ///TODO: delete these if you don't need it after tests
   int max_w;
   int max_h;
 } GameWindow;
@@ -21,6 +23,8 @@ typedef struct
 typedef struct
 {
   GameWindow window;
+
+  int running;
 
 } GameObject;
 
