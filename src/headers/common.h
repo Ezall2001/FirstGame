@@ -22,7 +22,23 @@ typedef struct
 
 typedef struct
 {
+  int show_FPS;
+  int FPS;
+  int FPS_cap;
+  Uint32 currTick;
+  Uint32 prevTick;
+  int frameDelays[10];
+  int frameDelayCount;
+  int frameDelayIndex;
+  float frameDelayAvg;
+
+  Uint32 testStartTick;
+} GameDev;
+
+typedef struct
+{
   GameWindow window;
+  GameDev dev;
 
   int running;
 

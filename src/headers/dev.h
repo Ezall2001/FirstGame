@@ -4,10 +4,17 @@
 #include "./common.h"
 
 void dev_manager(int argc, char *argv[], GameObject *G);
+void dev_loop(GameObject *G);
 
 // flags
-void displayFPS();
-void set_fullScreen(GameWindow *window);
+void set_fullScreen(char flag[], GameWindow *window);
+void set_FPS(char flag[], GameDev *dev);
+void set_FPS_cap(char flag[], GameDev *dev);
+//main loop
+void displayFPS(GameDev *dev);
+
+//direct call functions
+void cap_FPS(GameDev dev);
 
 // errors handling
 void lib_errorLog(char msg[], const char *error);

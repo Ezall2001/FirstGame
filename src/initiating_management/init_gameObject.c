@@ -17,3 +17,15 @@ void init_gameWindow(GameWindow *window)
 
   window->fullScreen = 0;
 }
+
+void init_gameDev(GameDev *dev)
+{
+  dev->show_FPS = 0;
+  dev->FPS = 0;
+  dev->FPS_cap = 60;
+  dev->currTick = 0;
+  dev->prevTick = 0;
+  dev->frameDelayCount = 0;
+  dev->frameDelayIndex = 0;
+  dev->frameDelayAvg = 0;
+}

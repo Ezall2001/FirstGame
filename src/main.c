@@ -15,12 +15,19 @@ int main(int argc, char *argv[])
 
   while (G.running)
   {
+
+    //hundling dev loop functionalities
+    dev_loop(&G);
+
     // hundling all game events
     event_manager(&G);
 
-    SDL_Delay(100);
+    ///TODO: temp to not burn the CPU
+    cap_FPS(G.dev);
+    // SDL_Delay(32);
   }
 
+  ///TODO: refactor this
   SDL_DestroyWindow(G.window.mainWindow);
   quit_lib();
   return 0;

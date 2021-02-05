@@ -28,9 +28,8 @@ void dev_manager(int argc, char *argv[], GameObject *G)
   // flags redirection
   for (int i = 0; i < flagCount; i++)
   {
-    if (strcmp(flags[i], "fps") == 0)
-      displayFPS();
-    if (strcmp(flags[i], "full_screen") == 0)
-      set_fullScreen(&(G->window));
+    set_fullScreen(flags[i], &(G->window));
+    set_FPS(flags[i], &(G->dev));
+    set_FPS_cap(flags[i], &(G->dev));
   }
 }

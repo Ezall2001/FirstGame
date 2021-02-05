@@ -1,5 +1,5 @@
-#include "../headers/dev.h"
 #include "../headers/init.h"
+#include "../headers/dev.h"
 
 void init_lib()
 {
