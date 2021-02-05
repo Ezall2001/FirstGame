@@ -13,6 +13,7 @@
 typedef struct
 {
   SDL_Window *mainWindow;
+  SDL_Surface *mainSurface;
   int fullScreen;
 
   ///TODO: delete these if you don't need it after tests
@@ -31,14 +32,21 @@ typedef struct
   int frameDelayCount;
   int frameDelayIndex;
   float frameDelayAvg;
-
-  Uint32 testStartTick;
 } GameDev;
+
+typedef struct
+{
+  TTF_Font *dev_Font;
+  SDL_Surface *FPS_surface;
+  SDL_Color FPS_Color;
+
+} UI;
 
 typedef struct
 {
   GameWindow window;
   GameDev dev;
+  UI ui;
 
   int running;
 

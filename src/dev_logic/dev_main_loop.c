@@ -3,10 +3,10 @@
 void dev_loop(GameObject *G)
 {
   if (G->dev.show_FPS == 1)
-    displayFPS(&(G->dev));
+    calcFPS(&(G->dev));
 }
 
-void displayFPS(GameDev *dev)
+void calcFPS(GameDev *dev)
 {
   dev->currTick = SDL_GetTicks();
   dev->frameDelays[dev->frameDelayIndex] = dev->currTick - dev->prevTick;
@@ -28,9 +28,6 @@ void displayFPS(GameDev *dev)
     dev->FPS = 1000 / dev->frameDelayAvg;
   else
     dev->FPS = dev->FPS_cap;
-
-  ///TODO: render this
-  printf("%d FPS\n", dev->FPS);
 }
 
 void cap_FPS(GameDev dev)

@@ -12,5 +12,6 @@ void quit_lib();
 // gameObject
 void init_gameWindow(GameWindow *window);
 void init_gameDev(GameDev *dev);
+void init_UI(UI *ui);
 
 #endif

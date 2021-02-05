@@ -1,6 +1,7 @@
 #include "./headers/dev.h"
 #include "./headers/init.h"
 #include "./headers/event.h"
+#include "./headers/renderer.h"
 
 int main(int argc, char *argv[])
 {
@@ -16,19 +17,18 @@ int main(int argc, char *argv[])
   while (G.running)
   {
 
-    //hundling dev loop functionalities
-    dev_loop(&G);
-
     // hundling all game events
     event_manager(&G);
 
-    ///TODO: temp to not burn the CPU
+    //hundling dev loop functionalities
+    dev_loop(&G);
+
+    renderer_manager(&G);
+
     cap_FPS(G.dev);
-    // SDL_Delay(32);
   }
 
-  ///TODO: refactor this
-  SDL_DestroyWindow(G.window.mainWindow);
+  ///TODO: free game objects
   quit_lib();
   return 0;
 }
