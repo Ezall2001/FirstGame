@@ -14,6 +14,10 @@ all: build
 dev-%: build
 	@./bin/$(GAME) $@
 
+proto1/dev-%: build
+	./bin/$(GAME) $@
+
+
 build: $(OBJS)
 	@gcc \
 	-std=c99 \
@@ -40,3 +44,5 @@ clean:
 
 count_lines:
 	@find ./src -name *.h -o -name *.c | xargs wc -l
+
+
