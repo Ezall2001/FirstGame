@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     cap_FPS(G.dev);
   }
 
-  ///TODO: free game objects
+  destroy_GameObject(&G);
   quit_lib();
   return 0;
 }

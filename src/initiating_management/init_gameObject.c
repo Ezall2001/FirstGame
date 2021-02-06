@@ -4,23 +4,30 @@
 void init_gameWindow(GameWindow *window)
 {
 
-  // main window
+  // calculating and creating the dimentions of the main window
+
+  SDL_Rect max_Window;
+  int getBounds = SDL_GetDisplayBounds(0, &max_Window);
+  if (getBounds != 0)
+    lib_errorLog("failed at getting bounds", SDL_GetError());
+  window->max_w = max_Window.w;
+  window->max_h = max_Window.h;
+  window->w = window->max_w / 2;
+  window->h = window->max_h / 2;
+  window->x = (window->max_w / 2) - (window->w / 2);
+  window->y = (window->max_h / 2) - (window->h / 2);
+
+  window->fullScreen = 0;
   /// TODO: change the name of the wingdow
   window->mainWindow = NULL;
-  window->mainWindow = SDL_CreateWindow("FirstGame", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 500, 500, SDL_WINDOW_RESIZABLE);
+  window->mainWindow = SDL_CreateWindow("FirstGame", window->x, window->y, window->w, window->h, SDL_WINDOW_RESIZABLE);
   if (window->mainWindow == NULL)
     lib_errorLog("failed at creating a window", SDL_GetError());
 
-  ///TODO: delete this if you don't need it
-  SDL_Rect max_Window;
-  SDL_GetDisplayBounds(0, &max_Window);
-  window->max_w = max_Window.w;
-  window->max_h = max_Window.h;
-
-  window->fullScreen = 0;
-
   // main surface
   window->mainSurface = SDL_GetWindowSurface(window->mainWindow);
+  if (window->mainSurface == NULL)
+    lib_errorLog("failed at getting surface form window", SDL_GetError());
 }
 
 void init_gameDev(GameDev *dev)

@@ -16,10 +16,8 @@ typedef struct
   SDL_Window *mainWindow;
   SDL_Surface *mainSurface;
   int fullScreen;
+  int x, y, w, h, max_w, max_h;
 
-  ///TODO: delete these if you don't need it after tests
-  int max_w;
-  int max_h;
 } GameWindow;
 
 typedef struct

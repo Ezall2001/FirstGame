@@ -42,8 +42,6 @@ void set_DeltaTime(GameDev *dev)
     local_frameDelayIndex = dev->frameDelayIndex - 1;
 
   dev->deltaTime = dev->frameDelays[local_frameDelayIndex] * 0.001;
-
-  printf("%.2f\n", dev->deltaTime);
 }
 
 void cap_FPS(GameDev dev)
