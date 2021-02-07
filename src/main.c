@@ -14,9 +14,8 @@ int main(int argc, char *argv[])
   if (argc > 1)
     dev_manager(argc, argv, &G);
 
-  while (G.running)
+  while (G.window.running)
   {
-
     // hundling all game events
     event_manager(&G);
 
