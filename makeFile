@@ -3,7 +3,7 @@
 GAME := main
 BINDIR := bin
 GAMEDIR := $(addprefix $(BINDIR)/,$(GAME).exe)
-SRCS := $(wildcard src/*/*.c) src/$(GAME).c
+SRCS := $(wildcard src/*/*.c) $(wildcard src/*/*/*.c) src/$(GAME).c
 HEADERS := $(wildcard src/headers/*.h)
 OBJDIR := build
 OBJS := $(SRCS:src/%.c=$(OBJDIR)/%.o)
@@ -11,11 +11,19 @@ OBJS := $(SRCS:src/%.c=$(OBJDIR)/%.o)
 all: build
 	@./bin/$(GAME)
 
+proto1/dev-%: build
+	@echo scenario: the very first prototype of the game
+	@./bin/$(GAME) $@ placeholder
+
 dev-%: build
 	@./bin/$(GAME) $@
 
-proto1/dev-%: build
-	./bin/$(GAME) $@
+dev-flags:
+	@echo "-fullscreen set the game in full screen mode"
+	@echo "-fps show fps in the window"
+	@echo "-limit_fps:X limit the fps to X" 
+
+
 
 
 build: $(OBJS)

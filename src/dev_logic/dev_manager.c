@@ -2,27 +2,28 @@
 
 void dev_manager(int argc, char *argv[], GameObject *G)
 {
-  // checking for scenarios or dev flags
+  // seperating scenarios and dev flags
   int devIndex = -1;
   int scnIndex = -1;
-  char prefix[4];
-  for (int i = 1; i < argc; i++)
-  {
-    strncpy(prefix, argv[i], 3);
-    prefix[3] = '\0';
-    if (strcmp(prefix, "dev") == 0)
-      devIndex = 1;
-    if (strcmp(prefix, "scn") == 0)
-    {
-      if (devIndex == 1)
-        scnIndex = 2;
-      else
-        scnIndex = 1;
-    }
-  }
+  int charIndex = 0;
 
-  printf("scnIndex: %d  devInxed: %d", scnIndex, devIndex);
-  printf("hello");
+  if (argv[1][0] == 'd')
+    devIndex = 1;
+
+  while (argv[1][charIndex] != '\0')
+  {
+    if (argv[1][charIndex] == '/')
+    {
+
+      strncpy(argv[2], argv[1] + charIndex + 1, strlen(argv[1]));
+      argv[1][charIndex] = '\0';
+
+      devIndex = 2;
+      scnIndex = 1;
+      break;
+    }
+    charIndex++;
+  }
 
   if (devIndex != -1)
   {
@@ -56,5 +57,11 @@ void dev_manager(int argc, char *argv[], GameObject *G)
       set_FPS(flags[i], &(G->dev));
       set_FPS_cap(flags[i], &(G->dev));
     }
+  }
+
+  // scenarios redirection
+  if (scnIndex != -1)
+  {
+    proto1(argv[scnIndex]);
   }
 }

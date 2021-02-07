@@ -3,7 +3,6 @@
 
 void renderer_manager(GameObject *G)
 {
-
   render_firstLayer(&(G->window));
 
   if (G->dev.show_FPS)

@@ -2,7 +2,7 @@
 
 void set_fullScreen(char flag[], GameWindow *window)
 {
-  if (strcmp(flag, "full_screen") == 0)
+  if (strcmp(flag, "fullscreen") == 0)
   {
     int fullscreen = SDL_SetWindowFullscreen(window->mainWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
     if (fullscreen != 0)

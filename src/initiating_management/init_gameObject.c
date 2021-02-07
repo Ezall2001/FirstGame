@@ -18,6 +18,7 @@ void init_gameWindow(GameWindow *window)
   window->y = (window->max_h / 2) - (window->h / 2);
 
   window->fullScreen = 0;
+
   /// TODO: change the name of the wingdow
   window->mainWindow = NULL;
   window->mainWindow = SDL_CreateWindow("FirstGame", window->x, window->y, window->w, window->h, SDL_WINDOW_RESIZABLE);
@@ -44,7 +45,6 @@ void init_gameDev(GameDev *dev)
 
 void init_UI(UI *ui)
 {
-  ///TODO: change the font
   ui->dev_Font = NULL;
   ui->dev_Font = TTF_OpenFont("./assets/BalooChettan2-Regular.ttf", 16);
   if (ui->dev_Font == NULL)

@@ -18,6 +18,7 @@ void render_firstLayer(GameWindow *window)
 
 void render_FPS(GameWindow *window, UI *ui, GameDev dev)
 {
+
   char displayFPS[5];
   itoa(dev.FPS, displayFPS, 10);
   ui->FPS_surface = TTF_RenderUTF8_Solid(ui->dev_Font, displayFPS, ui->FPS_Color);

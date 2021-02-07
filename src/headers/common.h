@@ -32,6 +32,7 @@ typedef struct
   int frameDelayIndex;
   float frameDelayAvg;
   float deltaTime;
+
 } GameDev;
 
 typedef struct
