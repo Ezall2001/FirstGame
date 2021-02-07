@@ -46,7 +46,8 @@ $(OBJDIR)/%.o: src/%.c $(HEADERS)
 
 
 clean:
-	@rm -f build/*/*
+	@rm -f build/*/scenarios/*.o
+	@rm -f build/*/*.o
 	@rm -f build/$(GAME).o
 	@rm -f bin/$(GAME).exe
 

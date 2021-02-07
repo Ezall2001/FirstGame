@@ -30,8 +30,6 @@ void init_gameWindow(GameWindow *window)
   window->mainSurface = SDL_GetWindowSurface(window->mainWindow);
   if (window->mainSurface == NULL)
     lib_errorLog("failed at getting surface form window", SDL_GetError());
-
-  printf("hello");
 }
 
 void init_gameDev(GameDev *dev)
