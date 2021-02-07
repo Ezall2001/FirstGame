@@ -5,4 +5,6 @@
 
 void event_manager(GameObject *G);
 
+void window_events(SDL_Event *event, GameWindow *window);
+
 #endif

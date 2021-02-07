@@ -18,6 +18,7 @@ void init_gameWindow(GameWindow *window)
   window->y = (window->max_h / 2) - (window->h / 2);
 
   window->fullScreen = 0;
+  window->running = 1;
 
   /// TODO: change the name of the wingdow
   window->mainWindow = NULL;
