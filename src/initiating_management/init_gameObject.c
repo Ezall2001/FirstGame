@@ -18,6 +18,7 @@ void init_gameWindow(GameWindow *window)
   window->y = (window->max_h / 2) - (window->h / 2);
 
   window->fullScreen = 0;
+  window->running = 1;
 
   /// TODO: change the name of the wingdow
   window->mainWindow = NULL;
@@ -46,7 +47,7 @@ void init_gameDev(GameDev *dev)
 void init_UI(UI *ui)
 {
   ui->dev_Font = NULL;
-  ui->dev_Font = TTF_OpenFont("./assets/BalooChettan2-Regular.ttf", 16);
+  ui->dev_Font = TTF_OpenFont("./assets/fonts/BalooChettan2-Regular.ttf", 16);
   if (ui->dev_Font == NULL)
     lib_errorLog("failed at loaing font", TTF_GetError());
   ui->FPS_surface = NULL;

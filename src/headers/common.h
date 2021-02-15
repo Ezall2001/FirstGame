@@ -16,6 +16,7 @@ typedef struct
   SDL_Window *mainWindow;
   SDL_Surface *mainSurface;
   int fullScreen;
+  int running;
   int x, y, w, h, max_w, max_h;
 
 } GameWindow;
@@ -48,9 +49,6 @@ typedef struct
   GameWindow window;
   GameDev dev;
   UI ui;
-
-  int running;
-
 } GameObject;
 
 #endif

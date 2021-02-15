@@ -13,6 +13,7 @@ void set_FPS_cap(char flag[], GameDev *dev);
 
 // scenarios
 void proto1(char scn[]);
+void lvl_simulation(char scn[]);
 
 //main loop
 void calcFPS(GameDev *dev);
