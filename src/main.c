@@ -14,7 +14,6 @@ int main(int argc, char *argv[])
   if (argc > 1)
     dev_manager(argc, argv, &G);
 
-  if (argc < 3)
   {
     while (G.window.running)
     {
