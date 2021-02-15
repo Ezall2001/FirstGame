@@ -14,20 +14,24 @@ int main(int argc, char *argv[])
   if (argc > 1)
     dev_manager(argc, argv, &G);
 
-  while (G.window.running)
+  if (argc < 3)
   {
-    // hundling all game events
-    event_manager(&G);
+    while (G.window.running)
+    {
+      // hundling all game events
+      event_manager(&G);
 
-    // hundling dev loop functionalities
-    dev_loop(&G);
+      // hundling dev loop functionalities
+      dev_loop(&G);
 
-    // render everything
-    renderer_manager(&G);
+      // logic
 
-    cap_FPS(G.dev);
+      // render everything
+      renderer_manager(&G);
+
+      cap_FPS(G.dev);
+    }
   }
-
   destroy_GameObject(&G);
   quit_lib();
   return 0;

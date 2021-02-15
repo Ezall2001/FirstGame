@@ -63,5 +63,6 @@ void dev_manager(int argc, char *argv[], GameObject *G)
   if (scnIndex != -1)
   {
     proto1(argv[scnIndex]);
+    lvl_simulation(argv[scnIndex]);
   }
 }

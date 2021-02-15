@@ -15,14 +15,21 @@ proto1/dev-%: build
 	@echo scenario: the very first prototype of the game
 	@./bin/$(GAME) $@ placeholder
 
+lvl_system/dev-%: build
+	@echo scenario: leveling up simulation
+	@./bin/$(GAME) $@ placeholder
+
 dev-%: build
 	@./bin/$(GAME) $@
 
-dev-flags:
-	@echo "-fullscreen set the game in full screen mode"
-	@echo "-fps show fps in the window"
+flags:
+	@echo "-fullscreen: set the game in full screen mode"
+	@echo "-fps: show fps in the window"
 	@echo "-limit_fps:X limit the fps to X" 
 
+scenarios:
+	@echo "proto1: testing core of the game (movement, animation, shooting, gameplay ...)"
+	@echo "lvl_system: simulation of lvling up"
 
 
 
@@ -53,5 +60,7 @@ clean:
 
 count_lines:
 	@find ./src -name *.h -o -name *.c | xargs wc -l
+
+
 
 
