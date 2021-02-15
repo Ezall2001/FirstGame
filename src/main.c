@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
   // hundling dev flags and scenarios
   if (argc > 1)
     dev_manager(argc, argv, &G);
-  if (argc < 2)
+  if (argc < 3)
   {
     while (G.window.running)
     {
