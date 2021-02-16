@@ -9,6 +9,10 @@ OBJS := $(SRCS:src/%.c=$(OBJDIR)/%.o)
 all: build
 	@./bin/$(GAME)
 
+
+game/dev-%: build
+	@./bin/$(GAME) $@ placeholder
+
 proto1/dev-%: build
 	@echo scenario: the very first prototype of the game
 	@./bin/$(GAME) $@ placeholder
@@ -17,8 +21,7 @@ lvl_system/dev-%: build
 	@echo scenario: leveling up simulation
 	@./bin/$(GAME) $@ placeholder
 
-dev-%: build
-	@./bin/$(GAME) $@
+
 
 flags:
 	@echo "-fullscreen: set the game in full screen mode"

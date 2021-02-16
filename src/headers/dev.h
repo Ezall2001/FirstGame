@@ -3,7 +3,7 @@
 
 #include "./common.h"
 
-void dev_manager(int argc, char *argv[], GameObject *G);
+void dev_manager(int *argc, char *argv[], GameObject *G);
 void dev_loop(GameObject *G);
 
 // flags
