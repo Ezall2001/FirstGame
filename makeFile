@@ -1,6 +1,4 @@
-#TODO: replace main with the actual name
-
-GAME := main
+GAME := Surrounded_By_Water
 BINDIR := bin
 GAMEDIR := $(addprefix $(BINDIR)/,$(GAME).exe)
 SRCS := $(wildcard src/*/*.c) $(wildcard src/*/*/*.c) src/$(GAME).c

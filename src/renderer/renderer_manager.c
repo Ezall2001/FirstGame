@@ -3,10 +3,23 @@
 
 void renderer_manager(GameObject *G)
 {
-  render_firstLayer(&(G->window));
+  update_renderer(&(G->window));
 
   if (G->dev.show_FPS)
-    render_FPS(&(G->window), &(G->ui), G->dev);
+    render_FPS(&(G->window), &(G->devUI), G->dev);
 
-  update_window(&(G->window));
+  if (G->window.game_scene == 0)
+  {
+    switch (G->window.menu_scene)
+    {
+    case 0:
+      render_main_menu(&(G->menuUI), &(G->window));
+      break;
+
+    default:
+      break;
+    }
+  }
+
+  SDL_RenderPresent(G->window.mainRenderer);
 }

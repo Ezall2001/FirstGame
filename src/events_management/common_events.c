@@ -15,10 +15,6 @@ void window_events(SDL_Event *event, GameWindow *window)
     case SDL_WINDOWEVENT_SIZE_CHANGED:
     {
       int w = 0, h = 0;
-      window->mainSurface = SDL_GetWindowSurface(window->mainWindow);
-      if (window->mainSurface == NULL)
-        lib_errorLog("failed at getting surface", SDL_GetError());
-
       SDL_GetWindowSize(window->mainWindow, &w, &h);
       window->w = w;
       window->h = h;
