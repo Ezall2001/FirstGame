@@ -5,9 +5,6 @@ void renderer_manager(GameObject *G)
 {
   update_renderer(&(G->window));
 
-  if (G->dev.show_FPS)
-    render_FPS(&(G->window), &(G->devUI), G->dev);
-
   if (G->window.game_scene == 0)
   {
     switch (G->window.menu_scene)
@@ -20,6 +17,9 @@ void renderer_manager(GameObject *G)
       break;
     }
   }
+
+  if (G->dev.show_FPS)
+    render_FPS(&(G->window), &(G->devUI), G->dev);
 
   SDL_RenderPresent(G->window.mainRenderer);
 }

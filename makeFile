@@ -21,6 +21,10 @@ lvl_system/dev-%: build
 	@echo scenario: leveling up simulation
 	@./bin/$(GAME) $@ placeholder
 
+responsive_UI/dev-%: build
+	@echo scenario: a simulation for making the UI fully responsive
+	@./bin/$(GAME) $@ placeholder
+
 
 
 flags:

@@ -46,7 +46,6 @@ typedef struct
 
 } DevUI;
 
-/// TODO: add coords
 typedef struct
 {
   TTF_Font *menu_Font;
@@ -67,6 +66,12 @@ typedef struct
   SDL_Texture *menu_Background;
 
   // coords
+  SDL_Rect main_Background_Coords;
+  SDL_Rect title_Coords;
+  SDL_Rect start_Coords;
+  SDL_Rect sttings_Coords;
+  SDL_Rect tutorial_Coords;
+  SDL_Rect quit_Coords;
 
 } MenuUI;
 

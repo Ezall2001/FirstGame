@@ -14,6 +14,7 @@ void set_FPS_cap(char flag[], GameDev *dev);
 // scenarios
 void proto1(char scn[]);
 void lvl_simulation(char scn[]);
+void responsive_UI(char scn[]);
 
 //main loop
 void calcFPS(GameDev *dev);
@@ -24,5 +25,6 @@ void cap_FPS(GameDev dev);
 
 // errors handling
 void lib_errorLog(char msg[], const char *error);
+void coords_log(int x, int y, int w, int h);
 
 #endif

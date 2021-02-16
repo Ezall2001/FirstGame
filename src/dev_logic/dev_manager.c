@@ -67,6 +67,7 @@ void dev_manager(int *argc, char *argv[], GameObject *G)
       SDL_DestroyWindow(G->window.mainWindow);
       proto1(argv[scnIndex]);
       lvl_simulation(argv[scnIndex]);
+      responsive_UI(argv[scnIndex]);
     }
   }
 }

@@ -5,7 +5,6 @@ void init_gameWindow(GameWindow *window)
 {
 
   // calculating and creating the dimentions of the main window
-
   SDL_Rect max_Window;
   int getBounds = SDL_GetDisplayBounds(0, &max_Window);
   if (getBounds != 0)
@@ -64,19 +63,19 @@ void init_menuUI(MenuUI *ui, GameWindow *window)
 
   // font and colors
   ui->menu_Font = NULL;
-  ui->menu_Font = TTF_OpenFont("./assets/fonts/menu's font.ttf", 16);
+  ui->menu_Font = TTF_OpenFont("./assets/fonts/menu's font.ttf", 255);
   if (ui->menu_Font == NULL)
     lib_errorLog("failed at loading font", TTF_GetError());
 
   ui->title_Color.r = 247;
   ui->title_Color.g = 147;
   ui->title_Color.b = 30;
-  ui->title_Color.a = 1;
+  ui->title_Color.a = 0;
 
   ui->text_Color.r = 255;
   ui->text_Color.g = 255;
   ui->text_Color.b = 255;
-  ui->text_Color.a = 1;
+  ui->text_Color.a = 0;
 
   // title text
   tempSurface = TTF_RenderUTF8_Blended(ui->menu_Font, "Surrounded By Water", ui->title_Color);
@@ -165,6 +164,24 @@ void init_menuUI(MenuUI *ui, GameWindow *window)
   ui->menu_Background = SDL_CreateTextureFromSurface(window->mainRenderer, tempSurface);
   if (ui->menu_Background == NULL)
     lib_errorLog("failed at converting button surface to texture", SDL_GetError());
+
+  // menu background coords
+  ui->main_Background_Coords.x = 0;
+  ui->main_Background_Coords.y = 0;
+  ui->main_Background_Coords.w = window->w;
+  ui->main_Background_Coords.h = window->h;
+
+  // title coords
+  ui->title_Coords.x = window->w * 0.5;
+  ui->title_Coords.y = window->h * 0.1;
+  ui->title_Coords.w = 470;
+  ui->title_Coords.h = 60;
+
+  // start coords
+  ui->start_Coords.w = 90;
+  ui->start_Coords.h = 50;
+  ui->start_Coords.x = window->w * 0.9 - ui->start_Coords.w;
+  ui->start_Coords.y = window->h * 0.4;
 
   SDL_FreeSurface(tempSurface);
   SDL_FreeRW(tempPath);
