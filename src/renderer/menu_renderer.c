@@ -4,19 +4,21 @@
 void render_main_menu(MenuUI *ui, GameWindow *window)
 {
   int rendered = -1;
-  SDL_Rect temp_Button_Coords;
+  SDL_Rect temp_Button_Coords; //TODO: invert this to text coords
   // main background
-  rendered = SDL_RenderCopy(window->mainRenderer, ui->main_Background, NULL, &ui->main_Background_Coords);
+  rendered = SDL_RenderCopy(window->mainRenderer, ui->main_Background, NULL, &(ui->main_Background_Coords));
   if (rendered != 0)
-    lib_errorLog("failed at rendering menu", SDL_GetError());
+    lib_errorLog("failed at rendering menu UI", SDL_GetError());
   rendered = -1;
 
   // title
   rendered = -1;
-  rendered = SDL_RenderCopy(window->mainRenderer, ui->title_Text, NULL, &ui->title_Coords);
+  rendered = SDL_RenderCopy(window->mainRenderer, ui->title_Text, NULL, &(ui->title_Coords));
   if (rendered != 0)
-    lib_errorLog("failed at rendering menu", SDL_GetError());
+    lib_errorLog("failed at rendering menu UI", SDL_GetError());
 
+  ///TODO: refactor this
+  /* 
   // start button
   rendered = -1;
   rendered = SDL_RenderCopy(window->mainRenderer, ui->start_Text, NULL, &ui->start_Coords);
@@ -32,4 +34,5 @@ void render_main_menu(MenuUI *ui, GameWindow *window)
   rendered = SDL_RenderCopy(window->mainRenderer, ui->static_Button, NULL, &temp_Button_Coords);
   if (rendered != 0)
     lib_errorLog("failed at rendering menu", SDL_GetError());
+  */
 }

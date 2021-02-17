@@ -17,8 +17,5 @@ void destroy_GameObject(GameObject *G)
   SDL_DestroyTexture(G->menuUI.main_Background);
   SDL_DestroyTexture(G->menuUI.menu_Background);
   SDL_DestroyTexture(G->menuUI.title_Text);
-  SDL_DestroyTexture(G->menuUI.start_Text);
-  SDL_DestroyTexture(G->menuUI.settings_Text);
-  SDL_DestroyTexture(G->menuUI.tutorial_Text);
-  SDL_DestroyTexture(G->menuUI.quit_Text);
+  ///TODO:  destroy all the text
 }

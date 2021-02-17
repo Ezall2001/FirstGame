@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <windows.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
@@ -16,7 +17,8 @@ typedef struct
   SDL_Renderer *mainRenderer;
   int fullScreen;
   int running;
-  int x, y, w, h, max_w, max_h;
+  int x, y, w, h, default_w, default_h, max_w, max_h;
+  float win_width_ratio;
   int game_scene; // 0:outgame - 1:ingame
   int menu_scene; // 0:mainMenu
 
@@ -48,16 +50,19 @@ typedef struct
 
 typedef struct
 {
+  ///TODO: refactor the menu UI
+} Menu_Scene0_UI;
+typedef struct
+{
+  // fonts
   TTF_Font *menu_Font;
+
+  // colors
   SDL_Color title_Color;
   SDL_Color text_Color;
 
-  // text
+  // text ( with no background )
   SDL_Texture *title_Text;
-  SDL_Texture *start_Text;
-  SDL_Texture *settings_Text;
-  SDL_Texture *tutorial_Text;
-  SDL_Texture *quit_Text;
 
   // imgs
   SDL_Texture *static_Button;
@@ -66,12 +71,12 @@ typedef struct
   SDL_Texture *menu_Background;
 
   // coords
-  SDL_Rect main_Background_Coords;
   SDL_Rect title_Coords;
-  SDL_Rect start_Coords;
-  SDL_Rect sttings_Coords;
-  SDL_Rect tutorial_Coords;
-  SDL_Rect quit_Coords;
+  SDL_Rect main_Background_Coords;
+
+  // menu scene 0 buttons and coords
+  SDL_Texture *buttons_Text[4];
+  SDL_Rect buttons_Coords[4];
 
 } MenuUI;
 

@@ -25,6 +25,7 @@ void render_FPS(GameWindow *window, DevUI *ui, GameDev dev)
     lib_errorLog("failed at converting text surface to texture", SDL_GetError());
 
   // copy to renderer
+  ///TODO: make this more flexible
   SDL_Rect dstFPS = {0, 0, 20, 26};
   if (((float)dev.FPS / 100) > 1)
     dstFPS.w = 30;
