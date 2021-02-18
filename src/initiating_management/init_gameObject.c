@@ -15,12 +15,12 @@ void init_gameWindow(GameWindow *window)
   window->h = window->max_h / 2;
   window->x = (window->max_w / 2) - (window->w / 2);
   window->y = (window->max_h / 2) - (window->h / 2);
-  window->default_w = window->w;
-  window->default_h = window->h;
+  window->default_w = 1920;
+  window->default_h = 1080;
 
   window->fullScreen = 0;
   window->running = 1;
-  window->win_width_ratio = 1;
+  window->win_width_ratio = (float)window->w / window->default_w;
   window->game_scene = 0;
   window->menu_scene = 0;
 
@@ -101,8 +101,8 @@ void init_menuUI(MenuUI *ui, GameWindow *window)
   // title coords
   ui->title_Coords.x = window->w * 0.5;
   ui->title_Coords.y = window->h * 0.1;
-  ui->title_Coords.w = 470;
-  ui->title_Coords.h = 60;
+  ui->title_Coords.w = 700 * window->win_width_ratio;
+  ui->title_Coords.h = 85 * window->win_width_ratio;
 
   // scene 0 coords
   ///TODO: check this
