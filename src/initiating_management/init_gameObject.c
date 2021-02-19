@@ -61,6 +61,12 @@ void init_devUI(DevUI *ui)
 
 void init_menuUI(MenuUI *ui, GameWindow *window)
 {
+  init_Common_Menu(&(ui->common_UI), window);
+  init_Scene0_Menu(&(ui->scene0_UI), &(ui->common_UI), window);
+}
+
+void init_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
+{
   // font and colors
   ui->menu_Font = NULL;
   ui->menu_Font = TTF_OpenFont("./assets/fonts/menu's font.ttf", 255);
@@ -79,15 +85,11 @@ void init_menuUI(MenuUI *ui, GameWindow *window)
 
   // text
   load_Texture_Text(&(ui->title_Text), &(ui->menu_Font), "Surrounded By Water", ui->title_Color, &(window->mainRenderer));
-  load_Texture_Text(&(ui->buttons_Text[0]), &(ui->menu_Font), "Start", ui->text_Color, &(window->mainRenderer));
-  load_Texture_Text(&(ui->buttons_Text[1]), &(ui->menu_Font), "Settings", ui->text_Color, &(window->mainRenderer));
-  load_Texture_Text(&(ui->buttons_Text[2]), &(ui->menu_Font), "Tutorial", ui->text_Color, &(window->mainRenderer));
-  load_Texture_Text(&(ui->buttons_Text[3]), &(ui->menu_Font), "Quit", ui->text_Color, &(window->mainRenderer));
 
   // imgs
   load_Texture_Img(&(ui->static_Button), "./assets/imgs/menu/static button.png", &(window->mainRenderer));
-  ///TODO: change the hover button path
-  load_Texture_Img(&(ui->hover_Button), "./assets/imgs/menu/static button.png", &(window->mainRenderer));
+  load_Texture_Img(&(ui->static_Blue_Button), "./assets/imgs/menu/static-blue-button.png", &(window->mainRenderer));
+  load_Texture_Img(&(ui->hover_Button), "./assets/imgs/menu/hover-button.png", &(window->mainRenderer));
   load_Texture_Img(&(ui->main_Background), "./assets/imgs/menu/menu's-background.png", &(window->mainRenderer));
   load_Texture_Img(&(ui->menu_Background), "./assets/imgs/menu/menu's-second-background.png", &(window->mainRenderer));
 
@@ -103,16 +105,28 @@ void init_menuUI(MenuUI *ui, GameWindow *window)
   ui->title_Coords.y = window->h * 0.1;
   ui->title_Coords.w = 700 * window->win_width_ratio;
   ui->title_Coords.h = 85 * window->win_width_ratio;
+}
 
-  // scene 0 coords
-  ///TODO: check this
+void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
+{
+
+  char options[4][10] = {"Start", "Settings", "Tutorial", "Quit"};
+
   for (int i = 0; i < 4; i++)
   {
+    // text
+    load_Texture_Text(&(ui->scene_buttons[i].text), &(common_ui->menu_Font), options[i], common_ui->text_Color, &(window->mainRenderer));
+
+    // button coords
     int static margin = 0;
-    ui->buttons_Coords[i].w = 90;
-    ui->buttons_Coords[i].h = 50;
-    ui->buttons_Coords[i].x = window->w * 0.9 - ui->buttons_Coords[i].w;
-    ui->buttons_Coords[i].y = (window->h * 0.4) + margin;
-    margin += i * (ui->buttons_Coords[i].h + 20);
+    ui->scene_buttons[i].button_Coords.w = 90;
+    ui->scene_buttons[i].button_Coords.h = 50;
+    ui->scene_buttons[i].button_Coords.x = window->w * 0.9 - ui->scene_buttons[i].button_Coords.w;
+    ui->scene_buttons[i].button_Coords.y = (window->h * 0.4) + margin;
+    margin += i * (ui->scene_buttons[i].button_Coords.h + 20);
+
+    // text coords
+
+    // hover
+    ui->scene_buttons[i].hover = 0;
   }
-}

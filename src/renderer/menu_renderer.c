@@ -1,10 +1,14 @@
 #include "../headers/renderer.h"
 #include "../headers/dev.h"
 
-void render_main_menu(MenuUI *ui, GameWindow *window)
+void render_Scene0_Menu(MenuUI *ui, GameWindow *window)
+{
+  render_Common_Menu(&(ui->common_UI), window);
+}
+
+void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
 {
   int rendered = -1;
-  SDL_Rect temp_Button_Coords; //TODO: invert this to text coords
   // main background
   rendered = SDL_RenderCopy(window->mainRenderer, ui->main_Background, NULL, &(ui->main_Background_Coords));
   if (rendered != 0)
@@ -16,23 +20,4 @@ void render_main_menu(MenuUI *ui, GameWindow *window)
   rendered = SDL_RenderCopy(window->mainRenderer, ui->title_Text, NULL, &(ui->title_Coords));
   if (rendered != 0)
     lib_errorLog("failed at rendering menu UI", SDL_GetError());
-
-  ///TODO: refactor this
-  /* 
-  // start button
-  rendered = -1;
-  rendered = SDL_RenderCopy(window->mainRenderer, ui->start_Text, NULL, &ui->start_Coords);
-  if (rendered != 0)
-    lib_errorLog("failed at rendering menu", SDL_GetError());
-
-  temp_Button_Coords.w = ui->start_Coords.w * 3;
-  temp_Button_Coords.h = ui->start_Coords.h * 3;
-  temp_Button_Coords.x = ui->start_Coords.x - (temp_Button_Coords.w - ui->start_Coords.w) * 0.5;
-  temp_Button_Coords.y = ui->start_Coords.y;
-
-  rendered = -1;
-  rendered = SDL_RenderCopy(window->mainRenderer, ui->static_Button, NULL, &temp_Button_Coords);
-  if (rendered != 0)
-    lib_errorLog("failed at rendering menu", SDL_GetError());
-  */
 }

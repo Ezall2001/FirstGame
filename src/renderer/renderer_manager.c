@@ -10,7 +10,7 @@ void renderer_manager(GameObject *G)
     switch (G->window.menu_scene)
     {
     case 0:
-      render_main_menu(&(G->menuUI), &(G->window));
+      render_Scene0_Menu(&(G->menuUI), &(G->window));
       break;
 
     default:

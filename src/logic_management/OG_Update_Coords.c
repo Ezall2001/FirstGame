@@ -23,6 +23,11 @@ void update_Window_Coords(GameWindow *window)
 
 void update_Menu_Coords(MenuUI *ui, GameWindow *window)
 {
+  update_Menu_Common_Coords(&(ui->common_UI), window);
+}
+
+void update_Menu_Common_Coords(Menu_Common_UI *ui, GameWindow *window)
+{
   // menu background coords
   ui->main_Background_Coords.x = 0;
   ui->main_Background_Coords.y = 0;
