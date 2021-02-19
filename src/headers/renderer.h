@@ -6,8 +6,10 @@
 void renderer_manager(GameObject *G);
 
 // common
-void update_window(GameWindow *window);
-void render_firstLayer(GameWindow *window);
-void render_FPS(GameWindow *window, UI *ui, GameDev dev);
+void update_renderer(GameWindow *window);
+void render_FPS(GameWindow *window, DevUI *ui, GameDev dev);
+
+// menu
+void render_main_menu(MenuUI *ui, GameWindow *window);
 
 #endif

@@ -1,21 +1,18 @@
 #include "../headers/dev.h"
 
-void dev_manager(int argc, char *argv[], GameObject *G)
+void dev_manager(int *argc, char *argv[], GameObject *G)
 {
   // seperating scenarios and dev flags
   int devIndex = -1;
   int scnIndex = -1;
   int charIndex = 0;
 
-  if (argv[1][0] == 'd')
-    devIndex = 1;
-
   while (argv[1][charIndex] != '\0')
   {
     if (argv[1][charIndex] == '/')
     {
 
-      strncpy(argv[2], argv[1] + charIndex + 1, strlen(argv[1]));
+      strncpy(argv[2], argv[1] + charIndex + 1, strlen(argv[1]) - charIndex);
       argv[1][charIndex] = '\0';
 
       devIndex = 2;
@@ -62,7 +59,15 @@ void dev_manager(int argc, char *argv[], GameObject *G)
   // scenarios redirection
   if (scnIndex != -1)
   {
-    proto1(argv[scnIndex]);
-    lvl_simulation(argv[scnIndex]);
+
+    if (strcmp(argv[scnIndex], "game") == 0)
+      (*argc)--;
+    else
+    {
+      SDL_DestroyWindow(G->window.mainWindow);
+      proto1(argv[scnIndex]);
+      lvl_simulation(argv[scnIndex]);
+      responsive_UI(argv[scnIndex]);
+    }
   }
 }

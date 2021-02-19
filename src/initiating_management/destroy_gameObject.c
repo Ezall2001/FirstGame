@@ -3,10 +3,19 @@
 void destroy_GameObject(GameObject *G)
 {
   // GameWindow
-  SDL_FreeSurface(G->window.mainSurface);
+  SDL_DestroyRenderer(G->window.mainRenderer);
   SDL_DestroyWindow(G->window.mainWindow);
 
-  // FPS UI
-  TTF_CloseFont(G->ui.dev_Font);
-  SDL_FreeSurface(G->ui.FPS_surface);
+  // devUI
+  TTF_CloseFont(G->devUI.dev_Font);
+  SDL_DestroyTexture(G->devUI.FPS_Text);
+
+  // outGameUi
+  TTF_CloseFont(G->menuUI.menu_Font);
+  SDL_DestroyTexture(G->menuUI.static_Button);
+  SDL_DestroyTexture(G->menuUI.hover_Button);
+  SDL_DestroyTexture(G->menuUI.main_Background);
+  SDL_DestroyTexture(G->menuUI.menu_Background);
+  SDL_DestroyTexture(G->menuUI.title_Text);
+  ///TODO:  destroy all the text
 }

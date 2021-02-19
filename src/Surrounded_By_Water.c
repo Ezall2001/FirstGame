@@ -10,10 +10,11 @@ int main(int argc, char *argv[])
   // initiating the game
   init_manager(&G);
 
-  // hundling dev flags and scenarios
+   // hundling dev flags and scenarios
   if (argc > 1)
-    dev_manager(argc, argv, &G);
-  if (argc < 2)
+    dev_manager(&argc, argv, &G);
+
+  if (argc < 3)
   {
     while (G.window.running)
     {
