@@ -20,7 +20,10 @@ typedef struct
   int x, y, w, h, default_w, default_h, max_w, max_h;
   float win_width_ratio;
   int game_scene; // 0:outgame - 1:ingame
-  int menu_scene; // 0:mainMenu
+  int menu_scene; // 0:mainMenu - 1:startMenu - 2:optionsMenu - 3:tutorialMenu
+  int mute;
+  int music_volume; // 0 -> 100
+  int SFX_volume;   // 0 -> 100
 
 } GameWindow;
 
@@ -50,10 +53,12 @@ typedef struct
 
 typedef struct
 {
+  char name[20];
   SDL_Texture *text;
   SDL_Rect button_Coords;
   SDL_Rect text_Coords;
   int hover; // 0: static - 1: hover
+  int staged;
 } Button;
 
 typedef struct
@@ -64,6 +69,7 @@ typedef struct
   int buttons_Margin;
 
 } Menu_Scene0_UI;
+
 typedef struct
 {
 
@@ -86,6 +92,7 @@ typedef struct
   SDL_Rect main_Background_Coords;
 
 } Menu_Common_UI;
+
 typedef struct
 {
   ///TODO: make this the big UI struct

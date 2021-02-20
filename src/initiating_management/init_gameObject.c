@@ -23,6 +23,9 @@ void init_gameWindow(GameWindow *window)
   window->win_width_ratio = (float)window->w / window->default_w;
   window->game_scene = 0;
   window->menu_scene = 0;
+  window->mute = 0;
+  window->music_volume = 100;
+  window->SFX_volume = 100;
 
   window->mainWindow = NULL;
   window->mainWindow = SDL_CreateWindow("Surrounded By Water", window->x, window->y, window->w, window->h, SDL_WINDOW_RESIZABLE);
