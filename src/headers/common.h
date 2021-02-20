@@ -89,7 +89,7 @@ typedef struct
 } Menu_Common_UI;
 typedef struct
 {
-
+///TODO: make this the big UI struct
   Menu_Common_UI common_UI;
   Menu_Scene0_UI scene0_UI;
 

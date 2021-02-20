@@ -33,12 +33,13 @@ void mouse_motion_events(SDL_Event *event, GameObject *G)
 {
   G->window.mouse_x = event->motion.x;
   G->window.mouse_y = event->motion.y;
+
   if (G->window.game_scene == 0)
   {
     switch (G->window.menu_scene)
     {
     case 0:
-      mouse_Button_Collision(&(G->menuUI.scene0_UI), &(G->window));
+      mouse_Button_Collision(G->menuUI.scene0_UI.scene_buttons, 4, &(G->window));
       break;
 
     default:
