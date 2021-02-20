@@ -57,16 +57,18 @@ typedef struct
   SDL_Texture *text;
   SDL_Rect button_Coords;
   SDL_Rect text_Coords;
-  int hover; // 0: static - 1: hover
-  int staged;
+  int hover;  // 0: static - 1: hover
+  int staged; // 0: nokeydown - 1: keydown
 } Button;
 
 typedef struct
 {
   Button scene_buttons[4];
+  Button scene_shortcuts[2];
   SDL_Texture *buttons_Background;
   SDL_Rect buttons_Background_Coords;
   int buttons_Margin;
+  int shortcuts_Margin;
 
 } Menu_Scene0_UI;
 

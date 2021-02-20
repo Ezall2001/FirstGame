@@ -10,16 +10,31 @@ void render_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindo
   if (rendered != 0)
     lib_errorLog("failed at rendering menu UI", SDL_GetError());
 
-  // buttons
   for (int i = 0; i < 4; i++)
   {
-    if (ui->scene_buttons[i].hover == 0)
-      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->static_Button, NULL, &(ui->scene_buttons[i].button_Coords));
-    else
+    // buttons
+    if (ui->scene_buttons[i].hover == 1)
       rendered = SDL_RenderCopy(window->mainRenderer, common_ui->hover_Button, NULL, &(ui->scene_buttons[i].button_Coords));
+    else
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->static_Button, NULL, &(ui->scene_buttons[i].button_Coords));
+    ///TODO: check for staged
 
     if (rendered != 0)
       lib_errorLog("failed at rendering menu UI", SDL_GetError());
+
+    // button's text
+    rendered = SDL_RenderCopy(window->mainRenderer, ui->scene_buttons[i].text, NULL, &(ui->scene_buttons[i].text_Coords));
+
+    if (rendered != 0)
+      lib_errorLog("failed at rendering menu UI", SDL_GetError());
+  }
+
+  // shortcuts
+  for (int i = 0; i < 2; i++)
+  {
+    if (ui->scene_shortcuts[i].staged == 1)
+      ///TODO: finish this
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->hover_Button, NULL, &(ui->scene_buttons[i].button_Coords));
   }
 }
 

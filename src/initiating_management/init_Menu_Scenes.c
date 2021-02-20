@@ -51,7 +51,7 @@ void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow 
   ui->buttons_Background_Coords.x = window->w * 0.935 - ui->buttons_Background_Coords.w;
   ui->buttons_Background_Coords.y = window->h * 0.35;
 
-  //  --- buttons ---
+  //  --- main buttons ---
   char options[4][10] = {"Start", "Settings", "Tutorial", "Quit"};
   ui->buttons_Margin = 30;
 
@@ -70,10 +70,50 @@ void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow 
     ui->scene_buttons[i].button_Coords.y = ui->buttons_Background_Coords.y + ui->buttons_Margin + (ui->buttons_Margin + ui->scene_buttons[i].button_Coords.h) * i;
 
     // text coords
-    ///TODO: calculate text coords
+    int text_w = 0, text_h = 0;
+    float text_w_ratio = 1;
+
+    int mesure = TTF_SizeUTF8(common_ui->menu_Font, options[i], &text_w, &text_h);
+    if (mesure != 0)
+      lib_errorLog("failed at calculating the text mesures", TTF_GetError());
+
+    text_w_ratio = (float)text_h / text_w;
+
+    ui->scene_buttons[i].text_Coords.w = ui->scene_buttons[i].button_Coords.w * 0.3;
+    ui->scene_buttons[i].text_Coords.h = ui->scene_buttons[i].text_Coords.w * text_w_ratio;
+    ui->scene_buttons[i].text_Coords.x = ui->scene_buttons[i].button_Coords.x + ((ui->scene_buttons[i].button_Coords.w - ui->scene_buttons[i].text_Coords.w) / 2);
+    ui->scene_buttons[i].text_Coords.y = ui->scene_buttons[i].button_Coords.y + ((ui->scene_buttons[i].button_Coords.h - ui->scene_buttons[i].text_Coords.h) / 2);
 
     // state
     ui->scene_buttons[i].hover = 0;
     ui->scene_buttons[i].staged = 0;
+  }
+
+  char shortcuts[2][10] = {"Mute", "Back"};
+  ui->shortcuts_Margin = 20;
+
+  for (int i = 0; i < 2; i++)
+  {
+    // name
+    strcpy(ui->scene_shortcuts[i].name, shortcuts[i]);
+
+    // text
+    ui->scene_shortcuts[i].text = NULL;
+
+    // button coords
+    ui->scene_shortcuts[i].button_Coords.w = 50 * window->win_width_ratio;
+    ui->scene_shortcuts[i].button_Coords.h = 50 * window->win_width_ratio;
+    ui->scene_shortcuts[i].button_Coords.x = window->w * 0.95 - ui->scene_shortcuts[i].button_Coords.w * (i + 1) - ui->shortcuts_Margin * i;
+    ui->scene_shortcuts[i].button_Coords.y = window->h * 0.95 - ui->scene_shortcuts[i].button_Coords.h;
+
+    // text coords
+    ui->scene_shortcuts[i].text_Coords.x = 0;
+    ui->scene_shortcuts[i].text_Coords.y = 0;
+    ui->scene_shortcuts[i].text_Coords.w = 0;
+    ui->scene_shortcuts[i].text_Coords.h = 0;
+
+    // state
+    ui->scene_shortcuts[i].hover = 0;
+    ui->scene_shortcuts[i].staged = 0;
   }
 }
