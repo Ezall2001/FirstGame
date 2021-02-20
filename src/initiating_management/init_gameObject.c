@@ -91,7 +91,6 @@ void init_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
   load_Texture_Img(&(ui->static_Blue_Button), "./assets/imgs/menu/static-blue-button.png", &(window->mainRenderer));
   load_Texture_Img(&(ui->hover_Button), "./assets/imgs/menu/hover-button.png", &(window->mainRenderer));
   load_Texture_Img(&(ui->main_Background), "./assets/imgs/menu/menu's-background.png", &(window->mainRenderer));
-  load_Texture_Img(&(ui->menu_Background), "./assets/imgs/menu/menu's-second-background.png", &(window->mainRenderer));
 
   // coords
   // menu background coords
@@ -109,8 +108,16 @@ void init_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
 
 void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
 {
+  //  --- button's background ---
+  load_Texture_Img(&(ui->buttons_Background), "./assets/imgs/menu/menu's-second-background.png", &(window->mainRenderer));
+  ui->buttons_Background_Coords.w = 912 * window->win_width_ratio;
+  ui->buttons_Background_Coords.h = 720 * window->win_width_ratio;
+  ui->buttons_Background_Coords.x = window->w * 0.935 - ui->buttons_Background_Coords.w;
+  ui->buttons_Background_Coords.y = window->h * 0.35;
 
+  //  --- buttons ---
   char options[4][10] = {"Start", "Settings", "Tutorial", "Quit"};
+  ui->buttons_Margin = 30;
 
   for (int i = 0; i < 4; i++)
   {
@@ -118,15 +125,15 @@ void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow 
     load_Texture_Text(&(ui->scene_buttons[i].text), &(common_ui->menu_Font), options[i], common_ui->text_Color, &(window->mainRenderer));
 
     // button coords
-    int static margin = 0;
-    ui->scene_buttons[i].button_Coords.w = 90;
-    ui->scene_buttons[i].button_Coords.h = 50;
-    ui->scene_buttons[i].button_Coords.x = window->w * 0.9 - ui->scene_buttons[i].button_Coords.w;
-    ui->scene_buttons[i].button_Coords.y = (window->h * 0.4) + margin;
-    margin += i * (ui->scene_buttons[i].button_Coords.h + 20);
+    ui->scene_buttons[i].button_Coords.w = ui->buttons_Background_Coords.w * 0.7;
+    ui->scene_buttons[i].button_Coords.h = (ui->buttons_Background_Coords.h - ui->buttons_Margin * 5) / 4;
+    ui->scene_buttons[i].button_Coords.x = ui->buttons_Background_Coords.x + (ui->buttons_Background_Coords.w - ui->scene_buttons[i].button_Coords.w) / 2;
+    ui->scene_buttons[i].button_Coords.y = ui->buttons_Background_Coords.y + ui->buttons_Margin + (ui->buttons_Margin + ui->scene_buttons[i].button_Coords.h) * i;
 
     // text coords
+    ///TODO: calculate text coords
 
     // hover
     ui->scene_buttons[i].hover = 0;
   }
+}

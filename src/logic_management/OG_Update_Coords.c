@@ -40,3 +40,24 @@ void update_Menu_Common_Coords(Menu_Common_UI *ui, GameWindow *window)
   ui->title_Coords.w = 700 * window->win_width_ratio;
   ui->title_Coords.h = 85 * window->win_width_ratio;
 }
+
+void mouse_Button_Collision(Menu_Scene0_UI *ui, GameWindow *window)
+{
+  for (int i = 0; i < 4; i++)
+  {
+    int x1 = ui->scene_buttons[i].button_Coords.x;
+    int x2 = x1 + ui->scene_buttons[i].button_Coords.w;
+    int y1 = ui->scene_buttons[i].button_Coords.y;
+    int y2 = y1 + ui->scene_buttons[i].button_Coords.h;
+
+    ui->scene_buttons[i].hover = 0;
+
+    if (window->mouse_x > x1 && window->mouse_x < x2)
+    {
+      if (window->mouse_y > y1 && window->mouse_y < y2)
+      {
+        ui->scene_buttons[i].hover = 1;
+      }
+    }
+  }
+}

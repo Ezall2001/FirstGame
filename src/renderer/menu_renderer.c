@@ -1,9 +1,26 @@
 #include "../headers/renderer.h"
 #include "../headers/dev.h"
 
-void render_Scene0_Menu(MenuUI *ui, GameWindow *window)
+void render_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
 {
-  render_Common_Menu(&(ui->common_UI), window);
+  int rendered = -1;
+
+  // button's background
+  rendered = SDL_RenderCopy(window->mainRenderer, ui->buttons_Background, NULL, &(ui->buttons_Background_Coords));
+  if (rendered != 0)
+    lib_errorLog("failed at rendering menu UI", SDL_GetError());
+
+  // buttons
+  for (int i = 0; i < 4; i++)
+  {
+    if (ui->scene_buttons[i].hover == 0)
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->static_Button, NULL, &(ui->scene_buttons[i].button_Coords));
+    else
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->hover_Button, NULL, &(ui->scene_buttons[i].button_Coords));
+
+    if (rendered != 0)
+      lib_errorLog("failed at rendering menu UI", SDL_GetError());
+  }
 }
 
 void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window)

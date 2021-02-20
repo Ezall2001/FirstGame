@@ -21,6 +21,7 @@ typedef struct
   float win_width_ratio;
   int game_scene; // 0:outgame - 1:ingame
   int menu_scene; // 0:mainMenu
+  int mouse_x, mouse_y;
 
 } GameWindow;
 
@@ -59,8 +60,13 @@ typedef struct
 typedef struct
 {
   Button scene_buttons[4];
+  SDL_Texture *buttons_Background;
+  SDL_Rect buttons_Background_Coords;
+  int buttons_Margin;
+
 } Menu_Scene0_UI;
-typedef struct{
+typedef struct
+{
 
   // font & color
   TTF_Font *menu_Font;
@@ -69,14 +75,13 @@ typedef struct{
 
   // text
   SDL_Texture *title_Text;
-  
+
   // imgs
   SDL_Texture *static_Button;
   SDL_Texture *static_Blue_Button;
   SDL_Texture *hover_Button;
   SDL_Texture *main_Background;
-  SDL_Texture *menu_Background;
-  
+
   // coords
   SDL_Rect title_Coords;
   SDL_Rect main_Background_Coords;

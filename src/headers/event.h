@@ -6,5 +6,6 @@
 void event_manager(GameObject *G);
 
 void window_events(SDL_Event *event, GameObject *G);
+void mouse_motion_events(SDL_Event *event, GameObject *G);
 
 #endif
