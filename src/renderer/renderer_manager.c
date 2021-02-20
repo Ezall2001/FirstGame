@@ -14,6 +14,18 @@ void renderer_manager(GameObject *G)
       render_Scene0_Menu(&(G->menuUI.scene0_UI), &(G->menuUI.common_UI), &(G->window));
       break;
 
+    case 1:
+      puts("start menu");
+      break;
+
+    case 2:
+      puts("option menu");
+      break;
+
+    case 3:
+      puts("tutorial menu");
+      break;
+
     default:
       break;
     }

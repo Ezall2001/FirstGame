@@ -17,6 +17,69 @@ void shortcut_Input(GameInput *input, GameWindow *window)
       break;
     }
 
+    case SDLK_m:
+    {
+      if (input->ctrl == 1)
+        window->mute = 1;
+      break;
+    }
+
+    case SDLK_s:
+    {
+      if (input->ctrl == 1)
+        window->menu_scene = 1;
+      break;
+    }
+
+    case SDLK_o:
+    {
+      if (input->ctrl == 1)
+        window->menu_scene = 2;
+      break;
+    }
+
+    case SDLK_t:
+    {
+      if (input->ctrl == 1)
+        window->menu_scene = 3;
+      break;
+    }
+
+      ///TODO: update the coords of the music and SFX slider
+    case SDLK_KP_PLUS:
+    {
+      // music
+      if (window->music_volume >= 90)
+        window->music_volume = 100;
+      else
+        window->music_volume += 10;
+
+      // SFX
+      if (window->SFX_volume >= 90)
+        window->SFX_volume = 100;
+      else
+        window->SFX_volume += 10;
+
+      break;
+    }
+
+    case SDLK_KP_MINUS:
+    {
+      // music
+      if (window->music_volume <= 10)
+        window->music_volume = 0;
+      else
+        window->music_volume -= 10;
+
+      // SFX
+      if (window->SFX_volume <= 100)
+        window->SFX_volume = 0;
+      else
+        window->SFX_volume -= 10;
+
+      break;
+    }
+
     case SDLK_f:
     {
       if (input->ctrl == 1)

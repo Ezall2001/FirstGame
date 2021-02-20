@@ -20,7 +20,10 @@ typedef struct
   int x, y, w, h, default_w, default_h, max_w, max_h;
   float win_width_ratio;
   int game_scene; // 0:outgame - 1:ingame
-  int menu_scene; // 0:mainMenu
+  int menu_scene; // 0:mainMenu - 1:startMenu - 2:optionsMenu - 3:tutorialMenu
+  int mute;
+  int music_volume; // 0 -> 100
+  int SFX_volume;   // 0 -> 100
 
 } GameWindow;
 
