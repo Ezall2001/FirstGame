@@ -13,13 +13,13 @@ void quit_lib();
 void init_gameWindow(GameWindow *window);
 void init_gameDev(GameDev *dev);
 void init_devUI(DevUI *ui);
-
+void init_Input(GameInput *input);
 void init_menuUI(MenuUI *ui, GameWindow *window);
+void destroy_GameObject(GameObject *G);
+
+// init menu
 void init_Common_Menu(Menu_Common_UI *ui, GameWindow *window);
 void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow *window);
-
-
-void destroy_GameObject(GameObject *G);
 
 // load texture
 void load_Texture_Img(SDL_Texture **texture, char path[], SDL_Renderer **renderer);

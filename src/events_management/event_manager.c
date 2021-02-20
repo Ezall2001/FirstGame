@@ -16,6 +16,10 @@ void event_manager(GameObject *G)
       mouse_motion_events(&event, G);
       break;
 
+    case SDL_KEYDOWN:
+      keyboard_Input(&event, &(G->input));
+      break;
+
     default:
       break;
     }

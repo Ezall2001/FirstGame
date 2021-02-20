@@ -59,6 +59,13 @@ void init_devUI(DevUI *ui)
   ui->FPS_Color.b = 0;
 }
 
+void init_Input(GameInput *input)
+{
+  input->mouse_x = 0;
+  input->mouse_y = 0;
+  input->num_keys = 0;
+}
+
 void init_menuUI(MenuUI *ui, GameWindow *window)
 {
   init_Common_Menu(&(ui->common_UI), window);

@@ -26,7 +26,7 @@ void update_Menu_Scene0_Coords(Menu_Scene0_UI *ui, GameWindow *window)
   ///TODO: finish this
 }
 
-void mouse_Button_Collision(Button buttons[], int num_Button, GameWindow *window)
+void mouse_Button_Collision(Button buttons[], int num_Button, GameInput *input)
 {
   for (int i = 0; i < num_Button; i++)
   {
@@ -37,9 +37,9 @@ void mouse_Button_Collision(Button buttons[], int num_Button, GameWindow *window
 
     buttons[i].hover = 0;
 
-    if (window->mouse_x > x1 && window->mouse_x < x2)
+    if (input->mouse_x > x1 && input->mouse_x < x2)
     {
-      if (window->mouse_y > y1 && window->mouse_y < y2)
+      if (input->mouse_y > y1 && input->mouse_y < y2)
       {
         buttons[i].hover = 1;
       }

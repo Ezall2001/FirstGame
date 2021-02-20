@@ -31,19 +31,30 @@ void window_events(SDL_Event *event, GameObject *G)
 
 void mouse_motion_events(SDL_Event *event, GameObject *G)
 {
-  G->window.mouse_x = event->motion.x;
-  G->window.mouse_y = event->motion.y;
+  G->input.mouse_x = event->motion.x;
+  G->input.mouse_y = event->motion.y;
 
   if (G->window.game_scene == 0)
   {
     switch (G->window.menu_scene)
     {
     case 0:
-      mouse_Button_Collision(G->menuUI.scene0_UI.scene_buttons, 4, &(G->window));
+      mouse_Button_Collision(G->menuUI.scene0_UI.scene_buttons, 4, &(G->input));
       break;
 
     default:
       break;
     }
+  }
+}
+
+void keyboard_Input(SDL_Event *event, GameInput *input)
+{
+  if (event->key.keysym.sym == SDLK_RCTRL || event->key.keysym.sym == SDLK_LCTRL)
+    input->ctrl = 1;
+  else
+  {
+    input->keys[input->num_keys] = event->key.keysym.sym;
+    (input->num_keys)++;
   }
 }

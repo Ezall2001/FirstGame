@@ -1,6 +1,7 @@
 #include "./headers/dev.h"
 #include "./headers/init.h"
 #include "./headers/event.h"
+#include "./headers/logic.h"
 #include "./headers/renderer.h"
 
 int main(int argc, char *argv[])
@@ -10,7 +11,7 @@ int main(int argc, char *argv[])
   // initiating the game
   init_manager(&G);
 
-   // hundling dev flags and scenarios
+  // hundling dev flags and scenarios
   if (argc > 1)
     dev_manager(&argc, argv, &G);
 
@@ -25,6 +26,7 @@ int main(int argc, char *argv[])
       dev_loop(&G);
 
       // logic
+      logic_manager(&G);
 
       // render everything
       renderer_manager(&G);

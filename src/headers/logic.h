@@ -9,14 +9,16 @@ void logic_manager(GameObject *G);
 // coords
 void update_Window_Coords(GameWindow *window);
 
-
 //   ---- menu ----
-// coords 
+// coords
 void update_Menu_Coords(MenuUI *ui, GameWindow *window);
 void update_Menu_Common_Coords(Menu_Common_UI *ui, GameWindow *window);
 void update_Menu_Scene0_Coords(Menu_Scene0_UI *ui, GameWindow *window);
 
 // collisions
-void mouse_Button_Collision(Button buttons[], int num_Button, GameWindow *window);
+void mouse_Button_Collision(Button buttons[], int num_Button, GameInput *input);
+
+// input
+void shortcut_Input(GameInput *input, GameWindow *window);
 
 #endif

@@ -21,7 +21,6 @@ typedef struct
   float win_width_ratio;
   int game_scene; // 0:outgame - 1:ingame
   int menu_scene; // 0:mainMenu
-  int mouse_x, mouse_y;
 
 } GameWindow;
 
@@ -89,7 +88,7 @@ typedef struct
 } Menu_Common_UI;
 typedef struct
 {
-///TODO: make this the big UI struct
+  ///TODO: make this the big UI struct
   Menu_Common_UI common_UI;
   Menu_Scene0_UI scene0_UI;
 
@@ -97,8 +96,21 @@ typedef struct
 
 typedef struct
 {
+  // mouse
+  int mouse_x, mouse_y;
+
+  // keyboard
+  int ctrl;
+  SDL_KeyCode keys[50];
+  int num_keys;
+
+} GameInput;
+
+typedef struct
+{
   GameWindow window;
   GameDev dev;
+  GameInput input;
 
   // UI
   DevUI devUI;
