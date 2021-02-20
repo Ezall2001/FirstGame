@@ -58,3 +58,55 @@ void keyboard_Input(SDL_Event *event, GameInput *input)
     (input->num_keys)++;
   }
 }
+
+void mouse_Input(SDL_Event *event, GameObject *G)
+{
+  if (G->window.game_scene == 0)
+  {
+    if (event->type == SDL_MOUSEBUTTONDOWN)
+    {
+      switch (G->window.menu_scene)
+      {
+      case 0:
+        stage_Button(G->menuUI.scene0_UI.scene_buttons, 4);
+        break;
+      case 1:
+        ///TODO: finish this
+        break;
+      case 2:
+        ///TODO: finish this
+        break;
+      case 3:
+        ///TODO: finish this
+        break;
+
+      default:
+        break;
+      }
+    }
+    else if (event->type == SDL_MOUSEBUTTONUP)
+    {
+      switch (G->window.menu_scene)
+      {
+      case 0:
+        click_Button(G->menuUI.scene0_UI.scene_buttons, 4, &(G->window));
+        break;
+      case 1:
+        ///TODO: finish this
+        break;
+      case 2:
+        ///TODO: finish this
+        break;
+      case 3:
+        ///TODO: finish this
+        break;
+
+      default:
+        break;
+      }
+    }
+  }
+  else if (G->window.game_scene == 1)
+  {
+  }
+}

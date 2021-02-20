@@ -57,6 +57,9 @@ void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow 
 
   for (int i = 0; i < 4; i++)
   {
+    // name
+    strcpy(ui->scene_buttons[i].name, options[i]);
+
     // text
     load_Texture_Text(&(ui->scene_buttons[i].text), &(common_ui->menu_Font), options[i], common_ui->text_Color, &(window->mainRenderer));
 
@@ -69,7 +72,8 @@ void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow 
     // text coords
     ///TODO: calculate text coords
 
-    // hover
+    // state
     ui->scene_buttons[i].hover = 0;
+    ui->scene_buttons[i].staged = 0;
   }
 }

@@ -108,3 +108,60 @@ void shortcut_Input(GameInput *input, GameWindow *window)
     }
   }
 }
+
+void mouse_Button_Collision(Button buttons[], int num_Button, GameInput *input)
+{
+  for (int i = 0; i < num_Button; i++)
+  {
+    int x1 = buttons[i].button_Coords.x;
+    int x2 = x1 + buttons[i].button_Coords.w;
+    int y1 = buttons[i].button_Coords.y;
+    int y2 = y1 + buttons[i].button_Coords.h;
+
+    if (input->mouse_x > x1 && input->mouse_x < x2 && input->mouse_y > y1 && input->mouse_y < y2)
+    {
+      buttons[i].hover = 1;
+    }
+    else
+    {
+      buttons[i].hover = 0;
+      buttons[i].staged = 0;
+    }
+  }
+}
+
+void stage_Button(Button buttons[], int num_Button)
+{
+  for (int i = 0; i < num_Button; i++)
+  {
+    if (buttons[i].hover == 1)
+      buttons[i].staged = 1;
+  }
+}
+
+void click_Button(Button buttons[], int num_Button, GameWindow *window)
+{
+  for (int i = 0; i < num_Button; i++)
+  {
+    if (buttons[i].staged == 1)
+    {
+      if (strcmp(buttons[i].name, "Start") == 0)
+        window->menu_scene = 1;
+      else if (strcmp(buttons[i].name, "Settings") == 0)
+        window->menu_scene = 2;
+      else if (strcmp(buttons[i].name, "Tutorial") == 0)
+        window->menu_scene = 3;
+      else if (strcmp(buttons[i].name, "Quit") == 0)
+        window->running = 0;
+      ///TODO: popup to confirm exit
+    }
+  }
+}
+
+void unstage_Buttons(Button buttons[], int num_Button)
+{
+  for (int i = 0; i < num_Button; i++)
+  {
+    buttons[i].staged = 0;
+  }
+}

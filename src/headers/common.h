@@ -53,10 +53,12 @@ typedef struct
 
 typedef struct
 {
+  char name[20];
   SDL_Texture *text;
   SDL_Rect button_Coords;
   SDL_Rect text_Coords;
   int hover; // 0: static - 1: hover
+  int staged;
 } Button;
 
 typedef struct
@@ -67,6 +69,7 @@ typedef struct
   int buttons_Margin;
 
 } Menu_Scene0_UI;
+
 typedef struct
 {
 
@@ -89,6 +92,7 @@ typedef struct
   SDL_Rect main_Background_Coords;
 
 } Menu_Common_UI;
+
 typedef struct
 {
   ///TODO: make this the big UI struct
