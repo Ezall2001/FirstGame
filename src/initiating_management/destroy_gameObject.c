@@ -11,11 +11,5 @@ void destroy_GameObject(GameObject *G)
   SDL_DestroyTexture(G->devUI.FPS_Text);
 
   // outGameUi
-  TTF_CloseFont(G->menuUI.menu_Font);
-  SDL_DestroyTexture(G->menuUI.static_Button);
-  SDL_DestroyTexture(G->menuUI.hover_Button);
-  SDL_DestroyTexture(G->menuUI.main_Background);
-  SDL_DestroyTexture(G->menuUI.menu_Background);
-  SDL_DestroyTexture(G->menuUI.title_Text);
-  ///TODO:  destroy all the text
+  ///TODO:  destroy all the menu
 }

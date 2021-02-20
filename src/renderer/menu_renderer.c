@@ -1,10 +1,31 @@
 #include "../headers/renderer.h"
 #include "../headers/dev.h"
 
-void render_main_menu(MenuUI *ui, GameWindow *window)
+void render_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
 {
   int rendered = -1;
-  SDL_Rect temp_Button_Coords; //TODO: invert this to text coords
+
+  // button's background
+  rendered = SDL_RenderCopy(window->mainRenderer, ui->buttons_Background, NULL, &(ui->buttons_Background_Coords));
+  if (rendered != 0)
+    lib_errorLog("failed at rendering menu UI", SDL_GetError());
+
+  // buttons
+  for (int i = 0; i < 4; i++)
+  {
+    if (ui->scene_buttons[i].hover == 0)
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->static_Button, NULL, &(ui->scene_buttons[i].button_Coords));
+    else
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->hover_Button, NULL, &(ui->scene_buttons[i].button_Coords));
+
+    if (rendered != 0)
+      lib_errorLog("failed at rendering menu UI", SDL_GetError());
+  }
+}
+
+void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
+{
+  int rendered = -1;
   // main background
   rendered = SDL_RenderCopy(window->mainRenderer, ui->main_Background, NULL, &(ui->main_Background_Coords));
   if (rendered != 0)
@@ -16,23 +37,4 @@ void render_main_menu(MenuUI *ui, GameWindow *window)
   rendered = SDL_RenderCopy(window->mainRenderer, ui->title_Text, NULL, &(ui->title_Coords));
   if (rendered != 0)
     lib_errorLog("failed at rendering menu UI", SDL_GetError());
-
-  ///TODO: refactor this
-  /* 
-  // start button
-  rendered = -1;
-  rendered = SDL_RenderCopy(window->mainRenderer, ui->start_Text, NULL, &ui->start_Coords);
-  if (rendered != 0)
-    lib_errorLog("failed at rendering menu", SDL_GetError());
-
-  temp_Button_Coords.w = ui->start_Coords.w * 3;
-  temp_Button_Coords.h = ui->start_Coords.h * 3;
-  temp_Button_Coords.x = ui->start_Coords.x - (temp_Button_Coords.w - ui->start_Coords.w) * 0.5;
-  temp_Button_Coords.y = ui->start_Coords.y;
-
-  rendered = -1;
-  rendered = SDL_RenderCopy(window->mainRenderer, ui->static_Button, NULL, &temp_Button_Coords);
-  if (rendered != 0)
-    lib_errorLog("failed at rendering menu", SDL_GetError());
-  */
 }

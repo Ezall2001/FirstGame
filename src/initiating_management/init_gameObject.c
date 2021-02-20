@@ -15,12 +15,12 @@ void init_gameWindow(GameWindow *window)
   window->h = window->max_h / 2;
   window->x = (window->max_w / 2) - (window->w / 2);
   window->y = (window->max_h / 2) - (window->h / 2);
-  window->default_w = window->w;
-  window->default_h = window->h;
+  window->default_w = 1920;
+  window->default_h = 1080;
 
   window->fullScreen = 0;
   window->running = 1;
-  window->win_width_ratio = 1;
+  window->win_width_ratio = (float)window->w / window->default_w;
   window->game_scene = 0;
   window->menu_scene = 0;
 
@@ -59,60 +59,15 @@ void init_devUI(DevUI *ui)
   ui->FPS_Color.b = 0;
 }
 
+void init_Input(GameInput *input)
+{
+  input->mouse_x = 0;
+  input->mouse_y = 0;
+  input->num_keys = 0;
+}
+
 void init_menuUI(MenuUI *ui, GameWindow *window)
 {
-  // font and colors
-  ui->menu_Font = NULL;
-  ui->menu_Font = TTF_OpenFont("./assets/fonts/menu's font.ttf", 255);
-  if (ui->menu_Font == NULL)
-    lib_errorLog("failed at loading font", TTF_GetError());
-
-  ui->title_Color.r = 247;
-  ui->title_Color.g = 147;
-  ui->title_Color.b = 30;
-  ui->title_Color.a = 0;
-
-  ui->text_Color.r = 255;
-  ui->text_Color.g = 255;
-  ui->text_Color.b = 255;
-  ui->text_Color.a = 0;
-
-  // text
-  load_Texture_Text(&(ui->title_Text), &(ui->menu_Font), "Surrounded By Water", ui->title_Color, &(window->mainRenderer));
-  load_Texture_Text(&(ui->buttons_Text[0]), &(ui->menu_Font), "Start", ui->text_Color, &(window->mainRenderer));
-  load_Texture_Text(&(ui->buttons_Text[1]), &(ui->menu_Font), "Settings", ui->text_Color, &(window->mainRenderer));
-  load_Texture_Text(&(ui->buttons_Text[2]), &(ui->menu_Font), "Tutorial", ui->text_Color, &(window->mainRenderer));
-  load_Texture_Text(&(ui->buttons_Text[3]), &(ui->menu_Font), "Quit", ui->text_Color, &(window->mainRenderer));
-
-  // imgs
-  load_Texture_Img(&(ui->static_Button), "./assets/imgs/menu/static button.png", &(window->mainRenderer));
-  ///TODO: change the hover button path
-  load_Texture_Img(&(ui->hover_Button), "./assets/imgs/menu/static button.png", &(window->mainRenderer));
-  load_Texture_Img(&(ui->main_Background), "./assets/imgs/menu/menu's-background.png", &(window->mainRenderer));
-  load_Texture_Img(&(ui->menu_Background), "./assets/imgs/menu/menu's-second-background.png", &(window->mainRenderer));
-
-  // coords
-  // menu background coords
-  ui->main_Background_Coords.x = 0;
-  ui->main_Background_Coords.y = 0;
-  ui->main_Background_Coords.w = window->w;
-  ui->main_Background_Coords.h = window->h;
-
-  // title coords
-  ui->title_Coords.x = window->w * 0.5;
-  ui->title_Coords.y = window->h * 0.1;
-  ui->title_Coords.w = 470;
-  ui->title_Coords.h = 60;
-
-  // scene 0 coords
-  ///TODO: check this
-  for (int i = 0; i < 4; i++)
-  {
-    int static margin = 0;
-    ui->buttons_Coords[i].w = 90;
-    ui->buttons_Coords[i].h = 50;
-    ui->buttons_Coords[i].x = window->w * 0.9 - ui->buttons_Coords[i].w;
-    ui->buttons_Coords[i].y = (window->h * 0.4) + margin;
-    margin += i * (ui->buttons_Coords[i].h + 20);
-  }
+  init_Common_Menu(&(ui->common_UI), window);
+  init_Scene0_Menu(&(ui->scene0_UI), &(ui->common_UI), window);
 }

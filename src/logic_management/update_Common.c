@@ -20,18 +20,3 @@ void update_Window_Coords(GameWindow *window)
   window->w = w;
   window->h = h;
 }
-
-void update_Menu_Coords(MenuUI *ui, GameWindow *window)
-{
-  // menu background coords
-  ui->main_Background_Coords.x = 0;
-  ui->main_Background_Coords.y = 0;
-  ui->main_Background_Coords.w = window->w;
-  ui->main_Background_Coords.h = window->h;
-
-  // title coords
-  ui->title_Coords.x = window->w * 0.5;
-  ui->title_Coords.y = window->h * 0.1;
-  ui->title_Coords.w = 470 * window->win_width_ratio;
-  ui->title_Coords.h = 60 * window->win_width_ratio;
-}

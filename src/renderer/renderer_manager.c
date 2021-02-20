@@ -7,10 +7,11 @@ void renderer_manager(GameObject *G)
 
   if (G->window.game_scene == 0)
   {
+    render_Common_Menu(&(G->menuUI.common_UI), &(G->window));
     switch (G->window.menu_scene)
     {
     case 0:
-      render_main_menu(&(G->menuUI), &(G->window));
+      render_Scene0_Menu(&(G->menuUI.scene0_UI), &(G->menuUI.common_UI), &(G->window));
       break;
 
     default:

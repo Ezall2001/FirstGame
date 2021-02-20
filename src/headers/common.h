@@ -50,40 +50,67 @@ typedef struct
 
 typedef struct
 {
-  ///TODO: refactor the menu UI
+  SDL_Texture *text;
+  SDL_Rect button_Coords;
+  SDL_Rect text_Coords;
+  int hover; // 0: static - 1: hover
+} Button;
+
+typedef struct
+{
+  Button scene_buttons[4];
+  SDL_Texture *buttons_Background;
+  SDL_Rect buttons_Background_Coords;
+  int buttons_Margin;
+
 } Menu_Scene0_UI;
 typedef struct
 {
-  // fonts
-  TTF_Font *menu_Font;
 
-  // colors
+  // font & color
+  TTF_Font *menu_Font;
   SDL_Color title_Color;
   SDL_Color text_Color;
 
-  // text ( with no background )
+  // text
   SDL_Texture *title_Text;
 
   // imgs
   SDL_Texture *static_Button;
+  SDL_Texture *static_Blue_Button;
   SDL_Texture *hover_Button;
   SDL_Texture *main_Background;
-  SDL_Texture *menu_Background;
 
   // coords
   SDL_Rect title_Coords;
   SDL_Rect main_Background_Coords;
 
-  // menu scene 0 buttons and coords
-  SDL_Texture *buttons_Text[4];
-  SDL_Rect buttons_Coords[4];
+} Menu_Common_UI;
+typedef struct
+{
+  ///TODO: make this the big UI struct
+  Menu_Common_UI common_UI;
+  Menu_Scene0_UI scene0_UI;
 
 } MenuUI;
 
 typedef struct
 {
+  // mouse
+  int mouse_x, mouse_y;
+
+  // keyboard
+  int ctrl;
+  SDL_KeyCode keys[50];
+  int num_keys;
+
+} GameInput;
+
+typedef struct
+{
   GameWindow window;
   GameDev dev;
+  GameInput input;
 
   // UI
   DevUI devUI;

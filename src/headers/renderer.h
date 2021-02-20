@@ -10,6 +10,7 @@ void update_renderer(GameWindow *window);
 void render_FPS(GameWindow *window, DevUI *ui, GameDev dev);
 
 // menu
-void render_main_menu(MenuUI *ui, GameWindow *window);
+void render_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow *window);
+void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window);
 
 #endif

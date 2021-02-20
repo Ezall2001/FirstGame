@@ -6,5 +6,6 @@ void init_manager(GameObject *G)
   init_gameWindow(&(G->window));
   init_gameDev(&(G->dev));
   init_devUI(&(G->devUI));
+  init_Input(&(G->input));
   init_menuUI(&(G->menuUI), &(G->window));
 }
