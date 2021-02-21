@@ -52,14 +52,14 @@ void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow 
 {
   //  --- button's background ---
   load_Texture_Img(&(ui->buttons_Background), "./assets/imgs/menu/buttons_main_menu_background.png", &(window->mainRenderer));
-  ui->buttons_Background_Coords.w = 912 * window->win_width_ratio;
+  ui->buttons_Background_Coords.w = 800 * window->win_width_ratio;
   ui->buttons_Background_Coords.h = 650 * window->win_width_ratio;
   ui->buttons_Background_Coords.x = window->w * 0.935 - ui->buttons_Background_Coords.w;
   ui->buttons_Background_Coords.y = window->h * 0.3;
 
   //  --- main buttons ---
   char options[4][10] = {"Start", "Settings", "Tutorial", "Quit"};
-  ui->buttons_Margin = 30;
+  ui->buttons_Margin = ui->buttons_Background_Coords.h * 0.1;
 
   for (int i = 0; i < 4; i++)
   {
@@ -73,11 +73,12 @@ void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow 
     ui->scene_buttons[i].button_Coords.w = ui->buttons_Background_Coords.w * 0.7;
     ui->scene_buttons[i].button_Coords.h = (ui->buttons_Background_Coords.h - ui->buttons_Margin * 5) / 4;
     ui->scene_buttons[i].button_Coords.x = ui->buttons_Background_Coords.x + (ui->buttons_Background_Coords.w - ui->scene_buttons[i].button_Coords.w) / 2;
-    ui->scene_buttons[i].button_Coords.y = ui->buttons_Background_Coords.y + ui->buttons_Margin + (ui->buttons_Margin + ui->scene_buttons[i].button_Coords.h) * i;
+    ui->scene_buttons[i].button_Coords.y = ui->buttons_Background_Coords.y + ui->buttons_Margin * 0.85 + (ui->buttons_Margin + ui->scene_buttons[i].button_Coords.h) * i;
 
     // text coords
     int text_w = 0, text_h = 0;
     float text_w_ratio = 1;
+    int num_letters = strlen(options[i]);
 
     int mesure = TTF_SizeUTF8(common_ui->menu_Font, options[i], &text_w, &text_h);
     if (mesure != 0)
@@ -85,41 +86,64 @@ void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow 
 
     text_w_ratio = (float)text_h / text_w;
 
-    ui->scene_buttons[i].text_Coords.w = ui->scene_buttons[i].button_Coords.w * 0.3;
+    ui->scene_buttons[i].text_Coords.w = ui->scene_buttons[i].button_Coords.w * 0.42 * ((float)num_letters / 8);
     ui->scene_buttons[i].text_Coords.h = ui->scene_buttons[i].text_Coords.w * text_w_ratio;
     ui->scene_buttons[i].text_Coords.x = ui->scene_buttons[i].button_Coords.x + ((ui->scene_buttons[i].button_Coords.w - ui->scene_buttons[i].text_Coords.w) / 2);
-    ui->scene_buttons[i].text_Coords.y = ui->scene_buttons[i].button_Coords.y + ((ui->scene_buttons[i].button_Coords.h - ui->scene_buttons[i].text_Coords.h) / 2);
+    ui->scene_buttons[i].text_Coords.y = ui->scene_buttons[i].button_Coords.y + ((ui->scene_buttons[i].button_Coords.h - ui->scene_buttons[i].text_Coords.h * 1.1) / 2);
 
     // state
     ui->scene_buttons[i].hover = 0;
     ui->scene_buttons[i].staged = 0;
   }
 
-  char shortcuts[2][10] = {"Mute", "Back"};
-  ui->shortcuts_Margin = 20;
+  // --- shortcuts ---
+  char shortcuts[10] = "Mute";
 
-  for (int i = 0; i < 2; i++)
-  {
-    // name
-    strcpy(ui->scene_shortcuts[i].name, shortcuts[i]);
+  // name
+  strcpy(ui->scene_shortcuts[0].name, shortcuts);
 
-    // text
-    ui->scene_shortcuts[i].text = NULL;
+  // text
+  ui->scene_shortcuts[0].text = NULL;
 
-    // button coords
-    ui->scene_shortcuts[i].button_Coords.w = 50 * window->win_width_ratio;
-    ui->scene_shortcuts[i].button_Coords.h = 50 * window->win_width_ratio;
-    ui->scene_shortcuts[i].button_Coords.x = window->w * 0.95 - ui->scene_shortcuts[i].button_Coords.w * (i + 1) - ui->shortcuts_Margin * i;
-    ui->scene_shortcuts[i].button_Coords.y = window->h * 0.95 - ui->scene_shortcuts[i].button_Coords.h;
+  // button coords
+  ui->scene_shortcuts[0].button_Coords.w = 50 * window->win_width_ratio;
+  ui->scene_shortcuts[0].button_Coords.h = 50 * window->win_width_ratio;
+  ui->scene_shortcuts[0].button_Coords.x = window->w * 0.98 - ui->scene_shortcuts[0].button_Coords.w;
+  ui->scene_shortcuts[0].button_Coords.y = window->h * 0.98 - ui->scene_shortcuts[0].button_Coords.h;
 
-    // text coords
-    ui->scene_shortcuts[i].text_Coords.x = 0;
-    ui->scene_shortcuts[i].text_Coords.y = 0;
-    ui->scene_shortcuts[i].text_Coords.w = 0;
-    ui->scene_shortcuts[i].text_Coords.h = 0;
+  // text coords
+  ui->scene_shortcuts[0].text_Coords.x = 0;
+  ui->scene_shortcuts[0].text_Coords.y = 0;
+  ui->scene_shortcuts[0].text_Coords.w = 0;
+  ui->scene_shortcuts[0].text_Coords.h = 0;
 
-    // state
-    ui->scene_shortcuts[i].hover = 0;
-    ui->scene_shortcuts[i].staged = 0;
-  }
+  // state
+  ui->scene_shortcuts[0].hover = 0;
+  ui->scene_shortcuts[0].staged = 0;
 }
+
+//  ui->shortcuts_Margin = 20 * window->win_width_ratio;
+// for (int i = 0; i < 2; i++)
+// {
+//   // name
+//   strcpy(ui->scene_shortcuts[i].name, shortcuts[i]);
+
+//   // text
+//   ui->scene_shortcuts[i].text = NULL;
+
+//   // button coords
+//   ui->scene_shortcuts[i].button_Coords.w = 50 * window->win_width_ratio;
+//   ui->scene_shortcuts[i].button_Coords.h = 50 * window->win_width_ratio;
+//   ui->scene_shortcuts[i].button_Coords.x = window->w * 0.95 - ui->scene_shortcuts[i].button_Coords.w * (i + 1) - ui->shortcuts_Margin * i;
+//   ui->scene_shortcuts[i].button_Coords.y = window->h * 0.95 - ui->scene_shortcuts[i].button_Coords.h;
+
+//   // text coords
+//   ui->scene_shortcuts[i].text_Coords.x = 0;
+//   ui->scene_shortcuts[i].text_Coords.y = 0;
+//   ui->scene_shortcuts[i].text_Coords.w = 0;
+//   ui->scene_shortcuts[i].text_Coords.h = 0;
+
+//   // state
+//   ui->scene_shortcuts[i].hover = 0;
+//   ui->scene_shortcuts[i].staged = 0;
+// }
