@@ -12,7 +12,7 @@ int SFX()
     Mix_PlayChannel(-1, woves, 0);
     Mix_PlayChannel(-1, click, 0);
 
-    Mix_FreeChunk(birds);
+    Mix_FreeChunk(birds) ; 
     Mix_FreeChunk(wind);
     Mix_FreeChunk(woves); 
     Mix_FreeChunk(click);
