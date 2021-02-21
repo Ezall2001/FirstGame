@@ -17,7 +17,10 @@ void window_events(SDL_Event *event, GameObject *G)
     update_Window_Coords(&(G->window));
     update_Menu_Common_Coords(&(G->menuUI.common_UI), &(G->window));
     update_Menu_Scene0_Coords(&(G->menuUI.scene0_UI), &(G->menuUI.common_UI), &(G->window));
-    /// TODO: update other scene coords
+    update_Menu_Scene1_Coords(&(G->menuUI.scene1_UI), &(G->menuUI.common_UI), &(G->window));
+    update_Menu_Scene2_Coords(&(G->menuUI.scene2_UI), &(G->menuUI.common_UI), &(G->window));
+    update_Menu_Scene3_Coords(&(G->menuUI.scene3_UI), &(G->menuUI.common_UI), &(G->window));
+
     break;
   }
   case SDL_WINDOWEVENT_MOVED:

@@ -15,15 +15,15 @@ void renderer_manager(GameObject *G)
       break;
 
     case 1:
-      puts("start menu");
+      render_Scene1_Menu(&(G->menuUI.scene1_UI), &(G->menuUI.common_UI), &(G->window));
       break;
 
     case 2:
-      puts("option menu");
+      render_Scene2_Menu(&(G->menuUI.scene2_UI), &(G->menuUI.common_UI), &(G->window));
       break;
 
     case 3:
-      puts("tutorial menu");
+      render_Scene3_Menu(&(G->menuUI.scene3_UI), &(G->menuUI.common_UI), &(G->window));
       break;
 
     default:

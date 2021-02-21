@@ -1,6 +1,22 @@
 #include "../headers/renderer.h"
 #include "../headers/dev.h"
 
+void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
+{
+  int rendered = -1;
+  // main background
+  rendered = SDL_RenderCopy(window->mainRenderer, ui->main_Background, NULL, &(ui->main_Background_Coords));
+  if (rendered != 0)
+    lib_errorLog("failed at rendering menu UI", SDL_GetError());
+  rendered = -1;
+
+  // title
+  rendered = -1;
+  rendered = SDL_RenderCopy(window->mainRenderer, ui->title_Text, NULL, &(ui->title_Coords));
+  if (rendered != 0)
+    lib_errorLog("failed at rendering menu UI", SDL_GetError());
+}
+
 void render_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
 {
   int rendered = -1;
@@ -12,12 +28,14 @@ void render_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindo
 
   for (int i = 0; i < 4; i++)
   {
+
     // buttons
-    if (ui->scene_buttons[i].hover == 1)
+    if (ui->scene_buttons[i].staged == 1)
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->click_Button, NULL, &(ui->scene_buttons[i].button_Coords));
+    else if (ui->scene_buttons[i].hover == 1)
       rendered = SDL_RenderCopy(window->mainRenderer, common_ui->hover_Button, NULL, &(ui->scene_buttons[i].button_Coords));
     else
       rendered = SDL_RenderCopy(window->mainRenderer, common_ui->static_Button, NULL, &(ui->scene_buttons[i].button_Coords));
-    ///TODO: check for staged
 
     if (rendered != 0)
       lib_errorLog("failed at rendering menu UI", SDL_GetError());
@@ -53,18 +71,37 @@ void render_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindo
     lib_errorLog("failed at rendering menu UI", SDL_GetError());
 }
 
-void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
+void render_Scene1_Menu(Menu_Scene1_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
+{
+  ///TODO: finish this
+}
+
+void render_Scene2_Menu(Menu_Scene2_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
 {
   int rendered = -1;
-  // main background
-  rendered = SDL_RenderCopy(window->mainRenderer, ui->main_Background, NULL, &(ui->main_Background_Coords));
+
+  // settings background
+  rendered = SDL_RenderCopy(window->mainRenderer, ui->settings_Backgournd, NULL, &(ui->settings_Backgournd_Coords));
   if (rendered != 0)
     lib_errorLog("failed at rendering menu UI", SDL_GetError());
-  rendered = -1;
+}
 
-  // title
-  rendered = -1;
-  rendered = SDL_RenderCopy(window->mainRenderer, ui->title_Text, NULL, &(ui->title_Coords));
+void render_Scene3_Menu(Menu_Scene3_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
+{
+  int rendered = -1;
+
+  // tutorial background
+  rendered = SDL_RenderCopy(window->mainRenderer, ui->tutorial_Backgournd, NULL, &(ui->tutorial_Backgournd_Coords));
+  if (rendered != 0)
+    lib_errorLog("failed at rendering menu UI", SDL_GetError());
+
+  // tutorial title
+  rendered = SDL_RenderCopy(window->mainRenderer, common_ui->static_Blue_Button, NULL, &(ui->tutorial_Title_Coords));
+  if (rendered != 0)
+    lib_errorLog("failed at rendering menu UI", SDL_GetError());
+
+  // tutorial text title
+  rendered = SDL_RenderCopy(window->mainRenderer, ui->tutorial_Title_Text, NULL, &(ui->tutorial_Title_Text_Coords));
   if (rendered != 0)
     lib_errorLog("failed at rendering menu UI", SDL_GetError());
 }

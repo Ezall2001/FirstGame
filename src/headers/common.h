@@ -21,6 +21,8 @@ typedef struct
   float win_width_ratio;
   int game_scene; // 0:outgame - 1:ingame
   int menu_scene; // 0:mainMenu - 1:startMenu - 2:optionsMenu - 3:tutorialMenu
+
+  ///TODO: refactor this
   int mute;
   int music_volume; // 0 -> 100
   int SFX_volume;   // 0 -> 100
@@ -74,15 +76,39 @@ typedef struct
 
 typedef struct
 {
-  // Button scene_buttons[4];
-  Button scene_shortcuts[1];
-  SDL_Texture *buttons_Background;
-  SDL_Rect buttons_Background_Coords;
-  // int buttons_Margin;
-  int shortcuts_Margin;
+  ///TODO: finish this
 
 } Menu_Scene1_UI;
 
+typedef struct
+{
+  // img
+  SDL_Texture *settings_Backgournd;
+
+  // text
+  SDL_Texture *settings_Title_Text;
+
+  // coords
+  SDL_Rect settings_Title_Coords;
+  SDL_Rect settings_Title_Text_Coords;
+  SDL_Rect settings_Backgournd_Coords;
+
+} Menu_Scene2_UI;
+
+typedef struct
+{
+  // img
+  SDL_Texture *tutorial_Backgournd;
+
+  // text
+  SDL_Texture *tutorial_Title_Text;
+
+  // coords
+  SDL_Rect tutorial_Title_Coords;
+  SDL_Rect tutorial_Title_Text_Coords;
+  SDL_Rect tutorial_Backgournd_Coords;
+
+} Menu_Scene3_UI;
 typedef struct
 {
 
@@ -118,6 +144,9 @@ typedef struct
   ///TODO: make this the big UI struct
   Menu_Common_UI common_UI;
   Menu_Scene0_UI scene0_UI;
+  Menu_Scene1_UI scene1_UI;
+  Menu_Scene2_UI scene2_UI;
+  Menu_Scene3_UI scene3_UI;
 
 } MenuUI;
 
