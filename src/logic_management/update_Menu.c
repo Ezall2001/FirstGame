@@ -14,6 +14,23 @@ void update_Menu_Common_Coords(Menu_Common_UI *ui, GameWindow *window)
   ui->title_Coords.y = window->h * 0.1;
   ui->title_Coords.w = 700 * window->win_width_ratio;
   ui->title_Coords.h = 85 * window->win_width_ratio;
+
+  // --- shortcuts ---
+  ui->shortcuts_Margin = 40 * window->win_width_ratio;
+  for (int i = 0; i < 2; i++)
+  {
+    // button coords
+    ui->scene_shortcuts[i].button_Coords.w = 75 * window->win_width_ratio;
+    ui->scene_shortcuts[i].button_Coords.h = 62 * window->win_width_ratio;
+    ui->scene_shortcuts[i].button_Coords.x = window->w * 0.98 - ui->scene_shortcuts[i].button_Coords.w * (i + 1) - ui->shortcuts_Margin * i;
+    ui->scene_shortcuts[i].button_Coords.y = window->h * 0.98 - ui->scene_shortcuts[i].button_Coords.h;
+
+    // text coords
+    ui->scene_shortcuts[i].text_Coords.x = 0;
+    ui->scene_shortcuts[i].text_Coords.y = 0;
+    ui->scene_shortcuts[i].text_Coords.w = 0;
+    ui->scene_shortcuts[i].text_Coords.h = 0;
+  }
 }
 
 void update_Menu_Scene0_Coords(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
@@ -51,12 +68,6 @@ void update_Menu_Scene0_Coords(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, Ga
     ui->scene_buttons[i].text_Coords.x = ui->scene_buttons[i].button_Coords.x + ((ui->scene_buttons[i].button_Coords.w - ui->scene_buttons[i].text_Coords.w) / 2);
     ui->scene_buttons[i].text_Coords.y = ui->scene_buttons[i].button_Coords.y + ((ui->scene_buttons[i].button_Coords.h - ui->scene_buttons[i].text_Coords.h * 1.1) / 2);
   }
-
-  // --- shortcuts ---
-  ui->scene_shortcuts[0].button_Coords.w = 67 * window->win_width_ratio;
-  ui->scene_shortcuts[0].button_Coords.h = 56 * window->win_width_ratio;
-  ui->scene_shortcuts[0].button_Coords.x = window->w * 0.98 - ui->scene_shortcuts[0].button_Coords.w;
-  ui->scene_shortcuts[0].button_Coords.y = window->h * 0.98 - ui->scene_shortcuts[0].button_Coords.h;
 }
 
 void update_Menu_Scene1_Coords(Menu_Scene1_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)

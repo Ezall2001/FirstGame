@@ -156,6 +156,8 @@ void click_Button(Button buttons[], int num_Button, GameWindow *window)
       ///TODO: popup to confirm exit
       else if (strcmp(buttons[i].name, "Mute") == 0)
         window->mute = (window->mute + 1) % 2;
+      else if (strcmp(buttons[i].name, "Back") == 0)
+        window->menu_scene = 0;
     }
   }
 }

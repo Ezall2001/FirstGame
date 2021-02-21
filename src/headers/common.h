@@ -66,11 +66,9 @@ typedef struct
 typedef struct
 {
   Button scene_buttons[4];
-  Button scene_shortcuts[1];
   SDL_Texture *buttons_Background;
   SDL_Rect buttons_Background_Coords;
   int buttons_Margin;
-  int shortcuts_Margin;
 
 } Menu_Scene0_UI;
 
@@ -136,6 +134,10 @@ typedef struct
   // coords
   SDL_Rect title_Coords;
   SDL_Rect main_Background_Coords;
+
+  // shortcuts
+  Button scene_shortcuts[2];
+  int shortcuts_Margin;
 
 } Menu_Common_UI;
 
