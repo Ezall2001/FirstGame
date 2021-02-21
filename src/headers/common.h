@@ -87,7 +87,12 @@ typedef struct
   SDL_Texture *static_Button;
   SDL_Texture *static_Blue_Button;
   SDL_Texture *hover_Button;
+  SDL_Texture *click_Button;
   SDL_Texture *main_Background;
+  SDL_Texture *mute_Shortcut;
+  SDL_Texture *hover_Mute_Shortcut;
+  SDL_Texture *back_Shortcut;
+  SDL_Texture *hover_Back_Shortcut;
 
   // coords
   SDL_Rect title_Coords;
