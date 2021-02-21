@@ -17,6 +17,10 @@ void window_events(SDL_Event *event, GameObject *G)
     update_Window_Coords(&(G->window));
     update_Menu_Common_Coords(&(G->menuUI.common_UI), &(G->window));
     update_Menu_Scene0_Coords(&(G->menuUI.scene0_UI), &(G->menuUI.common_UI), &(G->window));
+    update_Menu_Scene1_Coords(&(G->menuUI.scene1_UI), &(G->menuUI.common_UI), &(G->window));
+    update_Menu_Scene2_Coords(&(G->menuUI.scene2_UI), &(G->menuUI.common_UI), &(G->window));
+    update_Menu_Scene3_Coords(&(G->menuUI.scene3_UI), &(G->menuUI.common_UI), &(G->window));
+
     break;
   }
   case SDL_WINDOWEVENT_MOVED:
@@ -47,17 +51,6 @@ void mouse_motion_events(SDL_Event *event, GameObject *G)
     default:
       break;
     }
-  }
-}
-
-void keyboard_Input(SDL_Event *event, GameInput *input)
-{
-  if (event->key.keysym.sym == SDLK_RCTRL || event->key.keysym.sym == SDLK_LCTRL)
-    input->ctrl = 1;
-  else
-  {
-    input->keys[input->num_keys] = event->key.keysym.sym;
-    (input->num_keys)++;
   }
 }
 
@@ -114,5 +107,16 @@ void mouse_Input(SDL_Event *event, GameObject *G)
   }
   else if (G->window.game_scene == 1)
   {
+  }
+}
+
+void keyboard_Input(SDL_Event *event, GameInput *input)
+{
+  if (event->key.keysym.sym == SDLK_RCTRL || event->key.keysym.sym == SDLK_LCTRL)
+    input->ctrl = 1;
+  else
+  {
+    input->keys[input->num_keys] = event->key.keysym.sym;
+    (input->num_keys)++;
   }
 }
