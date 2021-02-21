@@ -30,14 +30,24 @@ void render_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindo
   }
 
   // shortcuts
-  if (ui->scene_shortcuts[0].staged == 1)
-    rendered = SDL_RenderCopy(window->mainRenderer, common_ui->hover_Mute_Shortcut, NULL, &(ui->scene_shortcuts[0].button_Coords));
-  else if (ui->scene_shortcuts[0].hover == 1)
-    rendered = SDL_RenderCopy(window->mainRenderer, common_ui->hover_Mute_Shortcut, NULL, &(ui->scene_shortcuts[0].button_Coords));
-  else
-    rendered = SDL_RenderCopy(window->mainRenderer, common_ui->mute_Shortcut, NULL, &(ui->scene_shortcuts[0].button_Coords));
-
-  ///TODO: toogle button
+  if (window->mute == 0)
+  {
+    if (ui->scene_shortcuts[0].staged == 1)
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->hover_Mute_Shortcut, NULL, &(ui->scene_shortcuts[0].button_Coords));
+    else if (ui->scene_shortcuts[0].hover == 1)
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->hover_Mute_Shortcut, NULL, &(ui->scene_shortcuts[0].button_Coords));
+    else
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->mute_Shortcut, NULL, &(ui->scene_shortcuts[0].button_Coords));
+  }
+  else if (window->mute == 1)
+  {
+    if (ui->scene_shortcuts[0].staged == 1)
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->hover_Unmute_Shortcut, NULL, &(ui->scene_shortcuts[0].button_Coords));
+    else if (ui->scene_shortcuts[0].hover == 1)
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->hover_Unmute_Shortcut, NULL, &(ui->scene_shortcuts[0].button_Coords));
+    else
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->unmute_Shortcut, NULL, &(ui->scene_shortcuts[0].button_Coords));
+  }
 
   if (rendered != 0)
     lib_errorLog("failed at rendering menu UI", SDL_GetError());

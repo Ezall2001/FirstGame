@@ -74,6 +74,17 @@ typedef struct
 
 typedef struct
 {
+  // Button scene_buttons[4];
+  Button scene_shortcuts[1];
+  SDL_Texture *buttons_Background;
+  SDL_Rect buttons_Background_Coords;
+  // int buttons_Margin;
+  int shortcuts_Margin;
+
+} Menu_Scene1_UI;
+
+typedef struct
+{
 
   // font & color
   TTF_Font *menu_Font;
@@ -91,6 +102,8 @@ typedef struct
   SDL_Texture *main_Background;
   SDL_Texture *mute_Shortcut;
   SDL_Texture *hover_Mute_Shortcut;
+  SDL_Texture *unmute_Shortcut;
+  SDL_Texture *hover_Unmute_Shortcut;
   SDL_Texture *back_Shortcut;
   SDL_Texture *hover_Back_Shortcut;
 

@@ -29,10 +29,12 @@ void init_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
   load_Texture_Img(&(ui->hover_Button), "./assets/imgs/menu/hover_button.png", &(window->mainRenderer));
   load_Texture_Img(&(ui->click_Button), "./assets/imgs/menu/click_button.png", &(window->mainRenderer));
   load_Texture_Img(&(ui->main_Background), "./assets/imgs/menu/menu_background.png", &(window->mainRenderer));
-  load_Texture_Img(&(ui->mute_Shortcut), "./assets/imgs/menu/mute_shortcut.png", &(window->mainRenderer));
-  load_Texture_Img(&(ui->hover_Mute_Shortcut), "./assets/imgs/menu/mute_shortcut.png", &(window->mainRenderer));
-  load_Texture_Img(&(ui->back_Shortcut), "./assets/imgs/menu/back_shortcut.png", &(window->mainRenderer));
-  load_Texture_Img(&(ui->hover_Back_Shortcut), "./assets/imgs/menu/back_shortcut.png", &(window->mainRenderer));
+  load_Texture_Img(&(ui->mute_Shortcut), "./assets/imgs/menu/mute.png", &(window->mainRenderer));
+  load_Texture_Img(&(ui->hover_Mute_Shortcut), "./assets/imgs/menu/hover_mute.png", &(window->mainRenderer));
+  load_Texture_Img(&(ui->unmute_Shortcut), "./assets/imgs/menu/unmute.png", &(window->mainRenderer));
+  load_Texture_Img(&(ui->hover_Unmute_Shortcut), "./assets/imgs/menu/hover_unmute.png", &(window->mainRenderer));
+  load_Texture_Img(&(ui->back_Shortcut), "./assets/imgs/menu/back.png", &(window->mainRenderer));
+  load_Texture_Img(&(ui->hover_Back_Shortcut), "./assets/imgs/menu/hover_back.png", &(window->mainRenderer));
 
   // coords
   // menu background coords
@@ -106,8 +108,8 @@ void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow 
   ui->scene_shortcuts[0].text = NULL;
 
   // button coords
-  ui->scene_shortcuts[0].button_Coords.w = 50 * window->win_width_ratio;
-  ui->scene_shortcuts[0].button_Coords.h = 50 * window->win_width_ratio;
+  ui->scene_shortcuts[0].button_Coords.w = 67 * window->win_width_ratio;
+  ui->scene_shortcuts[0].button_Coords.h = 56 * window->win_width_ratio;
   ui->scene_shortcuts[0].button_Coords.x = window->w * 0.98 - ui->scene_shortcuts[0].button_Coords.w;
   ui->scene_shortcuts[0].button_Coords.y = window->h * 0.98 - ui->scene_shortcuts[0].button_Coords.h;
 
@@ -120,6 +122,10 @@ void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow 
   // state
   ui->scene_shortcuts[0].hover = 0;
   ui->scene_shortcuts[0].staged = 0;
+}
+
+void init_Scene1_Menu(Menu_Scene1_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
+{
 }
 
 //  ui->shortcuts_Margin = 20 * window->win_width_ratio;

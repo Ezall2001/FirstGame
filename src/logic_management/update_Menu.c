@@ -53,8 +53,8 @@ void update_Menu_Scene0_Coords(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, Ga
   }
 
   // --- shortcuts ---
-  ui->scene_shortcuts[0].button_Coords.w = 50 * window->win_width_ratio;
-  ui->scene_shortcuts[0].button_Coords.h = 50 * window->win_width_ratio;
+  ui->scene_shortcuts[0].button_Coords.w = 67 * window->win_width_ratio;
+  ui->scene_shortcuts[0].button_Coords.h = 56 * window->win_width_ratio;
   ui->scene_shortcuts[0].button_Coords.x = window->w * 0.98 - ui->scene_shortcuts[0].button_Coords.w;
   ui->scene_shortcuts[0].button_Coords.y = window->h * 0.98 - ui->scene_shortcuts[0].button_Coords.h;
 }
