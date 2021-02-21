@@ -73,4 +73,7 @@ void init_menuUI(MenuUI *ui, GameWindow *window)
 {
   init_Common_Menu(&(ui->common_UI), window);
   init_Scene0_Menu(&(ui->scene0_UI), &(ui->common_UI), window);
+  init_Scene1_Menu(&(ui->scene1_UI), &(ui->common_UI), window);
+  init_Scene2_Menu(&(ui->scene2_UI), &(ui->common_UI), window);
+  init_Scene3_Menu(&(ui->scene3_UI), &(ui->common_UI), window);
 }

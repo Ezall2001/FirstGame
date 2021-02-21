@@ -11,10 +11,11 @@ void update_Window_Coords(GameWindow *window);
 
 //   ---- menu ----
 // coords
-void update_Menu_Coords(MenuUI *ui, GameWindow *window);
 void update_Menu_Common_Coords(Menu_Common_UI *ui, GameWindow *window);
-void update_Menu_Scene0_Coords(Menu_Scene0_UI *ui, GameWindow *window);
-
+void update_Menu_Scene0_Coords(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow *window);
+void update_Menu_Scene1_Coords(Menu_Scene1_UI *ui, Menu_Common_UI *common_ui, GameWindow *window);
+void update_Menu_Scene2_Coords(Menu_Scene2_UI *ui, Menu_Common_UI *common_ui, GameWindow *window);
+void update_Menu_Scene3_Coords(Menu_Scene3_UI *ui, Menu_Common_UI *common_ui, GameWindow *window);
 // input
 void shortcut_Input(GameInput *input, GameWindow *window);
 void mouse_Button_Collision(Button buttons[], int num_Button, GameInput *input);
