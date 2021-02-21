@@ -40,6 +40,7 @@ void mouse_motion_events(SDL_Event *event, GameObject *G)
     {
     case 0:
       mouse_Button_Collision(G->menuUI.scene0_UI.scene_buttons, 4, &(G->input));
+      mouse_Button_Collision(G->menuUI.scene0_UI.scene_shortcuts, 2, &(G->input));
       break;
 
     default:
@@ -69,6 +70,7 @@ void mouse_Input(SDL_Event *event, GameObject *G)
       {
       case 0:
         stage_Button(G->menuUI.scene0_UI.scene_buttons, 4);
+        stage_Button(G->menuUI.scene0_UI.scene_shortcuts, 2);
         break;
       case 1:
         ///TODO: finish this
@@ -90,6 +92,9 @@ void mouse_Input(SDL_Event *event, GameObject *G)
       {
       case 0:
         click_Button(G->menuUI.scene0_UI.scene_buttons, 4, &(G->window));
+        click_Button(G->menuUI.scene0_UI.scene_shortcuts, 2, &(G->window));
+        unstage_Buttons(G->menuUI.scene0_UI.scene_buttons, 4);
+        unstage_Buttons(G->menuUI.scene0_UI.scene_shortcuts, 2);
         break;
       case 1:
         ///TODO: finish this
