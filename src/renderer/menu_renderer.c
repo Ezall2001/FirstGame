@@ -30,12 +30,17 @@ void render_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindo
   }
 
   // shortcuts
-  for (int i = 0; i < 2; i++)
-  {
-    if (ui->scene_shortcuts[i].staged == 1)
-      ///TODO: finish this
-      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->hover_Button, NULL, &(ui->scene_buttons[i].button_Coords));
-  }
+  if (ui->scene_shortcuts[0].staged == 1)
+    rendered = SDL_RenderCopy(window->mainRenderer, common_ui->hover_Mute_Shortcut, NULL, &(ui->scene_shortcuts[0].button_Coords));
+  else if (ui->scene_shortcuts[0].hover == 1)
+    rendered = SDL_RenderCopy(window->mainRenderer, common_ui->hover_Mute_Shortcut, NULL, &(ui->scene_shortcuts[0].button_Coords));
+  else
+    rendered = SDL_RenderCopy(window->mainRenderer, common_ui->mute_Shortcut, NULL, &(ui->scene_shortcuts[0].button_Coords));
+
+  ///TODO: toogle button
+
+  if (rendered != 0)
+    lib_errorLog("failed at rendering menu UI", SDL_GetError());
 }
 
 void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window)

@@ -23,10 +23,16 @@ void init_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
   load_Texture_Text(&(ui->title_Text), &(ui->menu_Font), "Surrounded By Water", ui->title_Color, &(window->mainRenderer));
 
   // imgs
-  load_Texture_Img(&(ui->static_Button), "./assets/imgs/menu/static button.png", &(window->mainRenderer));
+  ///TODO: finish this
+  load_Texture_Img(&(ui->static_Button), "./assets/imgs/menu/static_yellow_button.png", &(window->mainRenderer));
   load_Texture_Img(&(ui->static_Blue_Button), "./assets/imgs/menu/static-blue-button.png", &(window->mainRenderer));
   load_Texture_Img(&(ui->hover_Button), "./assets/imgs/menu/hover-button.png", &(window->mainRenderer));
+  load_Texture_Img(&(ui->click_Button), "./assets/imgs/menu/click_button.png", &(window->mainRenderer));
   load_Texture_Img(&(ui->main_Background), "./assets/imgs/menu/menu's-background.png", &(window->mainRenderer));
+  load_Texture_Img(&(ui->mute_Shortcut), "./assets/imgs/menu/mute_shortcut.png", &(window->mainRenderer));
+  load_Texture_Img(&(ui->hover_Mute_Shortcut), "./assets/imgs/menu/mute_shortcut.png", &(window->mainRenderer));
+  load_Texture_Img(&(ui->back_Shortcut), "./assets/imgs/menu/back_shortcut.png", &(window->mainRenderer));
+  load_Texture_Img(&(ui->hover_Back_Shortcut), "./assets/imgs/menu/back_shortcut.png", &(window->mainRenderer));
 
   // coords
   // menu background coords
@@ -45,11 +51,11 @@ void init_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
 void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
 {
   //  --- button's background ---
-  load_Texture_Img(&(ui->buttons_Background), "./assets/imgs/menu/menu's-second-background.png", &(window->mainRenderer));
+  load_Texture_Img(&(ui->buttons_Background), "./assets/imgs/menu/buttons_main_menu_background.png", &(window->mainRenderer));
   ui->buttons_Background_Coords.w = 912 * window->win_width_ratio;
-  ui->buttons_Background_Coords.h = 720 * window->win_width_ratio;
+  ui->buttons_Background_Coords.h = 650 * window->win_width_ratio;
   ui->buttons_Background_Coords.x = window->w * 0.935 - ui->buttons_Background_Coords.w;
-  ui->buttons_Background_Coords.y = window->h * 0.35;
+  ui->buttons_Background_Coords.y = window->h * 0.3;
 
   //  --- main buttons ---
   char options[4][10] = {"Start", "Settings", "Tutorial", "Quit"};
