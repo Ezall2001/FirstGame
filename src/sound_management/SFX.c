@@ -14,7 +14,7 @@ int SFX()
 
     Mix_FreeChunk(birds);
     Mix_FreeChunk(wind);
-    Mix_FreeChunk(woves);
+    Mix_FreeChunk(woves); 
     Mix_FreeChunk(click);
 
     Mix_CloseAudio();
