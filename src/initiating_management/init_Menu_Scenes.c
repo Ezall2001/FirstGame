@@ -51,11 +51,11 @@ void init_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
 void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
 {
   //  --- button's background ---
-  load_Texture_Img(&(ui->buttons_Background), "./assets/imgs/menu/menu's-second-background.png", &(window->mainRenderer));
+  load_Texture_Img(&(ui->buttons_Background), "./assets/imgs/menu/buttons_main_menu_background.png", &(window->mainRenderer));
   ui->buttons_Background_Coords.w = 912 * window->win_width_ratio;
-  ui->buttons_Background_Coords.h = 720 * window->win_width_ratio;
+  ui->buttons_Background_Coords.h = 650 * window->win_width_ratio;
   ui->buttons_Background_Coords.x = window->w * 0.935 - ui->buttons_Background_Coords.w;
-  ui->buttons_Background_Coords.y = window->h * 0.35;
+  ui->buttons_Background_Coords.y = window->h * 0.3;
 
   //  --- main buttons ---
   char options[4][10] = {"Start", "Settings", "Tutorial", "Quit"};
