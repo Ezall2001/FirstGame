@@ -3,6 +3,7 @@
 #include "./headers/event.h"
 #include "./headers/logic.h"
 #include "./headers/renderer.h"
+#include "./headers/sound.h"
 
 int main(int argc, char *argv[])
 {
@@ -30,6 +31,9 @@ int main(int argc, char *argv[])
 
       // render everything
       renderer_manager(&G);
+
+      // mix sound
+      sound_manager(&G);
 
       cap_FPS(G.dev);
     }
