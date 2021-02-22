@@ -82,14 +82,35 @@ typedef struct
 {
   // img
   SDL_Texture *settings_Backgournd;
+  SDL_Texture *plus;
+  SDL_Texture *minus;
+  SDL_Texture *hover_Plus;
+  SDL_Texture *hover_Minus;
+  SDL_Texture *sound_Bar;
+  SDL_Texture *sound_Scroller;
 
   // text
   SDL_Texture *settings_Title_Text;
+  SDL_Texture *music_Text;
+  SDL_Texture *SFX_Text;
 
   // coords
   SDL_Rect settings_Title_Coords;
   SDL_Rect settings_Title_Text_Coords;
   SDL_Rect settings_Backgournd_Coords;
+  SDL_Rect music_Title_Coords;
+  SDL_Rect music_Title_Text_Coords;
+  SDL_Rect music_Bar_Coords;
+  SDL_Rect SFX_Title_Coords;
+  SDL_Rect SFX_Title_Text_Coords;
+  SDL_Rect SFX_Bar_Coords;
+
+  // buttons
+  Button volume_Scorllers[2];
+  Button volume_Controllers[4];
+  int row_Margin;
+  int column_Margin;
+  ///TODO: find a solution for this to make the + - bar scroller  buttons
 
 } Menu_Scene2_UI;
 
@@ -175,5 +196,10 @@ typedef struct
   MenuUI menuUI;
 
 } GameObject;
+
+// utils
+void load_Texture_Img(SDL_Texture **texture, char path[], SDL_Renderer **renderer);
+void load_Texture_Text(SDL_Texture **texture, TTF_Font **font, char text[], SDL_Color color, SDL_Renderer **renderer);
+float get_Text_W_ratio(Menu_Common_UI *common_ui, char text[]);
 
 #endif

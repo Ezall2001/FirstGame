@@ -32,6 +32,8 @@ void init_gameWindow(GameWindow *window)
   if (window->mainWindow == NULL)
     lib_errorLog("failed at creating a window", SDL_GetError());
 
+  SDL_SetWindowSize(window->mainWindow, window->w, window->h); // to avoid initin all the coords and then update them on resize
+
   // main renderer
   window->mainRenderer = SDL_CreateRenderer(window->mainWindow, -1, SDL_RENDERER_ACCELERATED);
   if (window->mainRenderer == NULL)

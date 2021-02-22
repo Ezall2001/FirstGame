@@ -53,15 +53,10 @@ void update_Menu_Scene0_Coords(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, Ga
     ui->scene_buttons[i].button_Coords.y = ui->buttons_Background_Coords.y + ui->buttons_Margin * 0.85 + (ui->buttons_Margin + ui->scene_buttons[i].button_Coords.h) * i;
 
     // text
-    int text_w = 0, text_h = 0;
-    float text_w_ratio = 1;
+    char options[4][10] = {"Start", "Settings", "Tutorial", "Quit"};
+
+    float text_w_ratio = get_Text_W_ratio(common_ui, options[i]);
     int num_letters = strlen(ui->scene_buttons[i].name);
-
-    int mesure = TTF_SizeUTF8(common_ui->menu_Font, ui->scene_buttons[i].name, &text_w, &text_h);
-    if (mesure != 0)
-      lib_errorLog("failed at calculating the text mesures", TTF_GetError());
-
-    text_w_ratio = (float)text_h / text_w;
 
     ui->scene_buttons[i].text_Coords.w = ui->scene_buttons[i].button_Coords.w * 0.42 * ((float)num_letters / 8);
     ui->scene_buttons[i].text_Coords.h = ui->scene_buttons[i].text_Coords.w * text_w_ratio;
@@ -77,6 +72,107 @@ void update_Menu_Scene1_Coords(Menu_Scene1_UI *ui, Menu_Common_UI *common_ui, Ga
 
 void update_Menu_Scene2_Coords(Menu_Scene2_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
 {
+  // settings background
+  ui->settings_Backgournd_Coords.w = 0.95 * window->w;
+  ui->settings_Backgournd_Coords.h = 0.85 * window->h;
+  ui->settings_Backgournd_Coords.x = (window->w - ui->settings_Backgournd_Coords.w) / 2;
+  ui->settings_Backgournd_Coords.y = (window->h * 0.97 - ui->settings_Backgournd_Coords.h) / 2;
+
+  // settings title background
+  ui->settings_Title_Coords.w = 450 * window->win_width_ratio;
+  ui->settings_Title_Coords.h = 70 * window->win_width_ratio;
+  ui->settings_Title_Coords.x = ui->settings_Backgournd_Coords.x + (ui->settings_Backgournd_Coords.w - ui->settings_Title_Coords.w) / 2;
+  ui->settings_Title_Coords.y = ui->settings_Backgournd_Coords.y - (ui->settings_Title_Coords.h / 2);
+
+  // settings title text
+  float text_w_ratio = get_Text_W_ratio(common_ui, "Music");
+
+  ui->settings_Title_Text_Coords.w = 0.3 * ui->settings_Title_Coords.w;
+  ui->settings_Title_Text_Coords.h = ui->settings_Title_Text_Coords.w * text_w_ratio;
+  ui->settings_Title_Text_Coords.x = ui->settings_Title_Coords.x + (ui->settings_Title_Coords.w - ui->settings_Title_Text_Coords.w) / 2;
+  ui->settings_Title_Text_Coords.y = ui->settings_Title_Coords.y + (ui->settings_Title_Coords.h * 0.97 - ui->settings_Title_Text_Coords.h) / 2;
+
+  ui->row_Margin = 70 * window->win_width_ratio;
+  ui->column_Margin = 70 * window->win_width_ratio;
+
+  // --- music row ---
+  // music title
+  ui->music_Title_Coords.w = 300 * window->win_width_ratio;
+  ui->music_Title_Coords.h = 70 * window->win_width_ratio;
+  ui->music_Title_Coords.x = ui->settings_Backgournd_Coords.x + ui->column_Margin;
+  ui->music_Title_Coords.y = ui->settings_Backgournd_Coords.y + ui->row_Margin * 2;
+
+  // music text
+  text_w_ratio = get_Text_W_ratio(common_ui, "Music");
+
+  ui->music_Title_Text_Coords.w = ui->music_Title_Coords.w * 0.3;
+  ui->music_Title_Text_Coords.h = ui->music_Title_Text_Coords.w * text_w_ratio;
+  ui->music_Title_Text_Coords.x = ui->music_Title_Coords.x + (ui->music_Title_Coords.w - ui->music_Title_Text_Coords.w) / 2;
+  ui->music_Title_Text_Coords.y = ui->music_Title_Coords.y + (ui->music_Title_Coords.h - ui->music_Title_Text_Coords.h) / 2;
+
+  // music minus controller
+  ui->volume_Controllers[0].button_Coords.w = 70 * window->win_width_ratio;
+  ui->volume_Controllers[0].button_Coords.h = 62 * window->win_width_ratio;
+  ui->volume_Controllers[0].button_Coords.x = ui->music_Title_Coords.x + ui->music_Title_Coords.w + ui->column_Margin * 2;
+  ui->volume_Controllers[0].button_Coords.y = ui->music_Title_Coords.y + (ui->music_Title_Coords.h - ui->volume_Controllers[0].button_Coords.h) / 2;
+
+  // music volume bar
+  ui->music_Bar_Coords.w = 700 * window->win_width_ratio;
+  ui->music_Bar_Coords.h = 20 * window->win_width_ratio;
+  ui->music_Bar_Coords.x = ui->volume_Controllers[0].button_Coords.x + ui->volume_Controllers[0].button_Coords.w + ui->column_Margin;
+  ui->music_Bar_Coords.y = ui->volume_Controllers[0].button_Coords.y + (ui->volume_Controllers[0].button_Coords.h - ui->music_Bar_Coords.h) / 2;
+
+  // music volume scroller
+  ui->volume_Scorllers[0].button_Coords.w = 20 * window->win_width_ratio;
+  ui->volume_Scorllers[0].button_Coords.h = 70 * window->win_width_ratio;
+  ui->volume_Scorllers[0].button_Coords.x = ui->music_Bar_Coords.x + ((float)ui->music_Bar_Coords.w / 100) * window->music_volume - ui->volume_Scorllers[0].button_Coords.w / 2;
+  ui->volume_Scorllers[0].button_Coords.y = ui->music_Bar_Coords.y + (ui->music_Bar_Coords.h - ui->volume_Scorllers[0].button_Coords.h) / 2;
+
+  // music plus controller
+  ui->volume_Controllers[1].button_Coords.w = 70 * window->win_width_ratio;
+  ui->volume_Controllers[1].button_Coords.h = 62 * window->win_width_ratio;
+  ui->volume_Controllers[1].button_Coords.x = ui->music_Bar_Coords.x + ui->music_Bar_Coords.w + ui->column_Margin * 1.1;
+  ui->volume_Controllers[1].button_Coords.y = ui->music_Bar_Coords.y + (ui->music_Bar_Coords.h - ui->volume_Controllers[1].button_Coords.h) / 2;
+
+  // --- SFX row ---
+  // SFX title
+  ui->SFX_Title_Coords.w = 300 * window->win_width_ratio;
+  ui->SFX_Title_Coords.h = 70 * window->win_width_ratio;
+  ui->SFX_Title_Coords.x = ui->settings_Backgournd_Coords.x + ui->column_Margin;
+  ui->SFX_Title_Coords.y = ui->music_Title_Coords.y + ui->music_Title_Coords.h + ui->row_Margin;
+
+  // SFX text
+  text_w_ratio = get_Text_W_ratio(common_ui, "SFX");
+
+  ui->SFX_Title_Text_Coords.w = ui->SFX_Title_Coords.w * 0.3;
+  ui->SFX_Title_Text_Coords.h = ui->SFX_Title_Text_Coords.w * text_w_ratio;
+  ui->SFX_Title_Text_Coords.x = ui->SFX_Title_Coords.x + (ui->SFX_Title_Coords.w - ui->SFX_Title_Text_Coords.w) / 2;
+  ui->SFX_Title_Text_Coords.y = ui->SFX_Title_Coords.y + (ui->SFX_Title_Coords.h - ui->SFX_Title_Text_Coords.h) / 2;
+
+  // SFX minus controller
+  ui->volume_Controllers[2].button_Coords.w = 70 * window->win_width_ratio;
+  ui->volume_Controllers[2].button_Coords.h = 62 * window->win_width_ratio;
+  ui->volume_Controllers[2].button_Coords.x = ui->SFX_Title_Coords.x + ui->SFX_Title_Coords.w + ui->column_Margin * 2;
+  ui->volume_Controllers[2].button_Coords.y = ui->SFX_Title_Coords.y + (ui->SFX_Title_Coords.h - ui->volume_Controllers[2].button_Coords.h) / 2;
+
+  // SFX volume bar
+  ui->SFX_Bar_Coords.w = 700 * window->win_width_ratio;
+  ui->SFX_Bar_Coords.h = 20 * window->win_width_ratio;
+  ui->SFX_Bar_Coords.x = ui->volume_Controllers[2].button_Coords.x + ui->volume_Controllers[2].button_Coords.w + ui->column_Margin;
+  ui->SFX_Bar_Coords.y = ui->volume_Controllers[2].button_Coords.y + (ui->volume_Controllers[2].button_Coords.h - ui->SFX_Bar_Coords.h) / 2;
+
+  //SFX volume scorller
+  ui->volume_Scorllers[1].button_Coords.w = 20 * window->win_width_ratio;
+  ui->volume_Scorllers[1].button_Coords.h = 70 * window->win_width_ratio;
+  ui->volume_Scorllers[1].button_Coords.x = ui->SFX_Bar_Coords.x + ((float)ui->SFX_Bar_Coords.w / 100) * window->SFX_volume - ui->volume_Scorllers[1].button_Coords.w / 2;
+  ui->volume_Scorllers[1].button_Coords.y = ui->SFX_Bar_Coords.y + (ui->SFX_Bar_Coords.h - ui->volume_Scorllers[1].button_Coords.h) / 2;
+
+  // SFX plus controller
+  ui->volume_Controllers[3].button_Coords.w = 70 * window->win_width_ratio;
+  ui->volume_Controllers[3].button_Coords.h = 62 * window->win_width_ratio;
+  ui->volume_Controllers[3].button_Coords.x = ui->SFX_Bar_Coords.x + ui->SFX_Bar_Coords.w + ui->column_Margin * 1.1;
+  ui->volume_Controllers[3].button_Coords.y = ui->SFX_Bar_Coords.y + (ui->SFX_Bar_Coords.h - ui->volume_Controllers[3].button_Coords.h) / 2;
+
   ///TODO: finish this
 }
 
@@ -84,9 +180,9 @@ void update_Menu_Scene3_Coords(Menu_Scene3_UI *ui, Menu_Common_UI *common_ui, Ga
 {
   // tutorial background
   ui->tutorial_Backgournd_Coords.w = 0.95 * window->w;
-  ui->tutorial_Backgournd_Coords.h = 0.92 * window->h;
+  ui->tutorial_Backgournd_Coords.h = 0.85 * window->h;
   ui->tutorial_Backgournd_Coords.x = (window->w - ui->tutorial_Backgournd_Coords.w) / 2;
-  ui->tutorial_Backgournd_Coords.y = (window->h - ui->tutorial_Backgournd_Coords.h) / 2;
+  ui->tutorial_Backgournd_Coords.y = (window->h * 0.97 - ui->tutorial_Backgournd_Coords.h) / 2;
 
   // title background
   ui->tutorial_Title_Coords.w = 450 * window->win_width_ratio;
@@ -95,15 +191,7 @@ void update_Menu_Scene3_Coords(Menu_Scene3_UI *ui, Menu_Common_UI *common_ui, Ga
   ui->tutorial_Title_Coords.y = ui->tutorial_Backgournd_Coords.y - (ui->tutorial_Title_Coords.h / 2);
 
   // text coords
-  int text_w = 0, text_h = 0;
-  float text_w_ratio = 1;
-  int num_letters = strlen("Tutorial");
-
-  int mesure = TTF_SizeUTF8(common_ui->menu_Font, "Tutorial", &text_w, &text_h);
-  if (mesure != 0)
-    lib_errorLog("failed at calculating the text mesures", TTF_GetError());
-
-  text_w_ratio = (float)text_h / text_w;
+  float text_w_ratio = get_Text_W_ratio(common_ui, "Tutorial");
 
   ui->tutorial_Title_Text_Coords.w = 0.3 * ui->tutorial_Title_Coords.w;
   ui->tutorial_Title_Text_Coords.h = ui->tutorial_Title_Text_Coords.w * text_w_ratio;

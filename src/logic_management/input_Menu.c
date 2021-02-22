@@ -167,5 +167,6 @@ void unstage_Buttons(Button buttons[], int num_Button)
   for (int i = 0; i < num_Button; i++)
   {
     buttons[i].staged = 0;
+    buttons[i].hover = 0;
   }
 }
