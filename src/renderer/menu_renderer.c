@@ -1,7 +1,7 @@
 #include "../headers/renderer.h"
 #include "../headers/dev.h"
 
-void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
+void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window, GameSound *sound)
 {
   int rendered = -1;
   // main background
@@ -17,7 +17,7 @@ void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
     lib_errorLog("failed at rendering menu UI", SDL_GetError());
 
   // shortcuts
-  if (window->mute == 0)
+  if (sound->mute == 0)
   {
     if (ui->scene_shortcuts[0].staged == 1)
       rendered = SDL_RenderCopy(window->mainRenderer, ui->hover_Mute_Shortcut, NULL, &(ui->scene_shortcuts[0].button_Coords));
@@ -26,7 +26,7 @@ void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
     else
       rendered = SDL_RenderCopy(window->mainRenderer, ui->mute_Shortcut, NULL, &(ui->scene_shortcuts[0].button_Coords));
   }
-  else if (window->mute == 1)
+  else if (sound->mute == 1)
   {
     if (ui->scene_shortcuts[0].staged == 1)
       rendered = SDL_RenderCopy(window->mainRenderer, ui->hover_Unmute_Shortcut, NULL, &(ui->scene_shortcuts[0].button_Coords));

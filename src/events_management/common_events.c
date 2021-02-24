@@ -18,7 +18,7 @@ void window_events(SDL_Event *event, GameObject *G)
     update_Menu_Common_Coords(&(G->UI.common_UI), &(G->window));
     update_Menu_Scene0_Coords(&(G->UI.scene0_UI), &(G->UI.common_UI), &(G->window));
     update_Menu_Scene1_Coords(&(G->UI.scene1_UI), &(G->UI.common_UI), &(G->window));
-    update_Menu_Scene2_Coords(&(G->UI.scene2_UI), &(G->UI.common_UI), &(G->window));
+    update_Menu_Scene2_Coords(&(G->UI.scene2_UI), &(G->UI.common_UI), &(G->window), &(G->sound));
     update_Menu_Scene3_Coords(&(G->UI.scene3_UI), &(G->UI.common_UI), &(G->window));
 
     break;
@@ -84,12 +84,12 @@ void mouse_Input(SDL_Event *event, GameObject *G)
     }
     else if (event->type == SDL_MOUSEBUTTONUP)
     {
-      click_Button(G->UI.common_UI.scene_shortcuts, 2, &(G->window));
+      click_Button(G->UI.common_UI.scene_shortcuts, 2, &(G->window), &(G->sound));
       unstage_Buttons(G->UI.common_UI.scene_shortcuts, 2);
       switch (G->window.menu_scene)
       {
       case 0:
-        click_Button(G->UI.scene0_UI.scene_buttons, 4, &(G->window));
+        click_Button(G->UI.scene0_UI.scene_buttons, 4, &(G->window), &(G->sound));
         unstage_Buttons(G->UI.scene0_UI.scene_buttons, 4);
         break;
       case 1:

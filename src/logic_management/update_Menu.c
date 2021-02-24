@@ -70,7 +70,7 @@ void update_Menu_Scene1_Coords(Menu_Scene1_UI *ui, Menu_Common_UI *common_ui, Ga
   ///TODO: finish this
 }
 
-void update_Menu_Scene2_Coords(Menu_Scene2_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
+void update_Menu_Scene2_Coords(Menu_Scene2_UI *ui, Menu_Common_UI *common_ui, GameWindow *window, GameSound *sound)
 {
   // settings background
   ui->settings_Backgournd_Coords.w = 0.95 * window->w;
@@ -125,7 +125,7 @@ void update_Menu_Scene2_Coords(Menu_Scene2_UI *ui, Menu_Common_UI *common_ui, Ga
   // music volume scroller
   ui->volume_Scorllers[0].button_Coords.w = 20 * window->win_width_ratio;
   ui->volume_Scorllers[0].button_Coords.h = 70 * window->win_width_ratio;
-  ui->volume_Scorllers[0].button_Coords.x = ui->music_Bar_Coords.x + ((float)ui->music_Bar_Coords.w / 100) * window->music_volume - ui->volume_Scorllers[0].button_Coords.w / 2;
+  ui->volume_Scorllers[0].button_Coords.x = ui->music_Bar_Coords.x + ((float)ui->music_Bar_Coords.w / 100) * sound->music_volume - ui->volume_Scorllers[0].button_Coords.w / 2;
   ui->volume_Scorllers[0].button_Coords.y = ui->music_Bar_Coords.y + (ui->music_Bar_Coords.h - ui->volume_Scorllers[0].button_Coords.h) / 2;
 
   // music plus controller
@@ -164,7 +164,7 @@ void update_Menu_Scene2_Coords(Menu_Scene2_UI *ui, Menu_Common_UI *common_ui, Ga
   //SFX volume scorller
   ui->volume_Scorllers[1].button_Coords.w = 20 * window->win_width_ratio;
   ui->volume_Scorllers[1].button_Coords.h = 70 * window->win_width_ratio;
-  ui->volume_Scorllers[1].button_Coords.x = ui->SFX_Bar_Coords.x + ((float)ui->SFX_Bar_Coords.w / 100) * window->SFX_volume - ui->volume_Scorllers[1].button_Coords.w / 2;
+  ui->volume_Scorllers[1].button_Coords.x = ui->SFX_Bar_Coords.x + ((float)ui->SFX_Bar_Coords.w / 100) * sound->SFX_volume - ui->volume_Scorllers[1].button_Coords.w / 2;
   ui->volume_Scorllers[1].button_Coords.y = ui->SFX_Bar_Coords.y + (ui->SFX_Bar_Coords.h - ui->volume_Scorllers[1].button_Coords.h) / 2;
 
   // SFX plus controller

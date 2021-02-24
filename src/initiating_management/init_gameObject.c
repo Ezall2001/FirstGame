@@ -49,7 +49,7 @@ void init_GameDev(GameDev *dev)
   dev->frameDelayAvg = 0;
 }
 
-void init_Input(GameInput *input)
+void init_GameInput(GameInput *input)
 {
   input->mouse_x = 0;
   input->mouse_y = 0;

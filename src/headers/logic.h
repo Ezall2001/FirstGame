@@ -14,13 +14,14 @@ void update_Window_Coords(GameWindow *window);
 void update_Menu_Common_Coords(Menu_Common_UI *ui, GameWindow *window);
 void update_Menu_Scene0_Coords(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow *window);
 void update_Menu_Scene1_Coords(Menu_Scene1_UI *ui, Menu_Common_UI *common_ui, GameWindow *window);
-void update_Menu_Scene2_Coords(Menu_Scene2_UI *ui, Menu_Common_UI *common_ui, GameWindow *window);
+void update_Menu_Scene2_Coords(Menu_Scene2_UI *ui, Menu_Common_UI *common_ui, GameWindow *window, GameSound *sound);
 void update_Menu_Scene3_Coords(Menu_Scene3_UI *ui, Menu_Common_UI *common_ui, GameWindow *window);
+
 // input
-void shortcut_Input(GameInput *input, GameWindow *window);
+void shortcut_Input(GameInput *input, GameSound *sound, GameWindow *window);
 void mouse_Button_Collision(Button buttons[], int num_Button, GameInput *input);
 void stage_Button(Button buttons[], int num_Button);
-void click_Button(Button buttons[], int num_Button, GameWindow *window);
+void click_Button(Button buttons[], int num_Button, GameWindow *window, GameSound *sound);
 void unstage_Buttons(Button buttons[], int num_Button);
 
 #endif
