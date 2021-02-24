@@ -22,11 +22,6 @@ typedef struct
   int game_scene; // 0:outgame - 1:ingame
   int menu_scene; // 0:mainMenu - 1:startMenu - 2:optionsMenu - 3:tutorialMenu
 
-  ///TODO: refactor this
-  int mute;
-  int music_volume; // 0 -> 100
-  int SFX_volume;   // 0 -> 100
-
 } GameWindow;
 
 typedef struct
@@ -164,14 +159,16 @@ typedef struct
 
 typedef struct
 {
-  ///TODO: make this the big UI struct
+
+  DevUI dev_UI;
+  // menu
   Menu_Common_UI common_UI;
   Menu_Scene0_UI scene0_UI;
   Menu_Scene1_UI scene1_UI;
   Menu_Scene2_UI scene2_UI;
   Menu_Scene3_UI scene3_UI;
 
-} MenuUI;
+} GameUI;
 
 typedef struct
 {
@@ -187,13 +184,18 @@ typedef struct
 
 typedef struct
 {
+  int mute;
+  int music_volume; // 0 -> 100
+  int SFX_volume;   // 0 -> 100
+} GameSound;
+
+typedef struct
+{
   GameWindow window;
   GameDev dev;
   GameInput input;
-
-  // UI
-  DevUI devUI;
-  MenuUI menuUI;
+  GameSound sound;
+  GameUI UI;
 
 } GameObject;
 

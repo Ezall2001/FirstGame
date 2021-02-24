@@ -25,7 +25,7 @@ void init_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
   // imgs
   load_Texture_Img(&(ui->static_Button), "./assets/imgs/menu/static_yellow_button.png", &(window->mainRenderer));
   load_Texture_Img(&(ui->static_Blue_Button), "./assets/imgs/menu/static_blue_button.png", &(window->mainRenderer));
-  load_Texture_Img(&(ui->hover_Button), "./assets/imgs/menu/hover_button.png", &(window->mainRenderer));
+  load_Texture_Img(&(ui->hover_Button), "./assets/imgs/menu/hover_blue_button.png", &(window->mainRenderer));
   load_Texture_Img(&(ui->click_Button), "./assets/imgs/menu/click_button.png", &(window->mainRenderer));
   load_Texture_Img(&(ui->main_Background), "./assets/imgs/menu/menu_background.png", &(window->mainRenderer));
   load_Texture_Img(&(ui->mute_Shortcut), "./assets/imgs/menu/mute.png", &(window->mainRenderer));
@@ -150,6 +150,7 @@ void init_Scene2_Menu(Menu_Scene2_UI *ui, Menu_Common_UI *common_ui, GameWindow 
   ui->volume_Controllers[3].staged = 0;
 
   // --- resolution row ---
+  ///TODO: finish this
 }
 
 void init_Scene3_Menu(Menu_Scene3_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
@@ -159,7 +160,6 @@ void init_Scene3_Menu(Menu_Scene3_UI *ui, Menu_Common_UI *common_ui, GameWindow 
   load_Texture_Img(&(ui->tutorial_Backgournd), "./assets/imgs/menu/buttons_tutorial_settings_background.png", &(window->mainRenderer));
 
   // --- tutorial title ---
-  // text
   load_Texture_Text(&(ui->tutorial_Title_Text), &(common_ui->menu_Font), "Tutorial", common_ui->text_Color, &(window->mainRenderer));
   ///TODO: finish this
 }
