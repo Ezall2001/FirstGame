@@ -3,10 +3,11 @@
 
 void sound_manager(GameObject *G)
 {
-    static int playing = 0;
-    if (!playing)
+    if (!G->sound.playing)
     {
-        mus();
-        playing = 1;
+        if (!G->sound.pause)
+        {
+            menu_music(&(G->sound));
+        }
     }
 }

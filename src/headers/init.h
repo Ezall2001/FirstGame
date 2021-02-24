@@ -15,6 +15,7 @@ void init_GameDev(GameDev *dev);
 void init_GameInput(GameInput *input);
 void init_GameUI(GameUI *ui, GameWindow *window);
 void init_GameSound(GameSound *sound);
+
 void destroy_GameObject(GameObject *G);
 
 // init UI

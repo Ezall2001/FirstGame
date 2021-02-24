@@ -6,7 +6,7 @@
 #include <string.h>
 #include <math.h>
 #include <windows.h>
-#include <SDL2/SDL.h>  
+#include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
@@ -184,9 +184,20 @@ typedef struct
 
 typedef struct
 {
+  Mix_Music *title_music;
+  Mix_Chunk *bird_SFX;
+  Mix_Chunk *wind_SFX;
+  Mix_Chunk *waves_SFX;
+  Mix_Chunk *click_SFX;
+  int playing;
+  int pause;
+  int rewind;
   int mute;
   int music_volume; // 0 -> 100
   int SFX_volume;   // 0 -> 100
+  int wind_play;
+  int button_click_play;
+  int bird_play;
 } GameSound;
 
 typedef struct

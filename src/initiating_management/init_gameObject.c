@@ -58,6 +58,7 @@ void init_GameInput(GameInput *input)
 
 void init_GameSound(GameSound *sound)
 {
+  ///CONTRA: init game sound
   sound->mute = 0;
   sound->music_volume = 100;
   sound->SFX_volume = 100;
