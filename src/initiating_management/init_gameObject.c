@@ -58,7 +58,31 @@ void init_GameInput(GameInput *input)
 
 void init_GameSound(GameSound *sound)
 {
-  ///CONTRA: init game sound
+
+  int openmusic = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024);
+  if (openmusic != 0)
+    lib_errorLog("Failed at opnening Audio", Mix_GetError());
+
+  sound->title_music = Mix_LoadMUS("./assets/music/menu_music.mp3");
+  if (sound->title_music == NULL)
+    lib_errorLog("Failed at load music File", Mix_GetError());
+
+  sound->bird_SFX = Mix_LoadWAV("./assets/SFX/menu/birds_SFX.wav");
+  if (sound->bird_SFX == NULL)
+    lib_errorLog("Failed at load music File1", Mix_GetError());
+
+  sound->wind_SFX = Mix_LoadWAV("./assets/SFX/menu/wind_SFX.wav");
+  if (sound->wind_SFX == NULL)
+    lib_errorLog("Failed at load music File2", Mix_GetError());
+
+  sound->waves_SFX = Mix_LoadWAV("./assets/SFX/menu/waves_SFX.wav");
+  if (sound->waves_SFX == NULL)
+    lib_errorLog("Failed at load music File3", Mix_GetError());
+
+  sound->click_SFX = Mix_LoadWAV("./assets/SFX/menu/click_SFX.wav");
+  if (sound->click_SFX == NULL)
+    lib_errorLog("Failed at load music File4", Mix_GetError());
+
   sound->pause = 0;
   sound->rewind = 0;
   sound->mute = 0;
