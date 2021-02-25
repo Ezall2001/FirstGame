@@ -1,5 +1,4 @@
-#include "../headers/init.h"
-#include "../headers/dev.h"
+#include "./headers/dev.h"
 
 void load_Texture_Img(SDL_Texture **texture, char path[], SDL_Renderer **renderer)
 {
@@ -35,4 +34,17 @@ void load_Texture_Text(SDL_Texture **texture, TTF_Font **font, char text[], SDL_
   }
 
   SDL_FreeSurface(tempSurface);
+}
+
+float get_Text_W_ratio(Menu_Common_UI *common_ui, char text[])
+{
+  int text_w = 0, text_h = 0;
+  float text_w_ratio = 1;
+
+  int mesure = TTF_SizeUTF8(common_ui->menu_Font, text, &text_w, &text_h);
+  if (mesure != 0)
+    lib_errorLog("failed at calculating the text mesures", TTF_GetError());
+
+  text_w_ratio = (float)text_h / text_w;
+  return text_w_ratio;
 }

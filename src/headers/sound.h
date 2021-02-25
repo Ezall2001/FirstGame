@@ -4,5 +4,6 @@
 #include "./common.h"
 
 void sound_manager(GameObject *G);
-
+void menu_music(GameSound *sound);
+void SFX(GameSound *sound) ; 
 #endif

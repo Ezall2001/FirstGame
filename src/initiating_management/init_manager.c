@@ -3,9 +3,9 @@
 void init_manager(GameObject *G)
 {
   init_lib();
-  init_gameWindow(&(G->window));
-  init_gameDev(&(G->dev));
-  init_devUI(&(G->devUI));
-  init_Input(&(G->input));
-  init_menuUI(&(G->menuUI), &(G->window));
+  init_GameWindow(&(G->window));
+  init_GameDev(&(G->dev));
+  init_GameInput(&(G->input));
+  init_GameSound(&(G->sound));
+  init_GameUI(&(G->UI), &(G->window));
 }

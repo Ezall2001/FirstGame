@@ -1,7 +1,7 @@
 GAME := Surrounded_By_Water
 BINDIR := bin
 GAMEDIR := $(addprefix $(BINDIR)/,$(GAME).exe)
-SRCS := $(wildcard src/*/*.c) $(wildcard src/*/*/*.c) src/$(GAME).c
+SRCS := $(wildcard src/*/*.c) $(wildcard src/*/*/*.c) src/$(GAME).c src/utils.c
 HEADERS := $(wildcard src/headers/*.h)
 OBJDIR := build
 OBJS := $(SRCS:src/%.c=$(OBJDIR)/%.o)

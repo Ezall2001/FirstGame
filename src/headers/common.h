@@ -6,7 +6,7 @@
 #include <string.h>
 #include <math.h>
 #include <windows.h>
-#include <SDL2/SDL.h>  
+#include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
@@ -21,11 +21,6 @@ typedef struct
   float win_width_ratio;
   int game_scene; // 0:outgame - 1:ingame
   int menu_scene; // 0:mainMenu - 1:startMenu - 2:optionsMenu - 3:tutorialMenu
-
-  ///TODO: refactor this
-  int mute;
-  int music_volume; // 0 -> 100
-  int SFX_volume;   // 0 -> 100
 
 } GameWindow;
 
@@ -66,11 +61,9 @@ typedef struct
 typedef struct
 {
   Button scene_buttons[4];
-  Button scene_shortcuts[1];
   SDL_Texture *buttons_Background;
   SDL_Rect buttons_Background_Coords;
   int buttons_Margin;
-  int shortcuts_Margin;
 
 } Menu_Scene0_UI;
 
@@ -84,14 +77,35 @@ typedef struct
 {
   // img
   SDL_Texture *settings_Backgournd;
+  SDL_Texture *plus;
+  SDL_Texture *minus;
+  SDL_Texture *hover_Plus;
+  SDL_Texture *hover_Minus;
+  SDL_Texture *sound_Bar;
+  SDL_Texture *sound_Scroller;
 
   // text
   SDL_Texture *settings_Title_Text;
+  SDL_Texture *music_Text;
+  SDL_Texture *SFX_Text;
 
   // coords
   SDL_Rect settings_Title_Coords;
   SDL_Rect settings_Title_Text_Coords;
   SDL_Rect settings_Backgournd_Coords;
+  SDL_Rect music_Title_Coords;
+  SDL_Rect music_Title_Text_Coords;
+  SDL_Rect music_Bar_Coords;
+  SDL_Rect SFX_Title_Coords;
+  SDL_Rect SFX_Title_Text_Coords;
+  SDL_Rect SFX_Bar_Coords;
+
+  // buttons
+  Button volume_Scorllers[2];
+  Button volume_Controllers[4];
+  int row_Margin;
+  int column_Margin;
+  ///TODO: find a solution for this to make the + - bar scroller  buttons
 
 } Menu_Scene2_UI;
 
@@ -137,18 +151,24 @@ typedef struct
   SDL_Rect title_Coords;
   SDL_Rect main_Background_Coords;
 
+  // shortcuts
+  Button scene_shortcuts[2];
+  int shortcuts_Margin;
+
 } Menu_Common_UI;
 
 typedef struct
 {
-  ///TODO: make this the big UI struct
+
+  DevUI dev_UI;
+  // menu
   Menu_Common_UI common_UI;
   Menu_Scene0_UI scene0_UI;
   Menu_Scene1_UI scene1_UI;
   Menu_Scene2_UI scene2_UI;
   Menu_Scene3_UI scene3_UI;
 
-} MenuUI;
+} GameUI;
 
 typedef struct
 {
@@ -164,14 +184,35 @@ typedef struct
 
 typedef struct
 {
+  Mix_Music *title_music;
+  Mix_Chunk *bird_SFX;
+  Mix_Chunk *wind_SFX;
+  Mix_Chunk *waves_SFX;
+  Mix_Chunk *click_SFX;
+  int playing;
+  int pause;
+  int rewind;
+  int mute;
+  int music_volume; // 0 -> 100
+  int SFX_volume;   // 0 -> 100
+  int wind_play;
+  int button_click_play;
+  int bird_play;
+} GameSound;
+
+typedef struct
+{
   GameWindow window;
   GameDev dev;
   GameInput input;
-
-  // UI
-  DevUI devUI;
-  MenuUI menuUI;
+  GameSound sound;
+  GameUI UI;
 
 } GameObject;
+
+// utils
+void load_Texture_Img(SDL_Texture **texture, char path[], SDL_Renderer **renderer);
+void load_Texture_Text(SDL_Texture **texture, TTF_Font **font, char text[], SDL_Color color, SDL_Renderer **renderer);
+float get_Text_W_ratio(Menu_Common_UI *common_ui, char text[]);
 
 #endif

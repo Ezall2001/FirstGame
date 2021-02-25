@@ -1,7 +1,7 @@
 #include "../headers/logic.h"
 #include "../headers/dev.h"
 
-void shortcut_Input(GameInput *input, GameWindow *window)
+void shortcut_Input(GameInput *input, GameSound *sound, GameWindow *window)
 {
   for (int i = 0; i < input->num_keys; i++)
   {
@@ -20,7 +20,7 @@ void shortcut_Input(GameInput *input, GameWindow *window)
     case SDLK_m:
     {
       if (input->ctrl == 1)
-        window->mute = 1;
+        sound->mute = 1;
       break;
     }
 
@@ -49,16 +49,16 @@ void shortcut_Input(GameInput *input, GameWindow *window)
     case SDLK_KP_PLUS:
     {
       // music
-      if (window->music_volume >= 90)
-        window->music_volume = 100;
+      if (sound->music_volume >= 90)
+        sound->music_volume = 100;
       else
-        window->music_volume += 10;
+        sound->music_volume += 10;
 
       // SFX
-      if (window->SFX_volume >= 90)
-        window->SFX_volume = 100;
+      if (sound->SFX_volume >= 90)
+        sound->SFX_volume = 100;
       else
-        window->SFX_volume += 10;
+        sound->SFX_volume += 10;
 
       break;
     }
@@ -66,16 +66,16 @@ void shortcut_Input(GameInput *input, GameWindow *window)
     case SDLK_KP_MINUS:
     {
       // music
-      if (window->music_volume <= 10)
-        window->music_volume = 0;
+      if (sound->music_volume <= 10)
+        sound->music_volume = 0;
       else
-        window->music_volume -= 10;
+        sound->music_volume -= 10;
 
       // SFX
-      if (window->SFX_volume <= 100)
-        window->SFX_volume = 0;
+      if (sound->SFX_volume <= 100)
+        sound->SFX_volume = 0;
       else
-        window->SFX_volume -= 10;
+        sound->SFX_volume -= 10;
 
       break;
     }
@@ -139,7 +139,7 @@ void stage_Button(Button buttons[], int num_Button)
   }
 }
 
-void click_Button(Button buttons[], int num_Button, GameWindow *window)
+void click_Button(Button buttons[], int num_Button, GameWindow *window, GameSound *sound)
 {
   for (int i = 0; i < num_Button; i++)
   {
@@ -155,7 +155,9 @@ void click_Button(Button buttons[], int num_Button, GameWindow *window)
         window->running = 0;
       ///TODO: popup to confirm exit
       else if (strcmp(buttons[i].name, "Mute") == 0)
-        window->mute = (window->mute + 1) % 2;
+        sound->mute = (sound->mute + 1) % 2;
+      else if (strcmp(buttons[i].name, "Back") == 0)
+        window->menu_scene = 0;
     }
   }
 }
@@ -165,5 +167,6 @@ void unstage_Buttons(Button buttons[], int num_Button)
   for (int i = 0; i < num_Button; i++)
   {
     buttons[i].staged = 0;
+    buttons[i].hover = 0;
   }
 }

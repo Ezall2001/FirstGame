@@ -7,23 +7,23 @@ void renderer_manager(GameObject *G)
 
   if (G->window.game_scene == 0)
   {
-    render_Common_Menu(&(G->menuUI.common_UI), &(G->window));
+    render_Common_Menu(&(G->UI.common_UI), &(G->window), &(G->sound));
     switch (G->window.menu_scene)
     {
     case 0:
-      render_Scene0_Menu(&(G->menuUI.scene0_UI), &(G->menuUI.common_UI), &(G->window));
+      render_Scene0_Menu(&(G->UI.scene0_UI), &(G->UI.common_UI), &(G->window));
       break;
 
     case 1:
-      render_Scene1_Menu(&(G->menuUI.scene1_UI), &(G->menuUI.common_UI), &(G->window));
+      render_Scene1_Menu(&(G->UI.scene1_UI), &(G->UI.common_UI), &(G->window));
       break;
 
     case 2:
-      render_Scene2_Menu(&(G->menuUI.scene2_UI), &(G->menuUI.common_UI), &(G->window));
+      render_Scene2_Menu(&(G->UI.scene2_UI), &(G->UI.common_UI), &(G->window));
       break;
 
     case 3:
-      render_Scene3_Menu(&(G->menuUI.scene3_UI), &(G->menuUI.common_UI), &(G->window));
+      render_Scene3_Menu(&(G->UI.scene3_UI), &(G->UI.common_UI), &(G->window));
       break;
 
     default:
@@ -32,7 +32,7 @@ void renderer_manager(GameObject *G)
   }
 
   if (G->dev.show_FPS)
-    render_FPS(&(G->window), &(G->devUI), G->dev);
+    render_FPS(&(G->window), &(G->UI.dev_UI), G->dev);
 
   SDL_RenderPresent(G->window.mainRenderer);
 }

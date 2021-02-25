@@ -1,7 +1,7 @@
 #include "../headers/init.h"
 #include "../headers/dev.h"
 
-void init_gameWindow(GameWindow *window)
+void init_GameWindow(GameWindow *window)
 {
 
   // calculating and creating the dimentions of the main window
@@ -23,14 +23,13 @@ void init_gameWindow(GameWindow *window)
   window->win_width_ratio = (float)window->w / window->default_w;
   window->game_scene = 0;
   window->menu_scene = 0;
-  window->mute = 0;
-  window->music_volume = 100;
-  window->SFX_volume = 100;
 
   window->mainWindow = NULL;
   window->mainWindow = SDL_CreateWindow("Surrounded By Water", window->x, window->y, window->w, window->h, SDL_WINDOW_RESIZABLE);
   if (window->mainWindow == NULL)
     lib_errorLog("failed at creating a window", SDL_GetError());
+
+  SDL_SetWindowSize(window->mainWindow, window->w, window->h); // to avoid initin all the coords and then update them on resize
 
   // main renderer
   window->mainRenderer = SDL_CreateRenderer(window->mainWindow, -1, SDL_RENDERER_ACCELERATED);
@@ -38,7 +37,7 @@ void init_gameWindow(GameWindow *window)
     lib_errorLog("failed at creating renderer form window", SDL_GetError());
 }
 
-void init_gameDev(GameDev *dev)
+void init_GameDev(GameDev *dev)
 {
   dev->show_FPS = 0;
   dev->FPS = 0;
@@ -50,7 +49,54 @@ void init_gameDev(GameDev *dev)
   dev->frameDelayAvg = 0;
 }
 
-void init_devUI(DevUI *ui)
+void init_GameInput(GameInput *input)
+{
+  input->mouse_x = 0;
+  input->mouse_y = 0;
+  input->num_keys = 0;
+}
+
+void init_GameSound(GameSound *sound)
+{
+  int openmusic = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024);
+  if (openmusic != 0)
+    lib_errorLog("Failed at opnening Audio", Mix_GetError());
+
+  sound->title_music = Mix_LoadMUS("./assets/music/menu_music.mp3");
+  if (sound->title_music == NULL)
+    lib_errorLog("Failed at load music File", Mix_GetError());
+
+  sound->bird_SFX = Mix_LoadWAV("./assets/SFX/menu/birds_SFX.wav");
+  if (sound->bird_SFX == NULL)
+    lib_errorLog("Failed at load music File1", Mix_GetError());
+
+  sound->wind_SFX = Mix_LoadWAV("./assets/SFX/menu/wind_SFX.wav");
+  if (sound->wind_SFX == NULL)
+    lib_errorLog("Failed at load music File2", Mix_GetError());
+
+  sound->waves_SFX = Mix_LoadWAV("./assets/SFX/menu/waves_SFX.wav");
+  if (sound->waves_SFX == NULL)
+    lib_errorLog("Failed at load music File3", Mix_GetError());
+
+  sound->click_SFX = Mix_LoadWAV("./assets/SFX/menu/click_SFX.wav");
+  if (sound->click_SFX == NULL)
+    lib_errorLog("Failed at load music File4", Mix_GetError());
+
+  sound->mute = 0;
+  sound->music_volume = 100;
+  sound->SFX_volume = 100;
+}
+
+void init_GameUI(GameUI *ui, GameWindow *window)
+{
+  init_Common_Menu(&(ui->common_UI), window);
+  init_Scene0_Menu(&(ui->scene0_UI), &(ui->common_UI), window);
+  init_Scene1_Menu(&(ui->scene1_UI), &(ui->common_UI), window);
+  init_Scene2_Menu(&(ui->scene2_UI), &(ui->common_UI), window);
+  init_Scene3_Menu(&(ui->scene3_UI), &(ui->common_UI), window);
+}
+
+void init_DevUI(DevUI *ui)
 {
   ui->dev_Font = NULL;
   ui->dev_Font = TTF_OpenFont("./assets/fonts/BalooChettan2-Regular.ttf", 255);
@@ -60,20 +106,4 @@ void init_devUI(DevUI *ui)
   ui->FPS_Color.r = 255;
   ui->FPS_Color.g = 255;
   ui->FPS_Color.b = 0;
-}
-
-void init_Input(GameInput *input)
-{
-  input->mouse_x = 0;
-  input->mouse_y = 0;
-  input->num_keys = 0;
-}
-
-void init_menuUI(MenuUI *ui, GameWindow *window)
-{
-  init_Common_Menu(&(ui->common_UI), window);
-  init_Scene0_Menu(&(ui->scene0_UI), &(ui->common_UI), window);
-  init_Scene1_Menu(&(ui->scene1_UI), &(ui->common_UI), window);
-  init_Scene2_Menu(&(ui->scene2_UI), &(ui->common_UI), window);
-  init_Scene3_Menu(&(ui->scene3_UI), &(ui->common_UI), window);
 }
