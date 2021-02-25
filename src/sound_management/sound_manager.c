@@ -17,11 +17,4 @@ void sound_manager(GameObject *G)
         {
         }
     }
-    if (!G->sound.playing)
-    {
-        if (!G->sound.pause)
-        {
-            SFX(&(G->sound));
-        }
-    }
 }

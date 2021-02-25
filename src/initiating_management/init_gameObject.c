@@ -47,6 +47,7 @@ void init_GameDev(GameDev *dev)
   dev->frameDelayCount = 0;
   dev->frameDelayIndex = 0;
   dev->frameDelayAvg = 0;
+  dev->r = seedRand(time(NULL));
 }
 
 void init_GameInput(GameInput *input)

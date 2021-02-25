@@ -5,11 +5,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <time.h>
 #include <windows.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
+#include "mtwister.h"
 
 typedef struct
 {
@@ -36,6 +38,7 @@ typedef struct
   int frameDelayIndex;
   float frameDelayAvg;
   float deltaTime;
+  MTRand r;
 
 } GameDev;
 
