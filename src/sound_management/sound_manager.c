@@ -10,4 +10,11 @@ void sound_manager(GameObject *G)
             menu_music(&(G->sound));
         }
     }
+    if (!G->sound.playing)
+    {
+        if (!G->sound.pause)
+        {
+            SFX(&(G->sound));
+        }
+    }
 }
