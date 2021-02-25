@@ -19,7 +19,7 @@ void init_GameSound(GameSound *sound);
 void destroy_GameObject(GameObject *G);
 
 // init UI
-void init_Dev_UI(GameUI *ui);
+void init_DevUI(DevUI *ui);
 void init_Common_Menu(Menu_Common_UI *ui, GameWindow *window);
 void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow *window);
 void init_Scene1_Menu(Menu_Scene1_UI *ui, Menu_Common_UI *common_ui, GameWindow *window);

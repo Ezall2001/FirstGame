@@ -9,7 +9,6 @@ void destroy_GameObject(GameObject *G)
   // devUI
   TTF_CloseFont(G->UI.dev_UI.dev_Font);
   SDL_DestroyTexture(G->UI.dev_UI.FPS_Text);
-
-  // outGameUi
+  // menuIU
   ///TODO:  destroy all the menu
 }

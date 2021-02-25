@@ -2,10 +2,7 @@
 
 void dev_loop(GameObject *G)
 {
-
-  if (G->dev.show_FPS == 1)
-    calcFPS(&(G->dev));
-
+  calcFPS(&(G->dev));
   set_DeltaTime(&(G->dev));
 }
 

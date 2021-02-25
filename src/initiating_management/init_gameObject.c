@@ -59,28 +59,25 @@ void init_GameInput(GameInput *input)
 void init_GameSound(GameSound *sound)
 {
   ///CONTRA: init game sound
+  sound->pause = 0;
+  sound->rewind = 0;
   sound->mute = 0;
   sound->music_volume = 100;
   sound->SFX_volume = 100;
+
+  sound->menu_playing = 0;
+  sound->wind_play = 0;
+  sound->button_click_play = 0;
+  sound->bird_play = 0;
+  sound->wave_play = 0;
 }
 
 void init_GameUI(GameUI *ui, GameWindow *window)
 {
+  init_DevUI(&(ui->dev_UI));
   init_Common_Menu(&(ui->common_UI), window);
   init_Scene0_Menu(&(ui->scene0_UI), &(ui->common_UI), window);
   init_Scene1_Menu(&(ui->scene1_UI), &(ui->common_UI), window);
   init_Scene2_Menu(&(ui->scene2_UI), &(ui->common_UI), window);
   init_Scene3_Menu(&(ui->scene3_UI), &(ui->common_UI), window);
-}
-
-void init_DevUI(DevUI *ui)
-{
-  ui->dev_Font = NULL;
-  ui->dev_Font = TTF_OpenFont("./assets/fonts/BalooChettan2-Regular.ttf", 255);
-  if (ui->dev_Font == NULL)
-    lib_errorLog("failed at loaing font", TTF_GetError());
-  ui->FPS_Text = NULL;
-  ui->FPS_Color.r = 255;
-  ui->FPS_Color.g = 255;
-  ui->FPS_Color.b = 0;
 }

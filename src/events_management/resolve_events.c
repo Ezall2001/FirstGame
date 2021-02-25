@@ -55,7 +55,7 @@ void mouse_motion_events(SDL_Event *event, GameObject *G)
   }
 }
 
-void mouse_Input(SDL_Event *event, GameObject *G)
+void mouse_Input_events(SDL_Event *event, GameObject *G)
 {
   if (G->window.game_scene == 0)
   {
@@ -112,7 +112,7 @@ void mouse_Input(SDL_Event *event, GameObject *G)
   }
 }
 
-void keyboard_Input(SDL_Event *event, GameInput *input)
+void keyboard_Input_events(SDL_Event *event, GameInput *input)
 {
   if (event->key.keysym.sym == SDLK_RCTRL || event->key.keysym.sym == SDLK_LCTRL)
     input->ctrl = 1;

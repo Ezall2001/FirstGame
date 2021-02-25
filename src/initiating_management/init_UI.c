@@ -163,3 +163,15 @@ void init_Scene3_Menu(Menu_Scene3_UI *ui, Menu_Common_UI *common_ui, GameWindow 
   load_Texture_Text(&(ui->tutorial_Title_Text), &(common_ui->menu_Font), "Tutorial", common_ui->text_Color, &(window->mainRenderer));
   ///TODO: finish this
 }
+
+void init_DevUI(DevUI *ui)
+{
+  ui->dev_Font = NULL;
+  ui->dev_Font = TTF_OpenFont("./assets/fonts/BalooChettan2-Regular.ttf", 255);
+  if (ui->dev_Font == NULL)
+    lib_errorLog("failed at loaing font", TTF_GetError());
+  ui->FPS_Text = NULL;
+  ui->FPS_Color.r = 255;
+  ui->FPS_Color.g = 255;
+  ui->FPS_Color.b = 0;
+}

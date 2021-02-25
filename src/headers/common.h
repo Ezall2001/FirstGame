@@ -184,20 +184,27 @@ typedef struct
 
 typedef struct
 {
+  // music
   Mix_Music *title_music;
+
+  // chunk
   Mix_Chunk *bird_SFX;
   Mix_Chunk *wind_SFX;
   Mix_Chunk *waves_SFX;
   Mix_Chunk *click_SFX;
-  int playing;
+
+  // states
   int pause;
   int rewind;
-  int mute;
+  int mute;         // 0:volume  1:volume=0
   int music_volume; // 0 -> 100
   int SFX_volume;   // 0 -> 100
+
+  int menu_playing;
   int wind_play;
   int button_click_play;
   int bird_play;
+  int wave_play;
 } GameSound;
 
 typedef struct

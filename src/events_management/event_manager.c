@@ -17,12 +17,12 @@ void event_manager(GameObject *G)
       break;
 
     case SDL_KEYDOWN:
-      keyboard_Input(&event, &(G->input));
+      keyboard_Input_events(&event, &(G->input));
       break;
 
     case SDL_MOUSEBUTTONUP:
     case SDL_MOUSEBUTTONDOWN:
-      mouse_Input(&event, G);
+      mouse_Input_events(&event, G);
       break;
 
     default:

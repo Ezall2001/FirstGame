@@ -5,4 +5,5 @@
 
 void sound_manager(GameObject *G);
 void menu_music(GameSound *sound);
+
 #endif
