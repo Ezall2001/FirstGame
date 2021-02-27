@@ -9,12 +9,6 @@ void update_Menu_Common_Coords(Menu_Common_UI *ui, GameWindow *window)
   ui->main_Background_Coords.w = window->w;
   ui->main_Background_Coords.h = window->h;
 
-  // title coords
-  ui->title_Coords.x = window->w * 0.5;
-  ui->title_Coords.y = window->h * 0.1;
-  ui->title_Coords.w = 700 * window->win_width_ratio;
-  ui->title_Coords.h = 85 * window->win_width_ratio;
-
   // --- shortcuts ---
   ui->shortcuts_Margin = 40 * window->win_width_ratio;
   for (int i = 0; i < 2; i++)
@@ -36,10 +30,10 @@ void update_Menu_Common_Coords(Menu_Common_UI *ui, GameWindow *window)
 void update_Menu_Scene0_Coords(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
 {
   // --- button's background ---
-  ui->buttons_Background_Coords.w = 800 * window->win_width_ratio;
-  ui->buttons_Background_Coords.h = 650 * window->win_width_ratio;
-  ui->buttons_Background_Coords.x = window->w * 0.935 - ui->buttons_Background_Coords.w;
-  ui->buttons_Background_Coords.y = window->h * 0.3;
+  ui->buttons_Background_Coords.w = 640 * window->win_width_ratio;
+  ui->buttons_Background_Coords.h = 520 * window->win_width_ratio;
+  ui->buttons_Background_Coords.x = window->w * 0.96 - ui->buttons_Background_Coords.w;
+  ui->buttons_Background_Coords.y = window->h * 0.4;
 
   // --- main buttons ---
   ui->buttons_Margin = ui->buttons_Background_Coords.h * 0.1;

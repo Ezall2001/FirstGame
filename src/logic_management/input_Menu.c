@@ -1,8 +1,10 @@
 #include "../headers/logic.h"
 #include "../headers/dev.h"
 
-void shortcut_Input(GameInput *input, GameSound *sound, GameWindow *window)
+void shortcut_Input(GameInput *input, GameSound *sound, GameWindow *window, GameUI *ui, GameDev *dev)
 {
+  static int select = -1;
+
   for (int i = 0; i < input->num_keys; i++)
   {
     switch (input->keys[i])
@@ -14,13 +16,21 @@ void shortcut_Input(GameInput *input, GameSound *sound, GameWindow *window)
         window->running = 0;
       else
         window->menu_scene = 0;
+
+      sound->button_click_play = 1;
       break;
     }
 
     case SDLK_m:
     {
       if (input->ctrl == 1)
-        sound->mute = 1;
+      {
+        if (sound->mute == 1)
+          sound->mute = 0;
+        else if (sound->mute == 0)
+          sound->mute = 1;
+      }
+
       break;
     }
 
@@ -28,6 +38,8 @@ void shortcut_Input(GameInput *input, GameSound *sound, GameWindow *window)
     {
       if (input->ctrl == 1)
         window->menu_scene = 1;
+
+      sound->button_click_play = 1;
       break;
     }
 
@@ -35,6 +47,8 @@ void shortcut_Input(GameInput *input, GameSound *sound, GameWindow *window)
     {
       if (input->ctrl == 1)
         window->menu_scene = 2;
+
+      sound->button_click_play = 1;
       break;
     }
 
@@ -42,6 +56,8 @@ void shortcut_Input(GameInput *input, GameSound *sound, GameWindow *window)
     {
       if (input->ctrl == 1)
         window->menu_scene = 3;
+
+      sound->button_click_play = 1;
       break;
     }
 
@@ -60,6 +76,7 @@ void shortcut_Input(GameInput *input, GameSound *sound, GameWindow *window)
       else
         sound->SFX_volume += 10;
 
+      sound->button_click_play = 1;
       break;
     }
 
@@ -72,11 +89,64 @@ void shortcut_Input(GameInput *input, GameSound *sound, GameWindow *window)
         sound->music_volume -= 10;
 
       // SFX
-      if (sound->SFX_volume <= 100)
+      if (sound->SFX_volume <= 10)
         sound->SFX_volume = 0;
       else
         sound->SFX_volume -= 10;
 
+      sound->button_click_play = 1;
+      break;
+    }
+
+    case SDLK_DOWN:
+    {
+      if (window->menu_scene == 0)
+      {
+        if (select >= 0)
+          ui->scene0_UI.scene_buttons[select].staged = 0;
+
+        if (select >= 3)
+          select = 0;
+        else
+          select++;
+
+        ui->scene0_UI.scene_buttons[select].staged = 1;
+
+        sound->button_click_play = 1;
+      }
+      break;
+    }
+
+    case SDLK_UP:
+    {
+      if (window->menu_scene == 0)
+      {
+        if (select >= 0)
+          ui->scene0_UI.scene_buttons[select].staged = 0;
+
+        if (select <= 0)
+          select = 3;
+        else
+          select--;
+
+        ui->scene0_UI.scene_buttons[select].staged = 1;
+
+        sound->button_click_play = 1;
+      }
+
+      break;
+    }
+
+    case SDLK_RETURN:
+    case SDLK_KP_ENTER:
+    {
+      if (window->menu_scene == 0)
+      {
+        click_Button(ui->scene0_UI.scene_buttons, 4, window, sound, dev);
+        select = -1;
+
+        sound->button_click_play = 1;
+      }
       break;
     }
 
@@ -100,6 +170,8 @@ void shortcut_Input(GameInput *input, GameSound *sound, GameWindow *window)
           SDL_SetWindowSize(window->mainWindow, window->max_w / 2, window->max_h / 2);
           window->fullScreen = 0;
         }
+
+        sound->button_click_play = 1;
       }
       break;
     }
@@ -109,7 +181,7 @@ void shortcut_Input(GameInput *input, GameSound *sound, GameWindow *window)
   }
 }
 
-void mouse_Button_Collision(Button buttons[], int num_Button, GameInput *input)
+void mouse_Button_Collision(Button buttons[], int num_Button, GameInput *input, GameSound *sound)
 {
   for (int i = 0; i < num_Button; i++)
   {
@@ -301,6 +373,8 @@ void click_Button(Button buttons[], int num_Button, GameWindow *window, GameSoun
           buttons[i].selected = 1;
         }
       }
+
+      sound->button_click_play = 1;
     }
   }
 }

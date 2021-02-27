@@ -31,6 +31,7 @@ void renderer_manager(GameObject *G)
       break;
     }
   }
+
   if (G->dev.show_FPS)
     render_FPS(&(G->window), &(G->UI.dev_UI), G->dev);
 

@@ -9,19 +9,10 @@ void init_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
   if (ui->menu_Font == NULL)
     lib_errorLog("failed at loading font", TTF_GetError());
 
-  ui->title_Color.r = 247;
-  ui->title_Color.g = 147;
-  ui->title_Color.b = 30;
-  ui->title_Color.a = 0;
-
   ui->text_Color.r = 255;
   ui->text_Color.g = 255;
   ui->text_Color.b = 255;
   ui->text_Color.a = 0;
-
-  // text
-  ui->title_Text = NULL;
-  load_Texture_Text(&(ui->title_Text), &(ui->menu_Font), "Surrounded By Water", ui->title_Color, &(window->mainRenderer));
 
   // imgs
   ui->static_Button = NULL;

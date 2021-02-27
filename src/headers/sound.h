@@ -4,7 +4,14 @@
 #include "./common.h"
 
 void sound_manager(GameObject *G);
-void menu_music(GameSound *sound);
-void SFX(GameSound *sound);
+
+// music
+void play_Menu_Music(GameSound *sound);
+
+// SFX
+void play_waves_SFX(GameSound *sound);
+void play_wind_SFX(GameSound *sound);
+void play_click_SFX(GameSound *sound);
+void play_bird_SFX(GameSound *sound);
 
 #endif

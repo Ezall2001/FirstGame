@@ -60,12 +60,12 @@ void init_GameInput(GameInput *input)
 void init_GameSound(GameSound *sound)
 {
 
-  int openmusic = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024);
-  if (openmusic != 0)
+  int open_Audio = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024);
+  if (open_Audio != 0)
     lib_errorLog("Failed at opnening Audio", Mix_GetError());
 
-  sound->title_music = Mix_LoadMUS("./assets/music/menu_music.mp3");
-  if (sound->title_music == NULL)
+  sound->menu_music = Mix_LoadMUS("./assets/music/menu_music.mp3");
+  if (sound->menu_music == NULL)
     lib_errorLog("Failed at load music File", Mix_GetError());
 
   sound->bird_SFX = Mix_LoadWAV("./assets/SFX/menu/birds_SFX.wav");
@@ -84,13 +84,14 @@ void init_GameSound(GameSound *sound)
   if (sound->click_SFX == NULL)
     lib_errorLog("Failed at load music File4", Mix_GetError());
 
-  sound->pause = 0;
-  sound->rewind = 0;
+  Mix_VolumeChunk(sound->click_SFX, 40);
+  Mix_VolumeChunk(sound->wind_SFX, 25);
+  Mix_VolumeChunk(sound->waves_SFX, 20);
+
   sound->mute = 0;
   sound->music_volume = 100;
   sound->SFX_volume = 100;
 
-  sound->menu_playing = 0;
   sound->wind_play = 0;
   sound->button_click_play = 0;
   sound->bird_play = 0;

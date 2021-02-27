@@ -28,8 +28,16 @@ void init_lib()
 
 void quit_lib()
 {
+  int opened_audio = Mix_QuerySpec(NULL, NULL, NULL);
+  while (opened_audio != 0)
+  {
+    Mix_CloseAudio();
+    opened_audio -= 1;
+  }
+
   while (Mix_Init(0))
     Mix_Quit();
+
   TTF_Quit();
   IMG_Quit();
   SDL_Quit();

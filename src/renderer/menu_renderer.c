@@ -10,12 +10,6 @@ void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window, GameSound *sound
     lib_errorLog("failed at rendering menu UI", SDL_GetError());
   rendered = -1;
 
-  // title
-  rendered = -1;
-  rendered = SDL_RenderCopy(window->mainRenderer, ui->title_Text, NULL, &(ui->title_Coords));
-  if (rendered != 0)
-    lib_errorLog("failed at rendering menu UI", SDL_GetError());
-
   // shortcuts
   if (sound->mute == 0)
   {

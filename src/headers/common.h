@@ -136,11 +136,7 @@ typedef struct
 
   // font & color
   TTF_Font *menu_Font;
-  SDL_Color title_Color;
   SDL_Color text_Color;
-
-  // text
-  SDL_Texture *title_Text;
 
   // imgs
   SDL_Texture *static_Button;
@@ -156,7 +152,6 @@ typedef struct
   SDL_Texture *hover_Back_Shortcut;
 
   // coords
-  SDL_Rect title_Coords;
   SDL_Rect main_Background_Coords;
 
   // shortcuts
@@ -193,7 +188,7 @@ typedef struct
 typedef struct
 {
   // music
-  Mix_Music *title_music;
+  Mix_Music *menu_music;
 
   // chunk
   Mix_Chunk *bird_SFX;
@@ -202,13 +197,10 @@ typedef struct
   Mix_Chunk *click_SFX;
 
   // states
-  int pause;
-  int rewind;
   int mute;         // 0:volume  1:volume=0
   int music_volume; // 0 -> 100
   int SFX_volume;   // 0 -> 100
 
-  int menu_playing;
   int wind_play;
   int button_click_play;
   int bird_play;
