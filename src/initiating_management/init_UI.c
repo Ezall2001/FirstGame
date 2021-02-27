@@ -20,9 +20,22 @@ void init_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
   ui->text_Color.a = 0;
 
   // text
+  ui->title_Text = NULL;
   load_Texture_Text(&(ui->title_Text), &(ui->menu_Font), "Surrounded By Water", ui->title_Color, &(window->mainRenderer));
 
   // imgs
+  ui->static_Button = NULL;
+  ui->static_Blue_Button = NULL;
+  ui->hover_Button = NULL;
+  ui->click_Button = NULL;
+  ui->main_Background = NULL;
+  ui->mute_Shortcut = NULL;
+  ui->hover_Mute_Shortcut = NULL;
+  ui->unmute_Shortcut = NULL;
+  ui->hover_Unmute_Shortcut = NULL;
+  ui->back_Shortcut = NULL;
+  ui->hover_Back_Shortcut = NULL;
+
   load_Texture_Img(&(ui->static_Button), "./assets/imgs/menu/static_yellow_button.png", &(window->mainRenderer));
   load_Texture_Img(&(ui->static_Blue_Button), "./assets/imgs/menu/static_blue_button.png", &(window->mainRenderer));
   load_Texture_Img(&(ui->hover_Button), "./assets/imgs/menu/hover_blue_button.png", &(window->mainRenderer));
@@ -54,6 +67,7 @@ void init_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
 void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
 {
   //  --- button's background ---
+  ui->buttons_Background = NULL;
   load_Texture_Img(&(ui->buttons_Background), "./assets/imgs/menu/buttons_main_menu_background.png", &(window->mainRenderer));
 
   //  --- main buttons ---
@@ -65,6 +79,7 @@ void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow 
     strcpy(ui->scene_buttons[i].name, options[i]);
 
     // text
+    ui->scene_buttons[i].text = NULL;
     load_Texture_Text(&(ui->scene_buttons[i].text), &(common_ui->menu_Font), options[i], common_ui->text_Color, &(window->mainRenderer));
 
     // state
@@ -81,6 +96,14 @@ void init_Scene1_Menu(Menu_Scene1_UI *ui, Menu_Common_UI *common_ui, GameWindow 
 void init_Scene2_Menu(Menu_Scene2_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
 {
   // imgs
+  ui->settings_Backgournd = NULL;
+  ui->plus = NULL;
+  ui->minus = NULL;
+  ui->hover_Plus = NULL;
+  ui->hover_Minus = NULL;
+  ui->sound_Bar = NULL;
+  ui->sound_Scroller = NULL;
+
   load_Texture_Img(&(ui->settings_Backgournd), "./assets/imgs/menu/buttons_tutorial_settings_background.png", &(window->mainRenderer));
   load_Texture_Img(&(ui->plus), "./assets/imgs/menu/+.png", &(window->mainRenderer));
   load_Texture_Img(&(ui->minus), "./assets/imgs/menu/-.png", &(window->mainRenderer));
@@ -91,75 +114,90 @@ void init_Scene2_Menu(Menu_Scene2_UI *ui, Menu_Common_UI *common_ui, GameWindow 
 
   // --- settings title ---
   // text
+  ui->settings_Title_Text = NULL;
   load_Texture_Text(&(ui->settings_Title_Text), &(common_ui->menu_Font), "Settings", common_ui->text_Color, &(window->mainRenderer));
 
-  // --- music row ---
-  // music text
+  // --- sound rows ---
+  // titles
+  ui->music_Text = NULL;
+  ui->SFX_Text = NULL;
   load_Texture_Text(&(ui->music_Text), &(common_ui->menu_Font), "Music", common_ui->text_Color, &(window->mainRenderer));
-
-  // music minus controller
-  strcpy(ui->volume_Controllers[0].name, "Music_-");
-
-  ui->volume_Controllers[0].text = NULL;
-
-  ui->volume_Controllers[0].hover = 0;
-  ui->volume_Controllers[0].staged = 0;
-
-  // music volume scorller
-  strcpy(ui->volume_Scorllers[0].name, "Music_Scroller");
-
-  ui->volume_Scorllers[0].text = NULL;
-
-  ui->volume_Scorllers[0].hover = 0;
-  ui->volume_Scorllers[0].staged = 0;
-
-  // music plus controller
-  strcpy(ui->volume_Controllers[1].name, "Music_+");
-
-  ui->volume_Controllers[1].text = NULL;
-
-  ui->volume_Controllers[1].hover = 0;
-  ui->volume_Controllers[1].staged = 0;
-
-  // --- SFX row ---
-  // SFX text
   load_Texture_Text(&(ui->SFX_Text), &(common_ui->menu_Font), "SFX", common_ui->text_Color, &(window->mainRenderer));
 
-  // SFX minus controller
-  strcpy(ui->volume_Controllers[2].name, "SFX_-");
+  // scrollers
+  char volume_scrollers[2][20] = {"Music_Scroller", "SFX_Scroller"};
+  for (int i = 0; i < 2; i++)
+  {
+    strcpy(ui->volume_Scorllers[i].name, volume_scrollers[i]);
 
-  ui->volume_Controllers[2].text = NULL;
+    ui->volume_Scorllers[i].text = NULL;
+    ui->volume_Scorllers[i].hover = 0;
+    ui->volume_Scorllers[i].staged = 0;
+    ui->volume_Scorllers[i].selected = 0;
+  }
 
-  ui->volume_Controllers[2].hover = 0;
-  ui->volume_Controllers[2].staged = 0;
+  // controllers
+  char volume_controllers[4][20] = {"Music_-", "Music_+", "SFX_-", "SFX_+"};
+  for (int i = 0; i < 4; i++)
+  {
+    strcpy(ui->volume_Controllers[i].name, volume_controllers[i]);
+    ui->volume_Controllers[i].text = NULL;
 
-  //SFX volume scorller
-  strcpy(ui->volume_Scorllers[1].name, "SFX_Scroller");
-
-  ui->volume_Scorllers[1].text = NULL;
-
-  ui->volume_Scorllers[1].hover = 0;
-  ui->volume_Scorllers[1].staged = 0;
-
-  // SFX plus controller
-  strcpy(ui->volume_Controllers[3].name, "SFX_+");
-
-  ui->volume_Controllers[3].text = NULL;
-
-  ui->volume_Controllers[3].hover = 0;
-  ui->volume_Controllers[3].staged = 0;
+    ui->volume_Controllers[i].hover = 0;
+    ui->volume_Controllers[i].staged = 0;
+    ui->volume_Controllers[i].selected = 0;
+  }
 
   // --- resolution row ---
-  ///TODO: finish this
+  char resolutions[4][20] = {"FullScreen", "1920 x 1080", "1280 x 720"};
+  for (int i = 0; i < 3; i++)
+  {
+    strcpy(ui->resolution_Controllers[i].name, resolutions[i]);
+
+    ui->resolution_Controllers[i].text = NULL;
+    load_Texture_Text(&(ui->resolution_Controllers[i].text), &(common_ui->menu_Font), resolutions[i], common_ui->text_Color, &(window->mainRenderer));
+
+    ui->resolution_Controllers[i].staged = 0;
+    ui->resolution_Controllers[i].selected = 0;
+    ui->resolution_Controllers[i].hover = 0;
+  }
+  ui->resolution_Controllers[2].selected = 1;
+
+  // --- FPS row ---
+  char FPS[4][20] = {"uncapped", "144 FPS", "60 FPS"};
+  for (int i = 0; i < 3; i++)
+  {
+    strcpy(ui->fps_Controllers[i].name, FPS[i]);
+
+    ui->fps_Controllers[i].text = NULL;
+    load_Texture_Text(&(ui->fps_Controllers[i].text), &(common_ui->menu_Font), FPS[i], common_ui->text_Color, &(window->mainRenderer));
+
+    ui->fps_Controllers[i].staged = 0;
+    ui->fps_Controllers[i].selected = 0;
+    ui->fps_Controllers[i].hover = 0;
+  }
+  ui->fps_Controllers[2].selected = 1;
+
+  // --- credits ---
+  strcpy(ui->credits[0].name, "Credits");
+
+  ui->credits[0].text = NULL;
+  load_Texture_Text(&(ui->credits[0].text), &(common_ui->menu_Font), "Credits", common_ui->text_Color, &(window->mainRenderer));
+
+  ui->credits[0].staged = 0;
+  ui->credits[0].selected = 0;
+  ui->credits[0].hover = 0;
 }
 
 void init_Scene3_Menu(Menu_Scene3_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
 {
   // --- tutorial background ---
   // background
+  ui->tutorial_Backgournd = NULL;
   load_Texture_Img(&(ui->tutorial_Backgournd), "./assets/imgs/menu/buttons_tutorial_settings_background.png", &(window->mainRenderer));
 
   // --- tutorial title ---
+  ui->tutorial_Title_Text = NULL;
   load_Texture_Text(&(ui->tutorial_Title_Text), &(common_ui->menu_Font), "Tutorial", common_ui->text_Color, &(window->mainRenderer));
   ///TODO: finish this
 }

@@ -46,7 +46,17 @@ void mouse_motion_events(SDL_Event *event, GameObject *G)
     {
     case 0:
       mouse_Button_Collision(G->UI.scene0_UI.scene_buttons, 4, &(G->input));
+      break;
 
+    case 1:
+      ///TODO: finish this
+      break;
+
+    case 2:
+      mouse_Button_Collision(G->UI.scene2_UI.volume_Controllers, 4, &(G->input));
+      mouse_Button_Collision(G->UI.scene2_UI.resolution_Controllers, 3, &(G->input));
+      mouse_Button_Collision(G->UI.scene2_UI.fps_Controllers, 3, &(G->input));
+      mouse_Button_Collision(G->UI.scene2_UI.credits, 1, &(G->input));
       break;
 
     default:
@@ -68,11 +78,16 @@ void mouse_Input_events(SDL_Event *event, GameObject *G)
       case 0:
         stage_Button(G->UI.scene0_UI.scene_buttons, 4);
         break;
+
       case 1:
         ///TODO: finish this
         break;
+
       case 2:
-        ///TODO: finish this
+        stage_Button(G->UI.scene2_UI.volume_Controllers, 4);
+        stage_Button(G->UI.scene2_UI.resolution_Controllers, 3);
+        stage_Button(G->UI.scene2_UI.fps_Controllers, 3);
+        stage_Button(G->UI.scene2_UI.credits, 1);
         break;
       case 3:
         ///TODO: finish this
@@ -84,20 +99,25 @@ void mouse_Input_events(SDL_Event *event, GameObject *G)
     }
     else if (event->type == SDL_MOUSEBUTTONUP)
     {
-      click_Button(G->UI.common_UI.scene_shortcuts, 2, &(G->window), &(G->sound));
-      unstage_Buttons(G->UI.common_UI.scene_shortcuts, 2);
+      click_Button(G->UI.common_UI.scene_shortcuts, 2, &(G->window), &(G->sound), &(G->dev));
+
       switch (G->window.menu_scene)
       {
       case 0:
-        click_Button(G->UI.scene0_UI.scene_buttons, 4, &(G->window), &(G->sound));
-        unstage_Buttons(G->UI.scene0_UI.scene_buttons, 4);
+        click_Button(G->UI.scene0_UI.scene_buttons, 4, &(G->window), &(G->sound), &(G->dev));
         break;
+
       case 1:
         ///TODO: finish this
         break;
+
       case 2:
-        ///TODO: finish this
+        click_Button(G->UI.scene2_UI.volume_Controllers, 4, &(G->window), &(G->sound), &(G->dev));
+        click_Button(G->UI.scene2_UI.resolution_Controllers, 3, &(G->window), &(G->sound), &(G->dev));
+        click_Button(G->UI.scene2_UI.fps_Controllers, 3, &(G->window), &(G->sound), &(G->dev));
+        click_Button(G->UI.scene2_UI.credits, 1, &(G->window), &(G->sound), &(G->dev));
         break;
+
       case 3:
         ///TODO: finish this
         break;

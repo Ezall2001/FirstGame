@@ -13,6 +13,7 @@ void load_Texture_Img(SDL_Texture **texture, char path[], SDL_Renderer **rendere
   if (tempSurface == NULL)
     lib_errorLog("failed at loading img from path", IMG_GetError());
 
+  SDL_DestroyTexture(*texture);
   *texture = SDL_CreateTextureFromSurface(*renderer, tempSurface);
 
   SDL_FreeSurface(tempSurface);
@@ -27,7 +28,9 @@ void load_Texture_Text(SDL_Texture **texture, TTF_Font **font, char text[], SDL_
   if (tempSurface == NULL)
     lib_errorLog("failed at rendering font", TTF_GetError());
 
+  SDL_DestroyTexture(*texture);
   *texture = SDL_CreateTextureFromSurface(*renderer, tempSurface);
+
   if (*texture == NULL)
   {
     lib_errorLog("failed at creating texture from font", SDL_GetError());
@@ -36,12 +39,12 @@ void load_Texture_Text(SDL_Texture **texture, TTF_Font **font, char text[], SDL_
   SDL_FreeSurface(tempSurface);
 }
 
-float get_Text_W_ratio(Menu_Common_UI *common_ui, char text[])
+float get_Text_W_ratio(TTF_Font *font, char text[])
 {
   int text_w = 0, text_h = 0;
   float text_w_ratio = 1;
 
-  int mesure = TTF_SizeUTF8(common_ui->menu_Font, text, &text_w, &text_h);
+  int mesure = TTF_SizeUTF8(font, text, &text_w, &text_h);
   if (mesure != 0)
     lib_errorLog("failed at calculating the text mesures", TTF_GetError());
 

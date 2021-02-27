@@ -57,8 +57,10 @@ typedef struct
   SDL_Texture *text;
   SDL_Rect button_Coords;
   SDL_Rect text_Coords;
-  int hover;  // 0: static - 1: hover
-  int staged; // 0: nokeydown - 1: keydown
+  int hover;    // 0: static - 1: hover
+  int staged;   // 0: nokeydown - 1: keydown
+  int selected; // 0: notSelected - 1: selected
+
 } Button;
 
 typedef struct
@@ -106,9 +108,12 @@ typedef struct
   // buttons
   Button volume_Scorllers[2];
   Button volume_Controllers[4];
+  Button resolution_Controllers[3];
+  Button fps_Controllers[3];
+  Button credits[1];
+
   int row_Margin;
   int column_Margin;
-  ///TODO: find a solution for this to make the + - bar scroller  buttons
 
 } Menu_Scene2_UI;
 
@@ -223,6 +228,6 @@ typedef struct
 // utils
 void load_Texture_Img(SDL_Texture **texture, char path[], SDL_Renderer **renderer);
 void load_Texture_Text(SDL_Texture **texture, TTF_Font **font, char text[], SDL_Color color, SDL_Renderer **renderer);
-float get_Text_W_ratio(Menu_Common_UI *common_ui, char text[]);
+float get_Text_W_ratio(TTF_Font *font, char text[]);
 
 #endif

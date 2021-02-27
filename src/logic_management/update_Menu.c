@@ -55,7 +55,7 @@ void update_Menu_Scene0_Coords(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, Ga
     // text
     char options[4][10] = {"Start", "Settings", "Tutorial", "Quit"};
 
-    float text_w_ratio = get_Text_W_ratio(common_ui, options[i]);
+    float text_w_ratio = get_Text_W_ratio(common_ui->menu_Font, options[i]);
     int num_letters = strlen(ui->scene_buttons[i].name);
 
     ui->scene_buttons[i].text_Coords.w = ui->scene_buttons[i].button_Coords.w * 0.42 * ((float)num_letters / 8);
@@ -85,25 +85,25 @@ void update_Menu_Scene2_Coords(Menu_Scene2_UI *ui, Menu_Common_UI *common_ui, Ga
   ui->settings_Title_Coords.y = ui->settings_Backgournd_Coords.y - (ui->settings_Title_Coords.h / 2);
 
   // settings title text
-  float text_w_ratio = get_Text_W_ratio(common_ui, "Music");
+  float text_w_ratio = get_Text_W_ratio(common_ui->menu_Font, "Music");
 
   ui->settings_Title_Text_Coords.w = 0.3 * ui->settings_Title_Coords.w;
   ui->settings_Title_Text_Coords.h = ui->settings_Title_Text_Coords.w * text_w_ratio;
   ui->settings_Title_Text_Coords.x = ui->settings_Title_Coords.x + (ui->settings_Title_Coords.w - ui->settings_Title_Text_Coords.w) / 2;
   ui->settings_Title_Text_Coords.y = ui->settings_Title_Coords.y + (ui->settings_Title_Coords.h * 0.97 - ui->settings_Title_Text_Coords.h) / 2;
 
-  ui->row_Margin = 70 * window->win_width_ratio;
-  ui->column_Margin = 70 * window->win_width_ratio;
+  ui->row_Margin = 95 * window->win_width_ratio;
+  ui->column_Margin = 100 * window->win_width_ratio;
 
   // --- music row ---
   // music title
   ui->music_Title_Coords.w = 300 * window->win_width_ratio;
   ui->music_Title_Coords.h = 70 * window->win_width_ratio;
   ui->music_Title_Coords.x = ui->settings_Backgournd_Coords.x + ui->column_Margin;
-  ui->music_Title_Coords.y = ui->settings_Backgournd_Coords.y + ui->row_Margin * 2;
+  ui->music_Title_Coords.y = ui->settings_Backgournd_Coords.y + ui->row_Margin * 1.3;
 
   // music text
-  text_w_ratio = get_Text_W_ratio(common_ui, "Music");
+  text_w_ratio = get_Text_W_ratio(common_ui->menu_Font, "Music");
 
   ui->music_Title_Text_Coords.w = ui->music_Title_Coords.w * 0.3;
   ui->music_Title_Text_Coords.h = ui->music_Title_Text_Coords.w * text_w_ratio;
@@ -142,7 +142,7 @@ void update_Menu_Scene2_Coords(Menu_Scene2_UI *ui, Menu_Common_UI *common_ui, Ga
   ui->SFX_Title_Coords.y = ui->music_Title_Coords.y + ui->music_Title_Coords.h + ui->row_Margin;
 
   // SFX text
-  text_w_ratio = get_Text_W_ratio(common_ui, "SFX");
+  text_w_ratio = get_Text_W_ratio(common_ui->menu_Font, "SFX");
 
   ui->SFX_Title_Text_Coords.w = ui->SFX_Title_Coords.w * 0.3;
   ui->SFX_Title_Text_Coords.h = ui->SFX_Title_Text_Coords.w * text_w_ratio;
@@ -173,7 +173,48 @@ void update_Menu_Scene2_Coords(Menu_Scene2_UI *ui, Menu_Common_UI *common_ui, Ga
   ui->volume_Controllers[3].button_Coords.x = ui->SFX_Bar_Coords.x + ui->SFX_Bar_Coords.w + ui->column_Margin * 1.1;
   ui->volume_Controllers[3].button_Coords.y = ui->SFX_Bar_Coords.y + (ui->SFX_Bar_Coords.h - ui->volume_Controllers[3].button_Coords.h) / 2;
 
-  ///TODO: finish this
+  // --- resolutions row ---
+  for (int i = 0; i < 3; i++)
+  {
+    ui->resolution_Controllers[i].button_Coords.w = 450 * window->win_width_ratio;
+    ui->resolution_Controllers[i].button_Coords.h = 70 * window->win_width_ratio;
+    ui->resolution_Controllers[i].button_Coords.x = ui->SFX_Title_Coords.x + ((ui->resolution_Controllers[i].button_Coords.w + ui->column_Margin) * i);
+    ui->resolution_Controllers[i].button_Coords.y = ui->SFX_Title_Coords.y + ui->SFX_Title_Coords.h + ui->row_Margin;
+
+    text_w_ratio = get_Text_W_ratio(common_ui->menu_Font, ui->resolution_Controllers[i].name);
+    ui->resolution_Controllers[i].text_Coords.w = ui->resolution_Controllers[i].button_Coords.w * 0.5;
+    ui->resolution_Controllers[i].text_Coords.h = ui->resolution_Controllers[i].text_Coords.w * text_w_ratio;
+    ui->resolution_Controllers[i].text_Coords.x = ui->resolution_Controllers[i].button_Coords.x + (ui->resolution_Controllers[i].button_Coords.w - ui->resolution_Controllers[i].text_Coords.w) / 2;
+    ui->resolution_Controllers[i].text_Coords.y = ui->resolution_Controllers[i].button_Coords.y + (ui->resolution_Controllers[i].button_Coords.h - ui->resolution_Controllers[i].text_Coords.h) / 2;
+  }
+
+  // --- FPS row ---
+  for (int i = 0; i < 3; i++)
+  {
+    ui->fps_Controllers[i].button_Coords.w = 450 * window->win_width_ratio;
+    ui->fps_Controllers[i].button_Coords.h = 70 * window->win_width_ratio;
+    ui->fps_Controllers[i].button_Coords.x = ui->resolution_Controllers[0].button_Coords.x + ((ui->fps_Controllers[i].button_Coords.w + ui->column_Margin) * i);
+    ui->fps_Controllers[i].button_Coords.y = ui->resolution_Controllers[0].button_Coords.y + ui->resolution_Controllers[0].button_Coords.h + ui->row_Margin;
+
+    text_w_ratio = get_Text_W_ratio(common_ui->menu_Font, ui->fps_Controllers[i].name);
+    int num_letter = strlen(ui->fps_Controllers[i].name);
+    ui->fps_Controllers[i].text_Coords.w = ui->fps_Controllers[i].button_Coords.w * 0.06 * num_letter;
+    ui->fps_Controllers[i].text_Coords.h = ui->fps_Controllers[i].text_Coords.w * text_w_ratio;
+    ui->fps_Controllers[i].text_Coords.x = ui->fps_Controllers[i].button_Coords.x + (ui->fps_Controllers[i].button_Coords.w - ui->fps_Controllers[i].text_Coords.w) / 2;
+    ui->fps_Controllers[i].text_Coords.y = ui->fps_Controllers[i].button_Coords.y + (ui->fps_Controllers[i].button_Coords.h - ui->fps_Controllers[i].text_Coords.h) / 2;
+  }
+
+  // --- credits ---
+  ui->credits[0].button_Coords.w = 250 * window->win_width_ratio;
+  ui->credits[0].button_Coords.h = 60 * window->win_width_ratio;
+  ui->credits[0].button_Coords.x = ui->fps_Controllers[0].button_Coords.x;
+  ui->credits[0].button_Coords.y = ui->fps_Controllers[0].button_Coords.y + ui->fps_Controllers[0].button_Coords.h + ui->row_Margin;
+
+  text_w_ratio = get_Text_W_ratio(common_ui->menu_Font, ui->credits[0].name);
+  ui->credits[0].text_Coords.w = ui->credits[0].button_Coords.w * 0.5;
+  ui->credits[0].text_Coords.h = ui->credits[0].text_Coords.w * text_w_ratio;
+  ui->credits[0].text_Coords.x = ui->credits[0].button_Coords.x + (ui->credits[0].button_Coords.w - ui->credits[0].text_Coords.w) / 2;
+  ui->credits[0].text_Coords.y = ui->credits[0].button_Coords.y + (ui->credits[0].button_Coords.h - ui->credits[0].text_Coords.h) / 2;
 }
 
 void update_Menu_Scene3_Coords(Menu_Scene3_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
@@ -191,7 +232,7 @@ void update_Menu_Scene3_Coords(Menu_Scene3_UI *ui, Menu_Common_UI *common_ui, Ga
   ui->tutorial_Title_Coords.y = ui->tutorial_Backgournd_Coords.y - (ui->tutorial_Title_Coords.h / 2);
 
   // text coords
-  float text_w_ratio = get_Text_W_ratio(common_ui, "Tutorial");
+  float text_w_ratio = get_Text_W_ratio(common_ui->menu_Font, "Tutorial");
 
   ui->tutorial_Title_Text_Coords.w = 0.3 * ui->tutorial_Title_Coords.w;
   ui->tutorial_Title_Text_Coords.h = ui->tutorial_Title_Text_Coords.w * text_w_ratio;

@@ -11,28 +11,29 @@ void update_renderer(GameWindow *window)
 
 void render_FPS(GameWindow *window, DevUI *ui, GameDev dev)
 {
-  // converting FPS from int to string
-  char displayFPS[5];
-  itoa(dev.FPS, displayFPS, 10);
+  static float render_FPS_Delta = 100;
+  static SDL_Rect FPS_Coords = {0, 0, 0, 0};
 
-  // create the texture
-  SDL_Surface *FPS_surface = TTF_RenderUTF8_Solid(ui->dev_Font, displayFPS, ui->FPS_Color);
-  if (FPS_surface == NULL)
-    lib_errorLog("failed at rendering text surface", TTF_GetError());
+  render_FPS_Delta += dev.deltaTime * 1000;
 
-  ui->FPS_Text = SDL_CreateTextureFromSurface(window->mainRenderer, FPS_surface);
-  if (ui->FPS_Text == NULL)
-    lib_errorLog("failed at converting text surface to texture", SDL_GetError());
+  if (render_FPS_Delta / 100 >= 1)
+  {
+    // updating texture
+    char displayFPS[5];
+    itoa(dev.FPS, displayFPS, 10);
 
-  // copy to renderer
-  ///TODO: make this more flexible
-  SDL_Rect dstFPS = {0, 0, 20, 26};
-  if (((float)dev.FPS / 100) > 1)
-    dstFPS.w = 30;
+    load_Texture_Text(&(ui->FPS_Text), &(ui->dev_Font), displayFPS, ui->FPS_Color, &(window->mainRenderer));
 
-  int rendered = SDL_RenderCopy(window->mainRenderer, ui->FPS_Text, NULL, &dstFPS);
+    float text_w_ratio = get_Text_W_ratio(ui->dev_Font, displayFPS);
+    FPS_Coords.x = 1;
+    FPS_Coords.y = 1;
+    FPS_Coords.w = 10 * strlen(displayFPS);
+    FPS_Coords.h = 10 * text_w_ratio * strlen(displayFPS);
+
+    render_FPS_Delta = 0;
+  }
+
+  int rendered = SDL_RenderCopy(window->mainRenderer, ui->FPS_Text, NULL, &FPS_Coords);
   if (rendered != 0)
     lib_errorLog("failed at blit surface", SDL_GetError());
-
-  SDL_FreeSurface(FPS_surface);
 }

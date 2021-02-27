@@ -174,6 +174,55 @@ void render_Scene2_Menu(Menu_Scene2_UI *ui, Menu_Common_UI *common_ui, GameWindo
     if (rendered != 0)
       lib_errorLog("failed at rendering menu UI", SDL_GetError());
   }
+
+  // --- resolution row ---
+  for (int i = 0; i < 3; i++)
+  {
+    if (ui->resolution_Controllers[i].selected == 1)
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->static_Blue_Button, NULL, &(ui->resolution_Controllers[i].button_Coords));
+    else if (ui->resolution_Controllers[i].staged == 1)
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->click_Button, NULL, &(ui->resolution_Controllers[i].button_Coords));
+    else if (ui->resolution_Controllers[i].hover == 1)
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->hover_Button, NULL, &(ui->resolution_Controllers[i].button_Coords));
+    else
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->static_Button, NULL, &(ui->resolution_Controllers[i].button_Coords));
+
+    if (rendered != 0)
+      lib_errorLog("failed at rendering menu UI", SDL_GetError());
+
+    rendered = SDL_RenderCopy(window->mainRenderer, ui->resolution_Controllers[i].text, NULL, &(ui->resolution_Controllers[i].text_Coords));
+  }
+
+  // --- FPS row ---
+  for (int i = 0; i < 3; i++)
+  {
+    if (ui->fps_Controllers[i].selected == 1)
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->static_Blue_Button, NULL, &(ui->fps_Controllers[i].button_Coords));
+    else if (ui->fps_Controllers[i].staged == 1)
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->click_Button, NULL, &(ui->fps_Controllers[i].button_Coords));
+    else if (ui->fps_Controllers[i].hover == 1)
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->hover_Button, NULL, &(ui->fps_Controllers[i].button_Coords));
+    else
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->static_Button, NULL, &(ui->fps_Controllers[i].button_Coords));
+
+    if (rendered != 0)
+      lib_errorLog("failed at rendering menu UI", SDL_GetError());
+
+    rendered = SDL_RenderCopy(window->mainRenderer, ui->fps_Controllers[i].text, NULL, &(ui->fps_Controllers[i].text_Coords));
+  }
+
+  /// --- credits ---
+  if (ui->credits[0].staged == 1)
+    rendered = SDL_RenderCopy(window->mainRenderer, common_ui->static_Blue_Button, NULL, &(ui->credits[0].button_Coords));
+  else if (ui->credits[0].hover == 1)
+    rendered = SDL_RenderCopy(window->mainRenderer, common_ui->hover_Button, NULL, &(ui->credits[0].button_Coords));
+  else
+    rendered = SDL_RenderCopy(window->mainRenderer, common_ui->static_Button, NULL, &(ui->credits[0].button_Coords));
+
+  if (rendered != 0)
+    lib_errorLog("failed at rendering menu UI", SDL_GetError());
+
+  rendered = SDL_RenderCopy(window->mainRenderer, ui->credits[0].text, NULL, &(ui->credits[0].text_Coords));
 }
 
 void render_Scene3_Menu(Menu_Scene3_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
