@@ -23,6 +23,7 @@ void init_GameWindow(GameWindow *window)
   window->win_width_ratio = (float)window->w / window->default_w;
   window->game_scene = 0;
   window->menu_scene = 0;
+  window->popUp = 0;
 
   window->mainWindow = NULL;
   window->mainWindow = SDL_CreateWindow("Surrounded By Water", window->x, window->y, window->w, window->h, SDL_WINDOW_RESIZABLE);
@@ -106,4 +107,5 @@ void init_GameUI(GameUI *ui, GameWindow *window)
   init_Scene1_Menu(&(ui->scene1_UI), &(ui->common_UI), window);
   init_Scene2_Menu(&(ui->scene2_UI), &(ui->common_UI), window);
   init_Scene3_Menu(&(ui->scene3_UI), &(ui->common_UI), window);
+  init_Quit_PopUp(&(ui->quit_PopUp), &(ui->common_UI), window);
 }

@@ -7,8 +7,8 @@ void renderer_manager(GameObject *G)
 
   if (G->window.game_scene == 0)
   {
-
     render_Common_Menu(&(G->UI.common_UI), &(G->window), &(G->sound));
+
     switch (G->window.menu_scene)
     {
     case 0:
@@ -31,6 +31,9 @@ void renderer_manager(GameObject *G)
       break;
     }
   }
+
+  if (G->window.popUp == 1)
+    render_Quit_PopUp(&(G->UI.quit_PopUp), &(G->UI.common_UI), &(G->window));
 
   if (G->dev.show_FPS)
     render_FPS(&(G->window), &(G->UI.dev_UI), G->dev);

@@ -204,3 +204,29 @@ void init_DevUI(DevUI *ui)
   ui->FPS_Color.g = 255;
   ui->FPS_Color.b = 0;
 }
+
+void init_Quit_PopUp(Quit_PopUp *ui, Menu_Common_UI *common_ui, GameWindow *window)
+{
+  // texture
+  ui->pop_Background = NULL;
+  load_Texture_Img(&(ui->pop_Background), "./assets/imgs/menu/buttons_tutorial_settings_background.png", &(window->mainRenderer));
+
+  ui->title_Text = NULL;
+  load_Texture_Text(&(ui->title_Text), &(common_ui->menu_Font), "Confirm Quit", common_ui->text_Color, &(window->mainRenderer));
+
+  // buttons
+  char options[2][10] = {"Quit_Yes", "Quit_No"};
+  char text[2][10] = {"Yes", "No"};
+
+  for (int i = 0; i < 2; i++)
+  {
+    strcpy(ui->confirm[i].name, options[i]);
+
+    ui->confirm[i].text = NULL;
+    load_Texture_Text(&(ui->confirm[i].text), &(common_ui->menu_Font), text[i], common_ui->text_Color, &(window->mainRenderer));
+
+    ui->confirm[i].hover = 0;
+    ui->confirm[i].staged = 0;
+    ui->confirm[i].selected = 0;
+  }
+}

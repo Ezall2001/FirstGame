@@ -20,6 +20,7 @@ void window_events(SDL_Event *event, GameObject *G)
     update_Menu_Scene1_Coords(&(G->UI.scene1_UI), &(G->UI.common_UI), &(G->window));
     update_Menu_Scene2_Coords(&(G->UI.scene2_UI), &(G->UI.common_UI), &(G->window), &(G->sound));
     update_Menu_Scene3_Coords(&(G->UI.scene3_UI), &(G->UI.common_UI), &(G->window));
+    update_Quit_PopUp_Coords(&(G->UI.quit_PopUp), &(G->UI.common_UI), &(G->window));
 
     break;
   }
@@ -41,26 +42,37 @@ void mouse_motion_events(SDL_Event *event, GameObject *G)
 
   if (G->window.game_scene == 0)
   {
-    mouse_Button_Collision(G->UI.common_UI.scene_shortcuts, 2, &(G->input), &(G->sound));
-    switch (G->window.menu_scene)
+
+    if (G->window.popUp == 1)
     {
-    case 0:
-      mouse_Button_Collision(G->UI.scene0_UI.scene_buttons, 4, &(G->input), &(G->sound));
-      break;
+      mouse_Button_Collision(G->UI.quit_PopUp.confirm, 2, &(G->input), &(G->sound));
+    }
+    else if (G->window.popUp == 0)
+    {
+      mouse_Button_Collision(G->UI.common_UI.scene_shortcuts, 2, &(G->input), &(G->sound));
 
-    case 1:
-      ///TODO: finish this
-      break;
+      switch (G->window.menu_scene)
+      {
+      case 0:
+        mouse_Button_Collision(G->UI.scene0_UI.scene_buttons, 4, &(G->input), &(G->sound));
+        break;
 
-    case 2:
-      mouse_Button_Collision(G->UI.scene2_UI.volume_Controllers, 4, &(G->input), &(G->sound));
-      mouse_Button_Collision(G->UI.scene2_UI.resolution_Controllers, 3, &(G->input), &(G->sound));
-      mouse_Button_Collision(G->UI.scene2_UI.fps_Controllers, 3, &(G->input), &(G->sound));
-      mouse_Button_Collision(G->UI.scene2_UI.credits, 1, &(G->input), &(G->sound));
-      break;
+      case 1:
+        ///TODO: finish this
+        break;
 
-    default:
-      break;
+      case 2:
+        mouse_Button_Collision(G->UI.scene2_UI.volume_Controllers, 4, &(G->input), &(G->sound));
+        mouse_Button_Collision(G->UI.scene2_UI.resolution_Controllers, 3, &(G->input), &(G->sound));
+        mouse_Button_Collision(G->UI.scene2_UI.fps_Controllers, 3, &(G->input), &(G->sound));
+        mouse_Button_Collision(G->UI.scene2_UI.credits, 1, &(G->input), &(G->sound));
+        drag_Volume(G->UI.scene2_UI.volume_Scorllers, 2, &(G->input), &(G->sound), G->UI.scene2_UI.music_Bar_Coords);
+        mouse_Button_Collision(G->UI.scene2_UI.volume_Scorllers, 2, &(G->input), &(G->sound));
+        break;
+
+      default:
+        break;
+      }
     }
   }
 }
@@ -71,59 +83,77 @@ void mouse_Input_events(SDL_Event *event, GameObject *G)
   {
     if (event->type == SDL_MOUSEBUTTONDOWN)
     {
-      stage_Button(G->UI.common_UI.scene_shortcuts, 2);
-
-      switch (G->window.menu_scene)
+      if (G->window.popUp == 1)
       {
-      case 0:
-        stage_Button(G->UI.scene0_UI.scene_buttons, 4);
-        break;
+        stage_Button(G->UI.quit_PopUp.confirm, 2);
+      }
+      else if (G->window.popUp == 0)
+      {
+        stage_Button(G->UI.common_UI.scene_shortcuts, 2);
 
-      case 1:
-        ///TODO: finish this
-        break;
+        switch (G->window.menu_scene)
+        {
+        case 0:
+          stage_Button(G->UI.scene0_UI.scene_buttons, 4);
+          break;
 
-      case 2:
-        stage_Button(G->UI.scene2_UI.volume_Controllers, 4);
-        stage_Button(G->UI.scene2_UI.resolution_Controllers, 3);
-        stage_Button(G->UI.scene2_UI.fps_Controllers, 3);
-        stage_Button(G->UI.scene2_UI.credits, 1);
-        break;
-      case 3:
-        ///TODO: finish this
-        break;
+        case 1:
+          ///TODO: finish this
+          break;
 
-      default:
-        break;
+        case 2:
+          stage_Button(G->UI.scene2_UI.volume_Controllers, 4);
+          stage_Button(G->UI.scene2_UI.resolution_Controllers, 3);
+          stage_Button(G->UI.scene2_UI.fps_Controllers, 3);
+          stage_Button(G->UI.scene2_UI.credits, 1);
+          stage_Button(G->UI.scene2_UI.volume_Scorllers, 2);
+          break;
+
+        case 3:
+          ///TODO: finish this
+          break;
+
+        default:
+          break;
+        }
       }
     }
     else if (event->type == SDL_MOUSEBUTTONUP)
     {
-      click_Button(G->UI.common_UI.scene_shortcuts, 2, &(G->window), &(G->sound), &(G->dev));
-
-      switch (G->window.menu_scene)
+      if (G->window.popUp == 1)
       {
-      case 0:
-        click_Button(G->UI.scene0_UI.scene_buttons, 4, &(G->window), &(G->sound), &(G->dev));
-        break;
+        click_Button(G->UI.quit_PopUp.confirm, 2, &(G->window), &(G->sound), &(G->dev), &(G->UI));
+      }
+      else if (G->window.popUp == 0)
+      {
 
-      case 1:
-        ///TODO: finish this
-        break;
+        click_Button(G->UI.common_UI.scene_shortcuts, 2, &(G->window), &(G->sound), &(G->dev), &(G->UI));
 
-      case 2:
-        click_Button(G->UI.scene2_UI.volume_Controllers, 4, &(G->window), &(G->sound), &(G->dev));
-        click_Button(G->UI.scene2_UI.resolution_Controllers, 3, &(G->window), &(G->sound), &(G->dev));
-        click_Button(G->UI.scene2_UI.fps_Controllers, 3, &(G->window), &(G->sound), &(G->dev));
-        click_Button(G->UI.scene2_UI.credits, 1, &(G->window), &(G->sound), &(G->dev));
-        break;
+        switch (G->window.menu_scene)
+        {
+        case 0:
+          click_Button(G->UI.scene0_UI.scene_buttons, 4, &(G->window), &(G->sound), &(G->dev), &(G->UI));
+          break;
 
-      case 3:
-        ///TODO: finish this
-        break;
+        case 1:
+          ///TODO: finish this
+          break;
 
-      default:
-        break;
+        case 2:
+          click_Button(G->UI.scene2_UI.volume_Controllers, 4, &(G->window), &(G->sound), &(G->dev), &(G->UI));
+          click_Button(G->UI.scene2_UI.resolution_Controllers, 3, &(G->window), &(G->sound), &(G->dev), &(G->UI));
+          click_Button(G->UI.scene2_UI.fps_Controllers, 3, &(G->window), &(G->sound), &(G->dev), &(G->UI));
+          click_Button(G->UI.scene2_UI.credits, 1, &(G->window), &(G->sound), &(G->dev), &(G->UI));
+          click_Button(G->UI.scene2_UI.volume_Scorllers, 2, &(G->window), &(G->sound), &(G->dev), &(G->UI));
+          break;
+
+        case 3:
+          ///TODO: finish this
+          break;
+
+        default:
+          break;
+        }
       }
     }
   }

@@ -4,11 +4,15 @@
 void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window, GameSound *sound)
 {
   int rendered = -1;
+  ///TODO: add the animation
   // main background
   rendered = SDL_RenderCopy(window->mainRenderer, ui->main_Background, NULL, &(ui->main_Background_Coords));
   if (rendered != 0)
     lib_errorLog("failed at rendering menu UI", SDL_GetError());
-  rendered = -1;
+
+  // black layer
+  if (window->menu_scene != 0)
+    render_BlackLayer(window, 150);
 
   // shortcuts
   if (sound->mute == 0)
@@ -238,4 +242,45 @@ void render_Scene3_Menu(Menu_Scene3_UI *ui, Menu_Common_UI *common_ui, GameWindo
   if (rendered != 0)
     lib_errorLog("failed at rendering menu UI", SDL_GetError());
   ///TODO: finish this
+}
+
+void render_Quit_PopUp(Quit_PopUp *ui, Menu_Common_UI *common_ui, GameWindow *window)
+{
+  int rendered = -1;
+
+  // black layer
+  render_BlackLayer(window, 180);
+
+  // popup background
+  rendered = SDL_RenderCopy(window->mainRenderer, ui->pop_Background, NULL, &(ui->pop_Background_Coords));
+  if (rendered != 0)
+    lib_errorLog("failed at rendering popup", SDL_GetError());
+
+  // popup title background
+  rendered = SDL_RenderCopy(window->mainRenderer, common_ui->static_Blue_Button, NULL, &(ui->title_Background_Coords));
+  if (rendered != 0)
+    lib_errorLog("failed at rendering popup", SDL_GetError());
+
+  // popup title text
+  rendered = SDL_RenderCopy(window->mainRenderer, ui->title_Text, NULL, &(ui->title_Text_Coords));
+  if (rendered != 0)
+    lib_errorLog("failed at rendering popup", SDL_GetError());
+
+  // popup buttons
+  for (int i = 0; i < 2; i++)
+  {
+    if (ui->confirm[i].staged == 1)
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->static_Blue_Button, NULL, &(ui->confirm[i].button_Coords));
+    else if (ui->confirm[i].hover == 1)
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->hover_Button, NULL, &(ui->confirm[i].button_Coords));
+    else
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->static_Button, NULL, &(ui->confirm[i].button_Coords));
+
+    if (rendered != 0)
+      lib_errorLog("failed at rendering popup", SDL_GetError());
+
+    rendered = SDL_RenderCopy(window->mainRenderer, ui->confirm[i].text, NULL, &(ui->confirm[i].text_Coords));
+    if (rendered != 0)
+      lib_errorLog("failed at rendering popup", SDL_GetError());
+  }
 }

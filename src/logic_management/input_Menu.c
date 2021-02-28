@@ -12,8 +12,7 @@ void shortcut_Input(GameInput *input, GameSound *sound, GameWindow *window, Game
     case SDLK_ESCAPE:
     {
       if (window->menu_scene == 0)
-        ///TODO: make a popup to confirm exit
-        window->running = 0;
+        window->popUp = 1;
       else
         window->menu_scene = 0;
 
@@ -61,7 +60,6 @@ void shortcut_Input(GameInput *input, GameSound *sound, GameWindow *window, Game
       break;
     }
 
-      ///TODO: update the coords of the music and SFX slider
     case SDLK_KP_PLUS:
     {
       // music
@@ -75,6 +73,8 @@ void shortcut_Input(GameInput *input, GameSound *sound, GameWindow *window, Game
         sound->SFX_volume = 100;
       else
         sound->SFX_volume += 10;
+
+      update_Scroller_Coords(ui->scene2_UI.volume_Scorllers, 2, sound, ui->scene2_UI.music_Bar_Coords);
 
       sound->button_click_play = 1;
       break;
@@ -93,6 +93,8 @@ void shortcut_Input(GameInput *input, GameSound *sound, GameWindow *window, Game
         sound->SFX_volume = 0;
       else
         sound->SFX_volume -= 10;
+
+      update_Scroller_Coords(ui->scene2_UI.volume_Scorllers, 2, sound, ui->scene2_UI.music_Bar_Coords);
 
       sound->button_click_play = 1;
       break;
@@ -142,7 +144,7 @@ void shortcut_Input(GameInput *input, GameSound *sound, GameWindow *window, Game
     {
       if (window->menu_scene == 0)
       {
-        click_Button(ui->scene0_UI.scene_buttons, 4, window, sound, dev);
+        click_Button(ui->scene0_UI.scene_buttons, 4, window, sound, dev, ui);
         select = -1;
 
         sound->button_click_play = 1;
@@ -212,7 +214,48 @@ void stage_Button(Button buttons[], int num_Button)
   }
 }
 
-void click_Button(Button buttons[], int num_Button, GameWindow *window, GameSound *sound, GameDev *dev)
+void drag_Volume(Button buttons[], int num_Button, GameInput *input, GameSound *sound, SDL_Rect bar)
+{
+  for (int i = 0; i < num_Button; i++)
+  {
+    if (buttons[i].staged == 1)
+    {
+      if (strcmp(buttons[i].name, "Music_Scroller") == 0)
+      {
+        if (input->mouse_x <= bar.x)
+          sound->music_volume = 0;
+        else if (input->mouse_x >= bar.x + bar.w)
+          sound->music_volume = 100;
+        else
+          sound->music_volume = ((float)100 / bar.w) * (input->mouse_x - bar.x);
+      }
+      else if (strcmp(buttons[i].name, "SFX_Scroller") == 0)
+      {
+        if (input->mouse_x <= bar.x)
+          sound->SFX_volume = 0;
+        else if (input->mouse_x >= bar.x + bar.w)
+          sound->SFX_volume = 100;
+        else
+          sound->SFX_volume = ((float)100 / bar.w) * (input->mouse_x - bar.x);
+      }
+    }
+  }
+  update_Scroller_Coords(buttons, 2, sound, bar);
+}
+
+void update_Scroller_Coords(Button buttons[], int num_Button, GameSound *sound, SDL_Rect bar)
+{
+  for (int i = 0; i < num_Button; i++)
+  {
+    if (strcmp(buttons[i].name, "Music_Scroller") == 0)
+      buttons[i].button_Coords.x = bar.x + ((float)bar.w / 100) * sound->music_volume - buttons[i].button_Coords.w / 2;
+
+    else if (strcmp(buttons[i].name, "SFX_Scroller") == 0)
+      buttons[i].button_Coords.x = bar.x + ((float)bar.w / 100) * sound->SFX_volume - buttons[i].button_Coords.w / 2;
+  }
+}
+
+void click_Button(Button buttons[], int num_Button, GameWindow *window, GameSound *sound, GameDev *dev, GameUI *ui)
 {
   for (int i = 0; i < num_Button; i++)
   {
@@ -230,8 +273,16 @@ void click_Button(Button buttons[], int num_Button, GameWindow *window, GameSoun
         window->menu_scene = 3;
 
       else if (strcmp(buttons[i].name, "Quit") == 0)
+      {
+        window->popUp = 1;
+        buttons[i].hover = 0;
+      }
+
+      else if (strcmp(buttons[i].name, "Quit_Yes") == 0)
         window->running = 0;
-      ///TODO: popup to confirm exit
+
+      else if (strcmp(buttons[i].name, "Quit_No") == 0)
+        window->popUp = 0;
 
       else if (strcmp(buttons[i].name, "Mute") == 0)
         sound->mute = (sound->mute + 1) % 2;
@@ -245,6 +296,8 @@ void click_Button(Button buttons[], int num_Button, GameWindow *window, GameSoun
           sound->music_volume = 0;
         else
           sound->music_volume -= 5;
+
+        update_Scroller_Coords(ui->scene2_UI.volume_Scorllers, 2, sound, ui->scene2_UI.music_Bar_Coords);
       }
 
       else if (strcmp(buttons[i].name, "Music_+") == 0)
@@ -253,6 +306,8 @@ void click_Button(Button buttons[], int num_Button, GameWindow *window, GameSoun
           sound->music_volume = 100;
         else
           sound->music_volume += 5;
+
+        update_Scroller_Coords(ui->scene2_UI.volume_Scorllers, 2, sound, ui->scene2_UI.music_Bar_Coords);
       }
 
       else if (strcmp(buttons[i].name, "SFX_-") == 0)
@@ -261,6 +316,8 @@ void click_Button(Button buttons[], int num_Button, GameWindow *window, GameSoun
           sound->SFX_volume = 0;
         else
           sound->SFX_volume -= 5;
+
+        update_Scroller_Coords(ui->scene2_UI.volume_Scorllers, 2, sound, ui->scene2_UI.music_Bar_Coords);
       }
 
       else if (strcmp(buttons[i].name, "SFX_+") == 0)
@@ -269,6 +326,8 @@ void click_Button(Button buttons[], int num_Button, GameWindow *window, GameSoun
           sound->SFX_volume = 100;
         else
           sound->SFX_volume += 5;
+
+        update_Scroller_Coords(ui->scene2_UI.volume_Scorllers, 2, sound, ui->scene2_UI.music_Bar_Coords);
       }
 
       else if (strcmp(buttons[i].name, "FullScreen") == 0)

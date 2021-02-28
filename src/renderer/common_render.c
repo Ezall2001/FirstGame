@@ -37,3 +37,20 @@ void render_FPS(GameWindow *window, DevUI *ui, GameDev dev)
   if (rendered != 0)
     lib_errorLog("failed at blit surface", SDL_GetError());
 }
+
+void render_BlackLayer(GameWindow *window, Uint8 alpha)
+{
+  int setBlend = SDL_SetRenderDrawBlendMode(window->mainRenderer, SDL_BLENDMODE_BLEND);
+  if (setBlend != 0)
+    lib_errorLog("failed at setting blend mode", SDL_GetError());
+
+  int setColor = SDL_SetRenderDrawColor(window->mainRenderer, 0, 0, 0, alpha);
+  if (setColor != 0)
+    lib_errorLog("failed at setting renderer color", SDL_GetError());
+
+  SDL_Rect fullWindow = {0, 0, window->w, window->h};
+
+  int fillWindow = SDL_RenderFillRect(window->mainRenderer, &fullWindow);
+  if (fillWindow != 0)
+    lib_errorLog("failed at fill rect", SDL_GetError());
+}

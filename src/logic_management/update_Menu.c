@@ -235,3 +235,46 @@ void update_Menu_Scene3_Coords(Menu_Scene3_UI *ui, Menu_Common_UI *common_ui, Ga
 
   ///TODO: finish this
 }
+
+void update_Quit_PopUp_Coords(Quit_PopUp *ui, Menu_Common_UI *common_ui, GameWindow *window)
+{
+  // background
+  ui->pop_Background_Coords.w = window->w * 0.5;
+  ui->pop_Background_Coords.h = window->h * 0.4;
+  ui->pop_Background_Coords.x = (window->w - ui->pop_Background_Coords.w) / 2;
+  ui->pop_Background_Coords.y = (window->h - ui->pop_Background_Coords.h) / 2;
+
+  // title background
+  ui->title_Background_Coords.w = 450 * window->win_width_ratio;
+  ui->title_Background_Coords.h = 70 * window->win_width_ratio;
+  ui->title_Background_Coords.x = ui->pop_Background_Coords.x + (ui->pop_Background_Coords.w - ui->title_Background_Coords.w) / 2;
+  ui->title_Background_Coords.y = ui->pop_Background_Coords.y - (ui->title_Background_Coords.h / 2);
+
+  // title text
+  float text_ratio = get_Text_W_ratio(common_ui->menu_Font, "Confirm Quit");
+  ui->title_Text_Coords.w = ui->title_Background_Coords.w * 0.45;
+  ui->title_Text_Coords.h = ui->title_Text_Coords.w * text_ratio;
+  ui->title_Text_Coords.x = ui->title_Background_Coords.x + (ui->title_Background_Coords.w - ui->title_Text_Coords.w) / 2;
+  ui->title_Text_Coords.y = ui->title_Background_Coords.y + (ui->title_Background_Coords.h - ui->title_Text_Coords.h) / 2;
+
+  // buttons
+  ui->column_Margin = ui->pop_Background_Coords.w * 0.2;
+  char text[2][10] = {"Yes", "No"};
+
+  for (int i = 0; i < 2; i++)
+  {
+    // background
+    ui->confirm[i].button_Coords.w = 250 * window->win_width_ratio;
+    ui->confirm[i].button_Coords.h = 70 * window->win_width_ratio;
+    ui->confirm[i].button_Coords.x = ui->pop_Background_Coords.x + pow(-1, i) * ui->column_Margin + (ui->pop_Background_Coords.w - ui->confirm[i].button_Coords.w) * i;
+    ui->confirm[i].button_Coords.y = ui->pop_Background_Coords.y + (ui->pop_Background_Coords.h * 0.6);
+
+    // text
+    text_ratio = get_Text_W_ratio(common_ui->menu_Font, text[i]);
+    int num_letters = strlen(text[i]);
+    ui->confirm[i].text_Coords.w = ui->confirm[i].button_Coords.w * 0.1 * num_letters;
+    ui->confirm[i].text_Coords.h = ui->confirm[i].text_Coords.w * text_ratio;
+    ui->confirm[i].text_Coords.x = ui->confirm[i].button_Coords.x + (ui->confirm[i].button_Coords.w - ui->confirm[i].text_Coords.w) / 2;
+    ui->confirm[i].text_Coords.y = ui->confirm[i].button_Coords.y + (ui->confirm[i].button_Coords.h - ui->confirm[i].text_Coords.h) / 2;
+  }
+}

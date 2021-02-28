@@ -23,6 +23,7 @@ typedef struct
   float win_width_ratio;
   int game_scene; // 0:outgame - 1:ingame
   int menu_scene; // 0:mainMenu - 1:startMenu - 2:optionsMenu - 3:tutorialMenu
+  int popUp;      // 0:nopopUp - 1:QuitPopUp - 2:CreditsPopUp
 
 } GameWindow;
 
@@ -162,6 +163,28 @@ typedef struct
 
 typedef struct
 {
+  // texture
+  SDL_Texture *title_Text;
+  SDL_Texture *pop_Background;
+
+  // coords
+  SDL_Rect pop_Background_Coords;
+  SDL_Rect title_Text_Coords;
+  SDL_Rect title_Background_Coords;
+
+  // buttons
+  Button confirm[2];
+  int column_Margin;
+
+} Quit_PopUp;
+
+typedef struct
+{
+  ///TODO: finish this
+} Credits_PopUp;
+
+typedef struct
+{
 
   DevUI dev_UI;
   // menu
@@ -170,6 +193,10 @@ typedef struct
   Menu_Scene1_UI scene1_UI;
   Menu_Scene2_UI scene2_UI;
   Menu_Scene3_UI scene3_UI;
+
+  // pop ups
+  Quit_PopUp quit_PopUp;
+  Credits_PopUp credits_PopUp;
 
 } GameUI;
 
