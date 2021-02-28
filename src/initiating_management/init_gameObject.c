@@ -32,6 +32,20 @@ void init_GameWindow(GameWindow *window)
 
   SDL_SetWindowSize(window->mainWindow, window->w, window->h); // to avoid initin all the coords and then update them on resize
 
+  // game icon
+  SDL_RWops *icon_Path = SDL_RWFromFile("./assets/icons/game_icon.ico", "rb");
+  if (icon_Path == NULL)
+    lib_errorLog("failed at getting icon path", SDL_GetError());
+
+  SDL_Surface *game_Icon = IMG_LoadICO_RW(icon_Path);
+  if (game_Icon == NULL)
+    lib_errorLog("failed at loading icon", SDL_GetError());
+
+  SDL_SetWindowIcon(window->mainWindow, game_Icon);
+
+  SDL_FreeRW(icon_Path);
+  SDL_FreeSurface(game_Icon);
+
   // main renderer
   window->mainRenderer = SDL_CreateRenderer(window->mainWindow, -1, SDL_RENDERER_ACCELERATED);
   if (window->mainRenderer == NULL)
@@ -96,7 +110,7 @@ void init_GameSound(GameSound *sound)
   sound->wind_play = 0;
   sound->button_click_play = 0;
   sound->bird_play = 0;
-  sound->wave_play = 0;
+  sound->wave_play = 1;
 }
 
 void init_GameUI(GameUI *ui, GameWindow *window)

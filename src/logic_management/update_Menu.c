@@ -245,8 +245,8 @@ void update_Quit_PopUp_Coords(Quit_PopUp *ui, Menu_Common_UI *common_ui, GameWin
   ui->pop_Background_Coords.y = (window->h - ui->pop_Background_Coords.h) / 2;
 
   // title background
-  ui->title_Background_Coords.w = 450 * window->win_width_ratio;
-  ui->title_Background_Coords.h = 70 * window->win_width_ratio;
+  ui->title_Background_Coords.w = 360 * window->win_width_ratio;
+  ui->title_Background_Coords.h = 60 * window->win_width_ratio;
   ui->title_Background_Coords.x = ui->pop_Background_Coords.x + (ui->pop_Background_Coords.w - ui->title_Background_Coords.w) / 2;
   ui->title_Background_Coords.y = ui->pop_Background_Coords.y - (ui->title_Background_Coords.h / 2);
 
@@ -267,7 +267,7 @@ void update_Quit_PopUp_Coords(Quit_PopUp *ui, Menu_Common_UI *common_ui, GameWin
     ui->confirm[i].button_Coords.w = 250 * window->win_width_ratio;
     ui->confirm[i].button_Coords.h = 70 * window->win_width_ratio;
     ui->confirm[i].button_Coords.x = ui->pop_Background_Coords.x + pow(-1, i) * ui->column_Margin + (ui->pop_Background_Coords.w - ui->confirm[i].button_Coords.w) * i;
-    ui->confirm[i].button_Coords.y = ui->pop_Background_Coords.y + (ui->pop_Background_Coords.h * 0.6);
+    ui->confirm[i].button_Coords.y = ui->pop_Background_Coords.y + (ui->pop_Background_Coords.h * 0.45);
 
     // text
     text_ratio = get_Text_W_ratio(common_ui->menu_Font, text[i]);

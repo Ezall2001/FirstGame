@@ -248,5 +248,6 @@ typedef struct
 void load_Texture_Img(SDL_Texture **texture, char path[], SDL_Renderer **renderer);
 void load_Texture_Text(SDL_Texture **texture, TTF_Font **font, char text[], SDL_Color color, SDL_Renderer **renderer);
 float get_Text_W_ratio(TTF_Font *font, char text[]);
+Uint16 get_Random_Delay(MTRand *r, int min, int max);
 
 #endif

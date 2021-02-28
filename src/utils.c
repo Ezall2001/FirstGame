@@ -51,3 +51,8 @@ float get_Text_W_ratio(TTF_Font *font, char text[])
   text_w_ratio = (float)text_h / text_w;
   return text_w_ratio;
 }
+
+Uint16 get_Random_Delay(MTRand *r, int min, int max)
+{
+  long time = (genRandLong(r) % (max - min)) + min;
+}
