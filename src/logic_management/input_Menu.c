@@ -162,6 +162,10 @@ void shortcut_Input(GameInput *input, GameSound *sound, GameWindow *window, Game
           if (fullscreen != 0)
             lib_errorLog("failed at setting the window to full screen", SDL_GetError());
           window->fullScreen = 1;
+
+          ui->scene2_UI.resolution_Controllers[0].selected = 1;
+          ui->scene2_UI.resolution_Controllers[1].selected = 0;
+          ui->scene2_UI.resolution_Controllers[2].selected = 0;
         }
         else if (window->fullScreen == 1)
         {
@@ -171,6 +175,9 @@ void shortcut_Input(GameInput *input, GameSound *sound, GameWindow *window, Game
 
           SDL_SetWindowSize(window->mainWindow, window->max_w / 2, window->max_h / 2);
           window->fullScreen = 0;
+
+          for (int i = 0; i < 3; i++)
+            ui->scene2_UI.resolution_Controllers[i].selected = 0;
         }
 
         sound->button_click_play = 1;

@@ -50,7 +50,7 @@ void play_waves_SFX(GameSound *sound, MTRand *r)
 
             counting = 1;
             startCount = SDL_GetTicks();
-            delay = get_Random_Delay(r, 12000, 17000);
+            delay = get_Random_Number(r, 12000, 17000);
         }
     }
     else if (wave_pause == 1)
@@ -68,7 +68,7 @@ void play_waves_SFX(GameSound *sound, MTRand *r)
         {
             counting = 1;
             startCount = SDL_GetTicks();
-            delay = get_Random_Delay(r, 3000, 8000);
+            delay = get_Random_Number(r, 3000, 8000);
         }
     }
 }

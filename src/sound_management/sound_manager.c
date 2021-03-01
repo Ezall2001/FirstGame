@@ -30,6 +30,22 @@ void sound_manager(GameObject *G)
         }
 
         // waves SFX
-        play_waves_SFX(&(G->sound), &(G->dev.r));
+        play_waves_SFX(&(G->sound), &(G->window.r));
+
+        // bird SFX
+        if (G->sound.bird_play == 1)
+        {
+            if (!Mix_Playing(1))
+            {
+                play_bird_SFX(&(G->sound));
+            }
+        }
+        else if (G->sound.bird_play == 0)
+        {
+            if (Mix_Playing(1))
+            {
+                Mix_FadeOutChannel(1, 1500);
+            }
+        }
     }
 }

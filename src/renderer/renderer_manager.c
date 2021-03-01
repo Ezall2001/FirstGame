@@ -7,7 +7,7 @@ void renderer_manager(GameObject *G)
 
   if (G->window.game_scene == 0)
   {
-    render_Common_Menu(&(G->UI.common_UI), &(G->window), &(G->sound));
+    render_Common_Menu(&(G->UI.common_UI), &(G->window), &(G->sound), &(G->dev));
 
     switch (G->window.menu_scene)
     {

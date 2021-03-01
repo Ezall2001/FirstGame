@@ -17,6 +17,7 @@ typedef struct
 {
   SDL_Window *mainWindow;
   SDL_Renderer *mainRenderer;
+  MTRand r;
   int fullScreen;
   int running;
   int x, y, w, h, default_w, default_h, max_w, max_h;
@@ -39,7 +40,6 @@ typedef struct
   int frameDelayIndex;
   float frameDelayAvg;
   float deltaTime;
-  MTRand r;
 
 } GameDev;
 
@@ -152,8 +152,24 @@ typedef struct
   SDL_Texture *back_Shortcut;
   SDL_Texture *hover_Back_Shortcut;
 
+  // sprite
+  SDL_Texture *bird1[9];
+  SDL_Texture *bird2[9];
+  SDL_Texture *bird3[9];
+  SDL_Texture *wind[48];
+
   // coords
   SDL_Rect main_Background_Coords;
+  SDL_Rect birdCoords;
+  SDL_Rect dst_birdCoords;
+  SDL_Rect windCoords[3];
+  SDL_Rect dst_windCoords[3];
+
+  // animation states
+  float bird_speed;
+  float wind_speed;
+  int bird_animation_play; // 0:noAnimation - 1:bird1 - 2:bird2 - 3:bird3 - negative:flipAnimation
+  int wind_animation_play;
 
   // shortcuts
   Button scene_shortcuts[2];
@@ -207,7 +223,7 @@ typedef struct
 
   // keyboard
   int ctrl;
-  SDL_KeyCode keys[50];
+  int keys[50];
   int num_keys;
 
 } GameInput;
@@ -247,7 +263,8 @@ typedef struct
 // utils
 void load_Texture_Img(SDL_Texture **texture, char path[], SDL_Renderer **renderer);
 void load_Texture_Text(SDL_Texture **texture, TTF_Font **font, char text[], SDL_Color color, SDL_Renderer **renderer);
+void load_Sprite(SDL_Texture **texture, int num, char path[], SDL_Renderer **renderer);
 float get_Text_W_ratio(TTF_Font *font, char text[]);
-Uint16 get_Random_Delay(MTRand *r, int min, int max);
+Uint16 get_Random_Number(MTRand *r, int min, int max);
 
 #endif

@@ -1,7 +1,7 @@
 #include "../headers/renderer.h"
 #include "../headers/dev.h"
 
-void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window, GameSound *sound)
+void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, GameDev *dev)
 {
   int rendered = -1;
   ///TODO: add the animation
@@ -46,6 +46,51 @@ void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window, GameSound *sound
       rendered = SDL_RenderCopy(window->mainRenderer, ui->back_Shortcut, NULL, &(ui->scene_shortcuts[1].button_Coords));
   }
 
+  if (rendered != 0)
+    lib_errorLog("failed at rendering menu UI", SDL_GetError());
+
+  // bird animation
+  static float delta_bird = 0;
+  static int bird_img = 0;
+  if (ui->bird_animation_play != 0)
+  {
+    delta_bird += dev->deltaTime;
+    if (delta_bird > ((float)0.5 / 9))
+    {
+      delta_bird = 0;
+      bird_img = (bird_img + 1) % 9;
+    }
+  }
+  else
+  {
+    delta_bird = 0;
+    bird_img = 0;
+  }
+
+  if (ui->bird_animation_play == 1)
+  {
+    rendered = SDL_RenderCopy(window->mainRenderer, ui->bird1[bird_img], NULL, &(ui->birdCoords));
+  }
+  else if (ui->bird_animation_play == -1)
+  {
+    rendered = SDL_RenderCopyEx(window->mainRenderer, ui->bird1[bird_img], NULL, &(ui->birdCoords), 0, NULL, SDL_FLIP_HORIZONTAL);
+  }
+  else if (ui->bird_animation_play == 2)
+  {
+    rendered = SDL_RenderCopy(window->mainRenderer, ui->bird2[bird_img], NULL, &(ui->birdCoords));
+  }
+  else if (ui->bird_animation_play == -2)
+  {
+    rendered = SDL_RenderCopyEx(window->mainRenderer, ui->bird2[bird_img], NULL, &(ui->birdCoords), 0, NULL, SDL_FLIP_HORIZONTAL);
+  }
+  else if (ui->bird_animation_play == 3)
+  {
+    rendered = SDL_RenderCopyEx(window->mainRenderer, ui->bird3[bird_img], NULL, &(ui->birdCoords), 0, NULL, SDL_FLIP_HORIZONTAL);
+  }
+  else if (ui->bird_animation_play == -3)
+  {
+    rendered = SDL_RenderCopy(window->mainRenderer, ui->bird3[bird_img], NULL, &(ui->birdCoords));
+  }
   if (rendered != 0)
     lib_errorLog("failed at rendering menu UI", SDL_GetError());
 }

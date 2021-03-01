@@ -278,3 +278,113 @@ void update_Quit_PopUp_Coords(Quit_PopUp *ui, Menu_Common_UI *common_ui, GameWin
     ui->confirm[i].text_Coords.y = ui->confirm[i].button_Coords.y + (ui->confirm[i].button_Coords.h - ui->confirm[i].text_Coords.h) / 2;
   }
 }
+
+void bird_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, GameDev *dev)
+{
+  static int delay = 0;
+  static Uint32 startCount = 0;
+  static int init_anim = 0;
+  static int count = 0;
+  static float real_x = 0;
+  static float real_y = 0;
+  static float w = 0, h = 0;
+  static int last_annim = 0;
+
+  if (ui->bird_animation_play != 0)
+  {
+    if (init_anim != 0)
+    {
+      ui->bird_speed = get_Random_Number(&(window->r), 100, 200) * window->win_width_ratio * dev->deltaTime;
+
+      ui->birdCoords.w = w * window->win_width_ratio;
+      ui->birdCoords.h = h * window->win_width_ratio;
+
+      float d = sqrt(pow(real_x - ui->dst_birdCoords.x, 2) + pow(real_y - ui->dst_birdCoords.y, 2));
+      float new_d = d - ui->bird_speed;
+      if (ui->bird_animation_play < 0)
+      {
+        real_x = ((fabs(ui->dst_birdCoords.x - real_x) * new_d) / d) + ui->dst_birdCoords.x;
+      }
+      else
+      {
+        real_x = ui->dst_birdCoords.x - ((fabs(ui->dst_birdCoords.x - real_x) * new_d) / d);
+      }
+
+      if (real_y > ui->dst_birdCoords.y)
+      {
+        real_y = ui->dst_birdCoords.y + ((fabs(ui->dst_birdCoords.y - real_y) * new_d) / d);
+      }
+      else
+      {
+        real_y = ui->dst_birdCoords.y - ((fabs(ui->dst_birdCoords.y - real_y) * new_d) / d);
+      }
+
+      ui->birdCoords.x = (int)real_x;
+      ui->birdCoords.y = (int)real_y;
+
+      if (new_d <= 0)
+      {
+        init_anim = 0;
+        ui->bird_animation_play = 0;
+        sound->bird_play = 0;
+      }
+    }
+    else if (init_anim == 0)
+    {
+      ui->bird_speed = get_Random_Number(&(window->r), 100, 200) * window->win_width_ratio * dev->deltaTime;
+      if (ui->bird_speed == 0)
+        ui->bird_speed = 1;
+
+      w = 200 * ((float)get_Random_Number(&(window->r), 50, 100) / 100) * window->win_width_ratio;
+      h = 200 * ((float)get_Random_Number(&(window->r), 50, 100) / 100) * window->win_width_ratio;
+      ui->birdCoords.w = w;
+      ui->birdCoords.h = h;
+
+      // dst coords
+      if (ui->bird_animation_play < 0)
+        ui->dst_birdCoords.x = -ui->birdCoords.w;
+      else
+        ui->dst_birdCoords.x = window->w;
+      ui->dst_birdCoords.y = get_Random_Number(&(window->r), 10, window->h * 0.7);
+
+      // starting coords
+
+      if (ui->bird_animation_play < 0)
+        real_x = window->w;
+      else
+        real_x = -ui->birdCoords.w;
+      real_y = get_Random_Number(&(window->r), 10, window->h * 0.7);
+
+      ui->birdCoords.x = real_x;
+      ui->birdCoords.y = real_y;
+
+      sound->bird_play = 1;
+
+      init_anim = 1;
+    }
+  }
+  else if (ui->bird_animation_play == 0)
+  {
+    if (count == 1)
+    {
+      if (SDL_GetTicks() - startCount > delay)
+      {
+        do
+        {
+          ui->bird_animation_play = get_Random_Number(&(window->r), 1, 7);
+          if (ui->bird_animation_play > 3)
+            ui->bird_animation_play = 3 - ui->bird_animation_play;
+        } while (ui->bird_animation_play == last_annim);
+
+        last_annim = ui->bird_animation_play;
+        count = 0;
+      }
+    }
+    else if (count == 0)
+    {
+      startCount = SDL_GetTicks();
+      delay = get_Random_Number(&(window->r), 2000, 5000);
+      count = 1;
+    }
+  }
+}

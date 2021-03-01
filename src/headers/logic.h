@@ -26,4 +26,7 @@ void click_Button(Button buttons[], int num_Button, GameWindow *window, GameSoun
 void drag_Volume(Button buttons[], int num_Button, GameInput *input, GameSound *sound, SDL_Rect bar);
 void update_Scroller_Coords(Button buttons[], int num_Button, GameSound *sound, SDL_Rect bar);
 
+// animation
+void bird_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, GameDev *dev);
+
 #endif

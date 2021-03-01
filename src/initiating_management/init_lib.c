@@ -20,7 +20,7 @@ void init_lib()
     lib_errorLog("failed at TTF_Init", TTF_GetError());
 
   //init SDL_mixer
-  int MIX_flags = MIX_INIT_MP3; ///TODO: check for init wav;
+  int MIX_flags = MIX_INIT_MP3;
   int MIX_bitmask = Mix_Init(MIX_flags);
   if ((MIX_bitmask & MIX_flags) != MIX_flags)
     lib_errorLog("failed at MIX_init", Mix_GetError());

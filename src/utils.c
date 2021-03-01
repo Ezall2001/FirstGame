@@ -52,7 +52,25 @@ float get_Text_W_ratio(TTF_Font *font, char text[])
   return text_w_ratio;
 }
 
-Uint16 get_Random_Delay(MTRand *r, int min, int max)
+Uint16 get_Random_Number(MTRand *r, int min, int max)
 {
-  long time = (genRandLong(r) % (max - min)) + min;
+  int time = (genRandLong(r) % (max - min)) + min;
+  return time;
+}
+
+void load_Sprite(SDL_Texture *texture[], int num, char path[], SDL_Renderer **renderer)
+{
+  char complete_Path[100];
+  for (int i = 0; i < num; i++)
+  {
+    char img_num[3];
+    itoa(i, img_num, 10);
+
+    strcpy(complete_Path, path);
+    strcat(complete_Path, img_num);
+    strcat(complete_Path, ".png\0");
+
+    texture[i] = NULL;
+    load_Texture_Img(&(texture[i]), complete_Path, renderer);
+  }
 }

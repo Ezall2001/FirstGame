@@ -18,6 +18,7 @@ void init_GameWindow(GameWindow *window)
   window->default_w = 1920;
   window->default_h = 1080;
 
+  window->r = seedRand(time(NULL));
   window->fullScreen = 0;
   window->running = 1;
   window->win_width_ratio = (float)window->w / window->default_w;
@@ -62,7 +63,6 @@ void init_GameDev(GameDev *dev)
   dev->frameDelayCount = 0;
   dev->frameDelayIndex = 0;
   dev->frameDelayAvg = 0;
-  dev->r = seedRand(time(NULL));
 }
 
 void init_GameInput(GameInput *input)

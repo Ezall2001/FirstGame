@@ -53,6 +53,19 @@ void init_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
     ui->scene_shortcuts[i].hover = 0;
     ui->scene_shortcuts[i].staged = 0;
   }
+
+  // --- animation ---
+  // sprite
+  load_Sprite(ui->bird1, 9, "./assets/sprites/menu/bird1/", &(window->mainRenderer));
+  load_Sprite(ui->bird2, 9, "./assets/sprites/menu/bird2/", &(window->mainRenderer));
+  load_Sprite(ui->bird3, 9, "./assets/sprites/menu/bird3/", &(window->mainRenderer));
+  load_Sprite(ui->wind, 48, "./assets/sprites/menu/wind/", &(window->mainRenderer));
+
+  // states
+  ui->bird_speed = 0;
+  ui->wind_speed = 0;
+  ui->bird_animation_play = 0;
+  ui->wind_animation_play = 0;
 }
 
 void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
