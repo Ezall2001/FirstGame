@@ -54,8 +54,8 @@ float get_Text_W_ratio(TTF_Font *font, char text[])
 
 Uint16 get_Random_Number(MTRand *r, int min, int max)
 {
-  int time = (genRandLong(r) % (max - min)) + min;
-  return time;
+  int rd = (genRandLong(r) % (max - min)) + min;
+  return rd;
 }
 
 void load_Sprite(SDL_Texture *texture[], int num, char path[], SDL_Renderer **renderer)

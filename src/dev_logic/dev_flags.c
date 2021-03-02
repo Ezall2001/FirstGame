@@ -28,3 +28,9 @@ void set_FPS_cap(char flag[], GameDev *dev)
   if (strcmp(extFlag, "limit_fps") == 0)
     dev->FPS_cap = atoi(extVal);
 }
+
+void set_mute(char flag[], GameSound *sound)
+{
+  if (strcmp(flag, "mute") == 0)
+    sound->mute = 1;
+}

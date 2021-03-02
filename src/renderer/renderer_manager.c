@@ -31,6 +31,7 @@ void renderer_manager(GameObject *G)
       break;
     }
   }
+  menu_intro(&(G->window), &(G->dev));
 
   if (G->window.popUp == 1)
     render_Quit_PopUp(&(G->UI.quit_PopUp), &(G->UI.common_UI), &(G->window));
