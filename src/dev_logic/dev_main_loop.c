@@ -8,6 +8,13 @@ void dev_loop(GameObject *G)
 
 void calcFPS(GameDev *dev)
 {
+  static int firstFrameBug = 1;
+  if (firstFrameBug)
+  {
+    dev->prevTick = SDL_GetTicks();
+    firstFrameBug = 0;
+  }
+
   dev->currTick = SDL_GetTicks();
   dev->frameDelays[dev->frameDelayIndex] = dev->currTick - dev->prevTick;
   dev->prevTick = dev->currTick;

@@ -59,7 +59,7 @@ void init_GameDev(GameDev *dev)
   dev->FPS = 0;
   dev->FPS_cap = 60;
   dev->currTick = 0;
-  dev->prevTick = 0;
+  dev->prevTick = SDL_GetTicks();
   dev->frameDelayCount = 0;
   dev->frameDelayIndex = 0;
   dev->frameDelayAvg = 0;

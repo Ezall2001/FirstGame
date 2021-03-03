@@ -388,3 +388,68 @@ void bird_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, Ga
     }
   }
 }
+
+void wind_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, GameDev *dev)
+{
+  static int delay = 0;
+  static Uint32 startCount = 0;
+  static int init_anim = 0;
+  static int count = 0;
+  static float real_x = 0;
+  static float real_y = 0;
+  static float w = 0, h = 0;
+
+  if (ui->wind_animation_play != 0)
+  {
+    if (init_anim == 1)
+    {
+      int i = 0;
+    }
+    else if (init_anim == 0)
+    {
+      w = get_Random_Number(&(window->r), 100, 200) * window->win_width_ratio;
+      h = get_Random_Number(&(window->r), 100, 200) * window->win_width_ratio;
+      real_x = get_Random_Number(&(window->r), 0, window->w - (w * 3));
+      real_y = get_Random_Number(&(window->r), window->h * 0.1, window->h * 0.65);
+
+      sound->bird_play = 1;
+      init_anim = 1;
+    }
+  }
+  else if (ui->wind_animation_play == 0)
+  {
+    if (count == 1)
+    {
+      if (SDL_GetTicks() - startCount > delay)
+      {
+        ui->wind_animation_play = get_Random_Number(&(window->r), 1, 7);
+        if (ui->wind_animation_play > 3)
+          ui->wind_animation_play = 3 - ui->wind_animation_play;
+        count = 0;
+      }
+    }
+    else if (count == 0)
+    {
+      startCount = SDL_GetTicks();
+      delay = get_Random_Number(&(window->r), 3000, 7000);
+      count = 1;
+    }
+  }
+}
+
+void menu_Intro_Animation(Menu_Common_UI *ui, GameWindow *window, GameDev *dev)
+{
+  static float w_mod = 1;
+  static float h_mod = 1;
+
+  if (w_mod > 0 || h_mod > 0)
+  {
+    ui->main_Background_Coords.w = window->w * (1 + 0.25 * w_mod);
+    ui->main_Background_Coords.h = window->h * (1 + 0.25 * h_mod);
+    ui->main_Background_Coords.x = -fabs(ui->main_Background_Coords.w - window->w) / 2;
+    ui->main_Background_Coords.y = -fabs(ui->main_Background_Coords.h - window->h) / 2;
+
+    w_mod -= 1 * dev->deltaTime;
+    h_mod -= 1 * dev->deltaTime;
+  }
+}

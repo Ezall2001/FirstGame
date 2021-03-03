@@ -4,27 +4,9 @@
 void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, GameDev *dev)
 {
   int rendered = -1;
+
   // main background
-  static float w_mod = 1;
-  static float h_mod = 1;
-  SDL_Rect modified_Coords;
-
-  if (w_mod > 0 || h_mod > 0)
-  {
-    modified_Coords.w = ui->main_Background_Coords.w + window->w * w_mod;
-    modified_Coords.h = ui->main_Background_Coords.h + window->h * h_mod;
-    modified_Coords.x = -fabs(modified_Coords.w - window->w) / 2;
-    modified_Coords.y = -fabs(modified_Coords.h - window->h) / 2;
-
-    w_mod -= 0.5 * dev->deltaTime;
-    h_mod -= 0.5 * dev->deltaTime;
-
-    rendered = SDL_RenderCopy(window->mainRenderer, ui->main_Background, NULL, &modified_Coords);
-  }
-  else
-  {
-    rendered = SDL_RenderCopy(window->mainRenderer, ui->main_Background, NULL, &(ui->main_Background_Coords));
-  }
+  rendered = SDL_RenderCopy(window->mainRenderer, ui->main_Background, NULL, &(ui->main_Background_Coords));
 
   if (rendered != 0)
     lib_errorLog("failed at rendering menu UI", SDL_GetError());
@@ -355,8 +337,8 @@ void menu_intro(GameWindow *window, GameDev *dev)
   float alpha = 255;
   if (alpha_mod > 0)
   {
-    alpha = 275 * alpha_mod;
+    alpha = 255 * alpha_mod;
     render_BlackLayer(window, alpha);
-    alpha_mod -= .5 * dev->deltaTime;
+    alpha_mod -= 0.5 * dev->deltaTime;
   }
 }
