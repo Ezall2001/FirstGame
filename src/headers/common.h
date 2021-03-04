@@ -162,8 +162,7 @@ typedef struct
   SDL_Rect main_Background_Coords;
   SDL_Rect birdCoords;
   SDL_Rect dst_birdCoords;
-  SDL_Rect windCoords[3];
-  SDL_Rect dst_windCoords[3];
+  SDL_Rect windCoords;
 
   // animation states
   float bird_speed;

@@ -288,13 +288,16 @@ void bird_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, Ga
   static float real_x = 0;
   static float real_y = 0;
   static float w = 0, h = 0;
+  static float speed = 0;
   static int last_annim = 0;
 
   if (ui->bird_animation_play != 0)
   {
     if (init_anim != 0)
     {
-      ui->bird_speed = get_Random_Number(&(window->r), 100, 200) * window->win_width_ratio * dev->deltaTime;
+      ui->bird_speed = speed * window->win_width_ratio * dev->deltaTime;
+      if (ui->bird_speed == 0)
+        ui->bird_speed = 1;
 
       ui->birdCoords.w = w * window->win_width_ratio;
       ui->birdCoords.h = h * window->win_width_ratio;
@@ -331,9 +334,7 @@ void bird_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, Ga
     }
     else if (init_anim == 0)
     {
-      ui->bird_speed = get_Random_Number(&(window->r), 100, 200) * window->win_width_ratio * dev->deltaTime;
-      if (ui->bird_speed == 0)
-        ui->bird_speed = 1;
+      speed = get_Random_Number(&(window->r), 100, 200);
 
       w = 200 * ((float)get_Random_Number(&(window->r), 50, 100) / 100) * window->win_width_ratio;
       h = 200 * ((float)get_Random_Number(&(window->r), 50, 100) / 100) * window->win_width_ratio;
@@ -398,21 +399,40 @@ void wind_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, Ga
   static float real_x = 0;
   static float real_y = 0;
   static float w = 0, h = 0;
-
+  static float speed = 0;
+  static int wind_part = 0;
+  /// TODO: finish wind animation
   if (ui->wind_animation_play != 0)
   {
     if (init_anim == 1)
     {
-      int i = 0;
+      ui->wind_speed = speed * window->win_width_ratio * dev->deltaTime;
+      ui->windCoords.w = w * window->win_width_ratio;
+      ui->windCoords.h = h * window->win_width_ratio;
+
+      if (ui->wind_animation_play < 0)
+      {
+        ui->wind_speed = ui->wind_speed * -1;
+      }
+      real_x += ui->wind_speed;
+      real_y += ui->windCoords.h * (wind_part % 2);
+
+      ui->windCoords.x = (int)real_x;
+      ui->windCoords.y = (int)real_y;
+
+      coords_log(ui->windCoords.x, ui->windCoords.y, ui->windCoords.w, ui->windCoords.h);
     }
     else if (init_anim == 0)
     {
+      speed = get_Random_Number(&(window->r), 100, 200);
       w = get_Random_Number(&(window->r), 100, 200) * window->win_width_ratio;
       h = get_Random_Number(&(window->r), 100, 200) * window->win_width_ratio;
-      real_x = get_Random_Number(&(window->r), 0, window->w - (w * 3));
+      real_x = get_Random_Number(&(window->r), w * 3, window->w - (w * 3));
       real_y = get_Random_Number(&(window->r), window->h * 0.1, window->h * 0.65);
 
-      sound->bird_play = 1;
+      wind_part = 0;
+
+      sound->wind_play = 1;
       init_anim = 1;
     }
   }
@@ -431,7 +451,7 @@ void wind_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, Ga
     else if (count == 0)
     {
       startCount = SDL_GetTicks();
-      delay = get_Random_Number(&(window->r), 3000, 7000);
+      delay = 0; //get_Random_Number(&(window->r), 3000, 7000);
       count = 1;
     }
   }

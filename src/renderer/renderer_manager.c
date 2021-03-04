@@ -36,7 +36,7 @@ void renderer_manager(GameObject *G)
   if (G->window.popUp == 1)
     render_Quit_PopUp(&(G->UI.quit_PopUp), &(G->UI.common_UI), &(G->window));
 
-  if (G->dev.show_FPS)
+  if (G->dev.show_FPS == 1)
     render_FPS(&(G->window), &(G->UI.dev_UI), G->dev);
 
   SDL_RenderPresent(G->window.mainRenderer);

@@ -13,7 +13,7 @@ void set_FPS_cap(char flag[], GameDev *dev);
 void set_mute(char flag[], GameSound *sound);
 
 // scenarios
-void proto1(char scn[]);
+void proto1(char scn[], GameObject *G);
 void lvl_simulation(char scn[]);
 void responsive_UI(char scn[]);
 

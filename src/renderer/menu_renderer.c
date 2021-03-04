@@ -94,6 +94,14 @@ void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window, GameSound *sound
   }
   if (rendered != 0)
     lib_errorLog("failed at rendering menu UI", SDL_GetError());
+
+  // wind animation
+  if (ui->wind_animation_play != 0)
+  {
+    rendered = SDL_RenderCopy(window->mainRenderer, ui->wind[20], NULL, &(ui->windCoords));
+  }
+  if (rendered != 0)
+    lib_errorLog("failed at rendering menu UI", SDL_GetError());
 }
 
 void render_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
