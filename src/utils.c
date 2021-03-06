@@ -1,14 +1,4 @@
-#include "./headers/dev.h"
-
-void lib_errorLog(char msg[], const char *error)
-{
-  printf("%s: %s\n", msg, error);
-}
-
-void coords_log(float x, float y, float w, float h)
-{
-  printf("x: %.3f   y: %.3f   w: %.3f   h: %.3f\n", x, y, w, h);
-}
+#include "./headers/common.h"
 
 void load_Texture_Img(SDL_Texture **texture, char path[], SDL_Renderer **renderer)
 {
@@ -28,6 +18,23 @@ void load_Texture_Img(SDL_Texture **texture, char path[], SDL_Renderer **rendere
 
   SDL_FreeSurface(tempSurface);
   SDL_FreeRW(tempPath);
+}
+
+void load_Sprite(SDL_Texture *texture[], int num, char path[], SDL_Renderer **renderer)
+{
+  char complete_Path[100];
+  for (int i = 0; i < num; i++)
+  {
+    char img_num[3];
+    itoa(i, img_num, 10);
+
+    strcpy(complete_Path, path);
+    strcat(complete_Path, img_num);
+    strcat(complete_Path, ".png\0");
+
+    texture[i] = NULL;
+    load_Texture_Img(&(texture[i]), complete_Path, renderer);
+  }
 }
 
 void load_Texture_Text(SDL_Texture **texture, TTF_Font **font, char text[], SDL_Color color, SDL_Renderer **renderer)
@@ -62,25 +69,39 @@ float get_Text_W_ratio(TTF_Font *font, char text[])
   return text_w_ratio;
 }
 
+void lib_errorLog(char msg[], const char *error)
+{
+  printf("%s: %s\n", msg, error);
+}
+
+void coords_log(float x, float y, float w, float h)
+{
+  printf("x: %.3f   y: %.3f   w: %.3f   h: %.3f\n", x, y, w, h);
+}
+
 int get_Random_Number(MTRand *r, int min, int max)
 {
   int rd = (genRandLong(r) % (max - min + 1)) + min;
   return rd;
 }
 
-void load_Sprite(SDL_Texture *texture[], int num, char path[], SDL_Renderer **renderer)
+float convert_Radiant_Degree(float r)
 {
-  char complete_Path[100];
-  for (int i = 0; i < num; i++)
-  {
-    char img_num[3];
-    itoa(i, img_num, 10);
+  float d = 0;
 
-    strcpy(complete_Path, path);
-    strcat(complete_Path, img_num);
-    strcat(complete_Path, ".png\0");
+  if (r < 0)
+    r += 2 * M_PI;
 
-    texture[i] = NULL;
-    load_Texture_Img(&(texture[i]), complete_Path, renderer);
-  }
+  d = r * (float)180 / M_PI;
+
+  return d;
+}
+
+float convert_Degree_Radiant(float d)
+{
+  float r = 0;
+
+  r = d * M_PI / 180;
+
+  return r;
 }

@@ -15,11 +15,16 @@ void logic_manager(GameObject *G)
     static int player_spawned = 0; ///TODO: delete this
     if (player_spawned == 0)
     {
-      spawn_Player(&(G->logic), &(G->window));
+      spawn_Players(&(G->logic), &(G->window));
       player_spawned = 1;
     }
 
-    update_Player_Coords(&(G->logic), &(G->window), &(G->input));
+    if (G->logic.players[0].moving == 1)
+    {
+      move(G->logic.players[0].speed, G->logic.players[0].moving_ang, &(G->logic.players[0].coords));
+      G->logic.players[0].moving = 0;
+    }
+    update_Main_Player_Coords(&(G->logic), &(G->window), &(G->input));
     update_Cam_Coords(&(G->logic), &(G->window), &(G->UI.in_game_UI));
   }
   G->input.num_keys = 0;

@@ -1,5 +1,4 @@
 #include "../headers/renderer.h"
-#include "../headers/dev.h"
 
 void renderer_manager(GameObject *G)
 {

@@ -12,6 +12,9 @@ void set_FPS(char flag[], GameDev *dev);
 void set_FPS_cap(char flag[], GameDev *dev);
 void set_mute(char flag[], GameSound *sound);
 void set_outlines(char flag[], GameDev *dev);
+void set_spawn(char flag[], GameDev *dev);
+void set_character(char flag[], GameDev *dev);
+void set_enemy(char flag[], GameDev *dev);
 
 // scenarios
 void proto1(char scn[], GameObject *G);
@@ -21,7 +24,9 @@ void responsive_UI(char scn[]);
 //main loop
 void calcFPS(GameDev *dev);
 void set_DeltaTime(GameDev *dev);
-void set_Outlines_Coords(GameLogic *logic, DevUI *ui, GameWindow *window);
+void change_character(GameLogic *logic, GameInput *input);
+void spawn_enemie(GameLogic *logic, GameInput *input, GameWindow *window);
+void set_Outlines_Coords(GameLogic *logic, DevUI *ui);
 
 //direct call functions
 void cap_FPS(GameDev dev);

@@ -1,5 +1,4 @@
 #include "../headers/renderer.h"
-#include "../headers/dev.h"
 
 void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, GameDev *dev)
 {

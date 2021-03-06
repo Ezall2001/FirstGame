@@ -32,8 +32,13 @@ void wind_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, Ga
 void menu_Intro_Animation(Menu_Common_UI *ui, GameWindow *window, GameDev *dev);
 
 //   ---- game ----
-void spawn_Player(GameLogic *logic, GameWindow *window);
-void update_Player_Coords(GameLogic *logic, GameWindow *window, GameInput *input);
+void spawn_Players(GameLogic *logic, GameWindow *window);
+void spawn_Obstacle(GameLogic *logic, GameWindow *window);
+void spawn_Bird(GameLogic *logic, GameWindow *window);
+
+void update_Main_Player_Coords(GameLogic *logic, GameWindow *window, GameInput *input);
 void update_Cam_Coords(GameLogic *logic, GameWindow *window, In_Game_UI *ui);
+
+void move(float speed, float ang, real_Rect *coords);
 
 #endif

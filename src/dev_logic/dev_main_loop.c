@@ -1,12 +1,19 @@
 #include "../headers/dev.h"
+#include "../headers/logic.h"
 
 void dev_loop(GameObject *G)
 {
   calcFPS(&(G->dev));
   set_DeltaTime(&(G->dev));
 
+  if (G->dev.change_character == 1)
+    change_character(&(G->logic), &(G->input));
+
+  if (G->dev.spawn_enemy == 1)
+    spawn_enemie(&(G->logic), &(G->input), &(G->window));
+
   if (G->dev.show_outlines == 1)
-    set_Outlines_Coords(&(G->logic), &(G->UI.dev_UI), &(G->window));
+    set_Outlines_Coords(&(G->logic), &(G->UI.dev_UI));
 }
 
 void calcFPS(GameDev *dev)
@@ -60,23 +67,110 @@ void cap_FPS(GameDev dev)
     SDL_Delay(frameTime - currFrameDelay);
 }
 
-void set_Outlines_Coords(GameLogic *logic, DevUI *ui, GameWindow *window)
+void change_character(GameLogic *logic, GameInput *input)
 {
+  static int default_character = 0;
+  if (default_character == 0)
+  {
+    logic->survivors[0].coords = logic->players[0].coords;
+    logic->players[0] = logic->survivors[0];
+
+    logic->survivors[1].coords = logic->players[1].coords;
+    logic->players[1] = logic->survivors[1];
+    default_character = 1;
+  }
+
+  for (int i = 0; i < input->num_keys; i++)
+  {
+    if (input->keys[i] == SDLK_KP_1)
+    {
+      logic->survivors[0].coords = logic->players[0].coords;
+      logic->players[0] = logic->survivors[0];
+    }
+    else if (input->keys[i] == SDLK_KP_2)
+    {
+      logic->survivors[1].coords = logic->players[0].coords;
+      logic->players[0] = logic->survivors[1];
+    }
+    else if (input->keys[i] == SDLK_KP_3)
+    {
+      logic->survivors[2].coords = logic->players[0].coords;
+      logic->players[0] = logic->survivors[2];
+    }
+    else if (input->keys[i] == SDLK_KP_4)
+    {
+      logic->survivors[3].coords = logic->players[0].coords;
+      logic->players[0] = logic->survivors[3];
+    }
+  }
+}
+
+void spawn_enemie(GameLogic *logic, GameInput *input, GameWindow *window)
+{
+  for (int i = 0; i < input->num_keys; i++)
+  {
+    if (input->keys[i] == SDLK_F1)
+    {
+      spawn_Bird(logic, window);
+    }
+  }
+}
+
+void set_Outlines_Coords(GameLogic *logic, DevUI *ui)
+{
+  ///TODO: refactor this
   ui->outline_num = 0;
 
-  // --- main character ---
-  // coords
-  ui->outlines[ui->outline_num].coords.w = logic->James.coords.w * window->win_width_ratio;
-  ui->outlines[ui->outline_num].coords.h = logic->James.coords.h * window->win_width_ratio;
-  ui->outlines[ui->outline_num].coords.x = (logic->James.coords.x - logic->cam_Coords.x) * logic->CAM_REAL_Cam_w_Ratio - ui->outlines[ui->outline_num].coords.w / 2;
-  ui->outlines[ui->outline_num].coords.y = (logic->cam_Coords.y - logic->James.coords.y) * logic->CAM_REAL_Cam_w_Ratio - ui->outlines[ui->outline_num].coords.h / 2;
+  // --- active characters ---
+  for (int i = 0; i < 2; i++)
+  {
+    // coords
+    ui->outlines[ui->outline_num].coords.w = logic->players[i].coords.w * logic->CAM_REAL_Cam_w_Ratio;
+    ui->outlines[ui->outline_num].coords.h = logic->players[i].coords.h * logic->CAM_REAL_Cam_w_Ratio;
+    ui->outlines[ui->outline_num].coords.x = (logic->players[i].coords.x - logic->cam_Coords.x - logic->players[i].coords.w / 2) * logic->CAM_REAL_Cam_w_Ratio;
+    ui->outlines[ui->outline_num].coords.y = (logic->cam_Coords.y - logic->players[i].coords.y - logic->players[i].coords.h / 2) * logic->CAM_REAL_Cam_w_Ratio;
 
-  // color
-  ui->outlines[ui->outline_num].color.r = 52;
-  ui->outlines[ui->outline_num].color.g = 235;
-  ui->outlines[ui->outline_num].color.b = 140;
-  ui->outlines[ui->outline_num].color.a = 255;
+    // color
+    ui->outlines[ui->outline_num].color.r = 52;
+    ui->outlines[ui->outline_num].color.g = 235;
+    ui->outlines[ui->outline_num].color.b = 140 + (100 * i);
+    ui->outlines[ui->outline_num].color.a = 255;
 
-  (ui->outline_num)++;
+    (ui->outline_num)++;
+  }
 
+  // --- enmies ---
+  for (int i = 0; i < logic->enemy_num; i++)
+  {
+    // coords
+    ui->outlines[ui->outline_num].coords.w = logic->enemies[i].coords.w * logic->CAM_REAL_Cam_w_Ratio;
+    ui->outlines[ui->outline_num].coords.h = logic->enemies[i].coords.h * logic->CAM_REAL_Cam_w_Ratio;
+    ui->outlines[ui->outline_num].coords.x = (logic->enemies[i].coords.x - logic->cam_Coords.x - logic->enemies[i].coords.w / 2) * logic->CAM_REAL_Cam_w_Ratio;
+    ui->outlines[ui->outline_num].coords.y = (logic->cam_Coords.y - logic->enemies[i].coords.y - logic->enemies[i].coords.h / 2) * logic->CAM_REAL_Cam_w_Ratio;
+
+    // color
+    ui->outlines[ui->outline_num].color.r = 235;
+    ui->outlines[ui->outline_num].color.g = 52;
+    ui->outlines[ui->outline_num].color.b = 52;
+    ui->outlines[ui->outline_num].color.a = 255;
+
+    (ui->outline_num)++;
+  }
+
+  // --- obstacles ---
+  for (int i = 0; i < logic->obstacle_num; i++)
+  {
+    // coords
+    ui->outlines[ui->outline_num].coords.w = logic->obstacles[i].coords.w * logic->CAM_REAL_Cam_w_Ratio;
+    ui->outlines[ui->outline_num].coords.h = logic->obstacles[i].coords.h * logic->CAM_REAL_Cam_w_Ratio;
+    ui->outlines[ui->outline_num].coords.x = (logic->obstacles[i].coords.x - logic->cam_Coords.x - logic->obstacles[i].coords.w / 2) * logic->CAM_REAL_Cam_w_Ratio;
+    ui->outlines[ui->outline_num].coords.y = (logic->cam_Coords.y - logic->obstacles[i].coords.y - logic->obstacles[i].coords.h / 2) * logic->CAM_REAL_Cam_w_Ratio;
+
+    // color
+    ui->outlines[ui->outline_num].color.r = 235;
+    ui->outlines[ui->outline_num].color.g = 153;
+    ui->outlines[ui->outline_num].color.b = 52;
+    ui->outlines[ui->outline_num].color.a = 255;
+    (ui->outline_num)++;
+  }
 }

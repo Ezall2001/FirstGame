@@ -1,6 +1,5 @@
 #include "../headers/event.h"
 #include "../headers/logic.h"
-#include "../headers/dev.h"
 
 void window_events(SDL_Event *event, GameObject *G)
 {

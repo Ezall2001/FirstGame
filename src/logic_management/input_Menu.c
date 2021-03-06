@@ -1,5 +1,4 @@
 #include "../headers/logic.h"
-#include "../headers/dev.h"
 
 void shortcut_Input(GameInput *input, GameSound *sound, GameWindow *window, GameUI *ui, GameDev *dev)
 {

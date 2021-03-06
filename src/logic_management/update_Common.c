@@ -1,5 +1,4 @@
 #include "../headers/logic.h"
-#include "../headers/dev.h"
 
 void update_Window_Coords(GameWindow *window)
 {

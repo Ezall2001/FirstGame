@@ -31,12 +31,17 @@ flags:
 	@echo "-fullscreen: set the game in full screen mode"
 	@echo "-fps: show fps in the window"
 	@echo "-limit_fps:X limit the fps to X" 
+	#TODO: redescibe this
 	@echo "-outline: draw the collison outlines of characters, enemies, obstacles, projectiles, enemies direction decisions, and ranges"
+	@echo "-spawn: character and enemy flags combined"
+	@echo "-character: let you change the character mid game"
+	@echo "-enemy: let you spawn enemies mid game"
+
 
 scenarios:
 	@echo "proto1: testing core of the game (movement, animation, shooting, gameplay ...)"
 	@echo "lvl_system: simulation of lvling up"
-
+	@echo "responsive_UI: testing how the UI should respond to window resize + rendering settings"
 
 
 build: $(OBJS)

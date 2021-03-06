@@ -1,5 +1,4 @@
 #include "../headers/init.h"
-#include "../headers/dev.h"
 
 void init_GameWindow(GameWindow *window)
 {
@@ -58,6 +57,8 @@ void init_GameDev(GameDev *dev)
   // states
   dev->show_FPS = 0;
   dev->show_outlines = 0;
+  dev->change_character = 0;
+  dev->spawn_enemy = 0;
 
   // fps things
   dev->FPS = 0;
@@ -132,7 +133,7 @@ void init_GameUI(GameUI *ui, GameWindow *window)
 void init_GameLogic(GameLogic *logic, In_Game_UI *ui)
 {
 
-  // MAP system coords
+  // MAP system constant coords
   int map_w = 0, map_h = 0;
   int query = SDL_QueryTexture(ui->map, NULL, NULL, &map_w, &map_h);
   if (query != 0)
@@ -147,4 +148,18 @@ void init_GameLogic(GameLogic *logic, In_Game_UI *ui)
   logic->MAP_Origin_Coords.y = logic->MAP_Map_Coords.h / 2;
   logic->MAP_Origin_Coords.h = 0;
   logic->MAP_Origin_Coords.w = 0;
+
+  // JAMES
+  strcpy(logic->survivors[0].name, "JAMES");
+  logic->survivors[0].speed = 5;
+  ///TODO: finish this
+
+  // MARIE
+  strcpy(logic->survivors[1].name, "MARIE");
+  logic->survivors[1].speed = 6;
+  ///TODO: finish this
+
+  // stage objects
+  logic->enemy_num = 0;
+  logic->obstacle_num = 0;
 }

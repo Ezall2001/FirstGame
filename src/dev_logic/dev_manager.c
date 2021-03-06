@@ -55,6 +55,9 @@ void dev_manager(int *argc, char *argv[], GameObject *G)
       set_FPS_cap(flags[i], &(G->dev));
       set_mute(flags[i], &(G->sound));
       set_outlines(flags[i], &(G->dev));
+      set_spawn(flags[i], &(G->dev));
+      set_character(flags[i], &(G->dev));
+      set_enemy(flags[i], &(G->dev));
     }
   }
 

@@ -6,7 +6,7 @@
 #include "./headers/sound.h"
 
 ///NOTE: change the game scene to 0 default
-///TODO: remove the dev header in all the files
+///TODO: make a set color util function and use it
 
 int main(int argc, char *argv[])
 {

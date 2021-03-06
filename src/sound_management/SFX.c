@@ -1,5 +1,4 @@
 #include "../headers/sound.h"
-#include "../headers/dev.h"
 
 void play_bird_SFX(GameSound *sound)
 {

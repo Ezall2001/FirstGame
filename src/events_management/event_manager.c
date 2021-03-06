@@ -1,5 +1,4 @@
 #include "../headers/event.h"
-#include "../headers/dev.h"
 
 void event_manager(GameObject *G)
 {

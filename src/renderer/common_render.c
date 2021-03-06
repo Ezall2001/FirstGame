@@ -1,5 +1,4 @@
 #include "../headers/renderer.h"
-#include "../headers/dev.h"
 
 void update_renderer(GameWindow *window)
 {

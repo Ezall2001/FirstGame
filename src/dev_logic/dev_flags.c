@@ -40,3 +40,24 @@ void set_outlines(char flag[], GameDev *dev)
   if (strcmp(flag, "outline") == 0)
     dev->show_outlines = 1;
 }
+
+void set_spawn(char flag[], GameDev *dev)
+{
+  if (strcmp(flag, "spawn") == 0)
+  {
+    dev->change_character = 1;
+    dev->spawn_enemy = 1;
+  }
+}
+
+void set_character(char flag[], GameDev *dev)
+{
+  if (strcmp(flag, "character") == 0)
+    dev->change_character = 1;
+}
+
+void set_enemy(char flag[], GameDev *dev)
+{
+  if (strcmp(flag, "enemy") == 0)
+    dev->spawn_enemy = 1;
+}
