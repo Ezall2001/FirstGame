@@ -1,5 +1,15 @@
 #include "./headers/dev.h"
 
+void lib_errorLog(char msg[], const char *error)
+{
+  printf("%s: %s\n", msg, error);
+}
+
+void coords_log(float x, float y, float w, float h)
+{
+  printf("x: %.3f   y: %.3f   w: %.3f   h: %.3f\n", x, y, w, h);
+}
+
 void load_Texture_Img(SDL_Texture **texture, char path[], SDL_Renderer **renderer)
 {
   SDL_Surface *tempSurface = NULL;
@@ -52,9 +62,9 @@ float get_Text_W_ratio(TTF_Font *font, char text[])
   return text_w_ratio;
 }
 
-Uint16 get_Random_Number(MTRand *r, int min, int max)
+int get_Random_Number(MTRand *r, int min, int max)
 {
-  int rd = (genRandLong(r) % (max - min)) + min;
+  int rd = (genRandLong(r) % (max - min + 1)) + min;
   return rd;
 }
 

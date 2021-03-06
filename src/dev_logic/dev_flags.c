@@ -34,3 +34,9 @@ void set_mute(char flag[], GameSound *sound)
   if (strcmp(flag, "mute") == 0)
     sound->mute = 1;
 }
+
+void set_outlines(char flag[], GameDev *dev)
+{
+  if (strcmp(flag, "outline") == 0)
+    dev->show_outlines = 1;
+}

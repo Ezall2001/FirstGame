@@ -63,7 +63,7 @@ void proto1(char scn[], GameObject *G)
 
     // bird
 
-    load_Texture_Img(&map, "./assets/imgs/proto1/test_map.png", &(G->window.mainRenderer));
+    load_Texture_Img(&map, "./assets/imgs/proto1/map_4K.png", &(G->window.mainRenderer));
 
     //   --- main loop ---
     SDL_Event event;

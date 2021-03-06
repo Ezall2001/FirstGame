@@ -4,6 +4,9 @@ void dev_loop(GameObject *G)
 {
   calcFPS(&(G->dev));
   set_DeltaTime(&(G->dev));
+
+  if (G->dev.show_outlines == 1)
+    set_Outlines_Coords(&(G->logic), &(G->UI.dev_UI), &(G->window));
 }
 
 void calcFPS(GameDev *dev)
@@ -55,4 +58,25 @@ void cap_FPS(GameDev dev)
   float currFrameDelay = SDL_GetTicks() - dev.currTick;
   if (frameTime > currFrameDelay)
     SDL_Delay(frameTime - currFrameDelay);
+}
+
+void set_Outlines_Coords(GameLogic *logic, DevUI *ui, GameWindow *window)
+{
+  ui->outline_num = 0;
+
+  // --- main character ---
+  // coords
+  ui->outlines[ui->outline_num].coords.w = logic->James.coords.w * window->win_width_ratio;
+  ui->outlines[ui->outline_num].coords.h = logic->James.coords.h * window->win_width_ratio;
+  ui->outlines[ui->outline_num].coords.x = (logic->James.coords.x - logic->cam_Coords.x) * logic->CAM_REAL_Cam_w_Ratio - ui->outlines[ui->outline_num].coords.w / 2;
+  ui->outlines[ui->outline_num].coords.y = (logic->cam_Coords.y - logic->James.coords.y) * logic->CAM_REAL_Cam_w_Ratio - ui->outlines[ui->outline_num].coords.h / 2;
+
+  // color
+  ui->outlines[ui->outline_num].color.r = 52;
+  ui->outlines[ui->outline_num].color.g = 235;
+  ui->outlines[ui->outline_num].color.b = 140;
+  ui->outlines[ui->outline_num].color.a = 255;
+
+  (ui->outline_num)++;
+
 }

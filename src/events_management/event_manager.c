@@ -29,4 +29,5 @@ void event_manager(GameObject *G)
       break;
     }
   }
+  G->input.keyboard_state = SDL_GetKeyboardState(NULL);
 }

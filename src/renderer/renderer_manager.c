@@ -30,11 +30,18 @@ void renderer_manager(GameObject *G)
     default:
       break;
     }
-  }
-  menu_intro(&(G->window), &(G->dev));
+    menu_intro(&(G->window), &(G->dev));
 
-  if (G->window.popUp == 1)
-    render_Quit_PopUp(&(G->UI.quit_PopUp), &(G->UI.common_UI), &(G->window));
+    if (G->window.popUp == 1)
+      render_Quit_PopUp(&(G->UI.quit_PopUp), &(G->UI.common_UI), &(G->window));
+  }
+  else if (G->window.game_scene == 1)
+  {
+    render_Map(&(G->window), &(G->UI.in_game_UI));
+
+    if (G->dev.show_outlines == 1)
+      render_Outline(&(G->window), &(G->UI.dev_UI));
+  }
 
   if (G->dev.show_FPS == 1)
     render_FPS(&(G->window), &(G->UI.dev_UI), G->dev);

@@ -30,7 +30,11 @@ typedef struct
 
 typedef struct
 {
+  // states
   int show_FPS;
+  int show_outlines;
+
+  // FPS things
   int FPS;
   int FPS_cap;
   Uint32 currTick;
@@ -45,11 +49,17 @@ typedef struct
 
 typedef struct
 {
+  SDL_Color color;
+  SDL_Rect coords;
+} Outline;
+typedef struct
+{
 
   TTF_Font *dev_Font;
   SDL_Texture *FPS_Text;
   SDL_Color FPS_Color;
-
+  Outline outlines[40];
+  int outline_num;
 } DevUI;
 
 typedef struct
@@ -200,6 +210,18 @@ typedef struct
 
 typedef struct
 {
+  // sprites
+  ///TODO: finish this
+
+  // test map
+  ///TODO: delete this
+  SDL_Texture *map;
+  SDL_Rect src_Map_Coords;
+
+} In_Game_UI;
+
+typedef struct
+{
 
   DevUI dev_UI;
   // menu
@@ -208,6 +230,9 @@ typedef struct
   Menu_Scene1_UI scene1_UI;
   Menu_Scene2_UI scene2_UI;
   Menu_Scene3_UI scene3_UI;
+
+  // in game
+  In_Game_UI in_game_UI;
 
   // pop ups
   Quit_PopUp quit_PopUp;
@@ -224,6 +249,7 @@ typedef struct
   int ctrl;
   int keys[50];
   int num_keys;
+  const Uint8 *keyboard_state;
 
 } GameInput;
 
@@ -251,19 +277,64 @@ typedef struct
 
 typedef struct
 {
+  float x;
+  float y;
+  float h;
+  float w;
+} real_Rect;
+
+typedef struct
+{
+  ///TODO: redo this
+} Ability;
+typedef struct
+{
+  float hp, mp, speed;
+  float damage, burn_damage, poison_damage;
+  float crit_chance, crit_damage;
+  float exp;
+  int lvl;
+  int reload_Time, magazine;
+  Ability active_a;
+  Ability passive_a;
+  real_Rect coords;
+
+} Character;
+
+typedef struct
+{
+  // map system coords
+  real_Rect MAP_Origin_Coords;
+  real_Rect MAP_Map_Coords;
+  real_Rect MAP_Cam_Coords;
+  float CAM_REAL_Cam_w_Ratio;
+
+  // real system coords
+  real_Rect cam_Coords;
+
+  // characters
+  Character James;
+
+} GameLogic;
+
+typedef struct
+{
   GameWindow window;
   GameDev dev;
   GameInput input;
   GameSound sound;
+  GameLogic logic;
   GameUI UI;
 
 } GameObject;
 
 // utils
+void lib_errorLog(char msg[], const char *error);
+void coords_log(float x, float y, float w, float h);
 void load_Texture_Img(SDL_Texture **texture, char path[], SDL_Renderer **renderer);
 void load_Texture_Text(SDL_Texture **texture, TTF_Font **font, char text[], SDL_Color color, SDL_Renderer **renderer);
 void load_Sprite(SDL_Texture **texture, int num, char path[], SDL_Renderer **renderer);
 float get_Text_W_ratio(TTF_Font *font, char text[]);
-Uint16 get_Random_Number(MTRand *r, int min, int max);
+int get_Random_Number(MTRand *r, int min, int max);
 
 #endif

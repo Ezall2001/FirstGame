@@ -243,3 +243,10 @@ void init_Quit_PopUp(Quit_PopUp *ui, Menu_Common_UI *common_ui, GameWindow *wind
     ui->confirm[i].selected = 0;
   }
 }
+
+void init_In_Game_UI(In_Game_UI *ui, GameWindow *window)
+{
+  // test map
+  ui->map = NULL;
+  load_Texture_Img(&(ui->map), "./assets/imgs/in_game/map_4K.png", &(window->mainRenderer));
+}

@@ -3,6 +3,10 @@
 
 void update_renderer(GameWindow *window)
 {
+  int setColor = SDL_SetRenderDrawColor(window->mainRenderer, 0, 0, 0, 255);
+  if (setColor != 0)
+    lib_errorLog("failed at setting renderer color", SDL_GetError());
+
   int update_Renderer = SDL_RenderClear(window->mainRenderer);
 
   if (update_Renderer != 0)
@@ -53,4 +57,21 @@ void render_BlackLayer(GameWindow *window, Uint8 alpha)
   int fillWindow = SDL_RenderFillRect(window->mainRenderer, &fullWindow);
   if (fillWindow != 0)
     lib_errorLog("failed at fill rect", SDL_GetError());
+}
+
+void render_Outline(GameWindow *window, DevUI *ui)
+{
+  for (int i = 0; i < ui->outline_num; i++)
+  {
+    int setColor = SDL_SetRenderDrawColor(window->mainRenderer, ui->outlines[i].color.r, ui->outlines[i].color.g, ui->outlines[i].color.b, ui->outlines[i].color.a);
+    if (setColor != 0)
+      lib_errorLog("failed at setting renderer color", SDL_GetError());
+
+    int outline = SDL_RenderDrawRect(window->mainRenderer, &(ui->outlines[i].coords));
+    if (outline != 0)
+      lib_errorLog("failed at rendering the outline", SDL_GetError());
+
+    setColor = SDL_SetRenderDrawColor(window->mainRenderer, 255, 0, 0, 255);
+    outline = SDL_RenderDrawPoint(window->mainRenderer, ui->outlines[i].coords.x + ui->outlines[i].coords.w / 2, ui->outlines[i].coords.y + ui->outlines[i].coords.h / 2);
+  }
 }

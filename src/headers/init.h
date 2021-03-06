@@ -15,6 +15,7 @@ void init_GameDev(GameDev *dev);
 void init_GameInput(GameInput *input);
 void init_GameUI(GameUI *ui, GameWindow *window);
 void init_GameSound(GameSound *sound);
+void init_GameLogic(GameLogic *logic, In_Game_UI *ui);
 
 void destroy_GameObject(GameObject *G);
 
@@ -26,5 +27,6 @@ void init_Scene1_Menu(Menu_Scene1_UI *ui, Menu_Common_UI *common_ui, GameWindow 
 void init_Scene2_Menu(Menu_Scene2_UI *ui, Menu_Common_UI *common_ui, GameWindow *window);
 void init_Scene3_Menu(Menu_Scene3_UI *ui, Menu_Common_UI *common_ui, GameWindow *window);
 void init_Quit_PopUp(Quit_PopUp *ui, Menu_Common_UI *common_ui, GameWindow *window);
+void init_In_Game_UI(In_Game_UI *ui, GameWindow *window);
 
 #endif

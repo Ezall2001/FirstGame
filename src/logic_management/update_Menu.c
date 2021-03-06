@@ -372,10 +372,8 @@ void bird_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, Ga
       {
         do
         {
-          ui->bird_animation_play = get_Random_Number(&(window->r), 1, 7);
-          if (ui->bird_animation_play > 3)
-            ui->bird_animation_play = 3 - ui->bird_animation_play;
-        } while (ui->bird_animation_play == last_annim);
+          ui->bird_animation_play = get_Random_Number(&(window->r), -3, 3);
+        } while (ui->bird_animation_play == last_annim || ui->bird_animation_play == 0);
 
         last_annim = ui->bird_animation_play;
         count = 0;
@@ -419,8 +417,6 @@ void wind_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, Ga
 
       ui->windCoords.x = (int)real_x;
       ui->windCoords.y = (int)real_y;
-
-      coords_log(ui->windCoords.x, ui->windCoords.y, ui->windCoords.w, ui->windCoords.h);
     }
     else if (init_anim == 0)
     {
@@ -442,9 +438,11 @@ void wind_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, Ga
     {
       if (SDL_GetTicks() - startCount > delay)
       {
-        ui->wind_animation_play = get_Random_Number(&(window->r), 1, 7);
-        if (ui->wind_animation_play > 3)
-          ui->wind_animation_play = 3 - ui->wind_animation_play;
+        do
+        {
+          ui->wind_animation_play = get_Random_Number(&(window->r), -3, 3);
+        } while (ui->wind_animation_play == 0);
+
         count = 0;
       }
     }

@@ -5,6 +5,9 @@
 #include "./headers/renderer.h"
 #include "./headers/sound.h"
 
+///NOTE: change the game scene to 0 default
+///TODO: remove the dev header in all the files
+
 int main(int argc, char *argv[])
 {
   GameObject G;

@@ -31,6 +31,7 @@ flags:
 	@echo "-fullscreen: set the game in full screen mode"
 	@echo "-fps: show fps in the window"
 	@echo "-limit_fps:X limit the fps to X" 
+	@echo "-outline: draw the collison outlines of characters, enemies, obstacles, projectiles, enemies direction decisions, and ranges"
 
 scenarios:
 	@echo "proto1: testing core of the game (movement, animation, shooting, gameplay ...)"

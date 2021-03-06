@@ -22,7 +22,7 @@ void init_GameWindow(GameWindow *window)
   window->fullScreen = 0;
   window->running = 1;
   window->win_width_ratio = (float)window->w / window->default_w;
-  window->game_scene = 0;
+  window->game_scene = 1;
   window->menu_scene = 0;
   window->popUp = 0;
 
@@ -55,7 +55,11 @@ void init_GameWindow(GameWindow *window)
 
 void init_GameDev(GameDev *dev)
 {
+  // states
   dev->show_FPS = 0;
+  dev->show_outlines = 0;
+
+  // fps things
   dev->FPS = 0;
   dev->FPS_cap = 60;
   dev->currTick = 0;
@@ -122,4 +126,25 @@ void init_GameUI(GameUI *ui, GameWindow *window)
   init_Scene2_Menu(&(ui->scene2_UI), &(ui->common_UI), window);
   init_Scene3_Menu(&(ui->scene3_UI), &(ui->common_UI), window);
   init_Quit_PopUp(&(ui->quit_PopUp), &(ui->common_UI), window);
+  init_In_Game_UI(&(ui->in_game_UI), window);
+}
+
+void init_GameLogic(GameLogic *logic, In_Game_UI *ui)
+{
+
+  // MAP system coords
+  int map_w = 0, map_h = 0;
+  int query = SDL_QueryTexture(ui->map, NULL, NULL, &map_w, &map_h);
+  if (query != 0)
+    lib_errorLog("failed at getting texutre dimentions", SDL_GetError());
+
+  logic->MAP_Map_Coords.x = 0;
+  logic->MAP_Map_Coords.y = 0;
+  logic->MAP_Map_Coords.w = map_w;
+  logic->MAP_Map_Coords.h = map_h;
+
+  logic->MAP_Origin_Coords.x = logic->MAP_Map_Coords.w / 2;
+  logic->MAP_Origin_Coords.y = logic->MAP_Map_Coords.h / 2;
+  logic->MAP_Origin_Coords.h = 0;
+  logic->MAP_Origin_Coords.w = 0;
 }

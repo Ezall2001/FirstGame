@@ -31,4 +31,9 @@ void bird_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, Ga
 void wind_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, GameDev *dev);
 void menu_Intro_Animation(Menu_Common_UI *ui, GameWindow *window, GameDev *dev);
 
+//   ---- game ----
+void spawn_Player(GameLogic *logic, GameWindow *window);
+void update_Player_Coords(GameLogic *logic, GameWindow *window, GameInput *input);
+void update_Cam_Coords(GameLogic *logic, GameWindow *window, In_Game_UI *ui);
+
 #endif
