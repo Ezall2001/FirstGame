@@ -18,7 +18,7 @@ typedef struct
   int fullScreen;
   int running;
   int x, y, w, h, default_w, default_h, max_w, max_h;
-  float win_width_ratio;
+  float win_width_ratio ;  
   int game_scene; // 0:outgame - 1:ingame
   int menu_scene; // 0:mainMenu - 1:startMenu - 2:optionsMenu - 3:tutorialMenu
   int popUp;      // 0:nopopUp - 1:QuitPopUp - 2:CreditsPopUp
@@ -93,7 +93,7 @@ typedef struct
   // states
   int mute;         // 0:volume  1:volume=0
   int music_volume; // 0 -> 100
-  int SFX_volume;   // 0 -> 100
+  int SFX_volume;   // 0 -> 100 
 
   int wind_play;
   int button_click_play;
