@@ -284,11 +284,15 @@ void bird_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, Ga
   static Uint32 startCount = 0;
   static int init_anim = 0;
   static int count = 0;
-  static float real_x = 0;
-  static float real_y = 0;
+  static float real_x = 0, real_y = 0;
   static float w = 0, h = 0;
+  static int texture_w = 0, texture_h = 0;
+  static float texture_w_ratio = 0;
   static float speed = 0;
   static int last_annim = 0;
+
+  SDL_QueryTexture(ui->bird1[0], NULL, NULL, &texture_w, &texture_h);
+  texture_w_ratio = texture_h / texture_w;
 
   if (ui->bird_animation_play != 0)
   {
@@ -336,7 +340,7 @@ void bird_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, Ga
       speed = get_Random_Number(&(window->r), 100, 200);
 
       w = 200 * ((float)get_Random_Number(&(window->r), 50, 100) / 100) * window->win_width_ratio;
-      h = 200 * ((float)get_Random_Number(&(window->r), 50, 100) / 100) * window->win_width_ratio;
+      h = w * texture_w_ratio;
       ui->birdCoords.w = w;
       ui->birdCoords.h = h;
 
@@ -393,12 +397,16 @@ void wind_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, Ga
   static Uint32 startCount = 0;
   static int init_anim = 0;
   static int count = 0;
-  static float real_x = 0;
-  static float real_y = 0;
+  static float real_x = 0, real_y = 0;
   static float w = 0, h = 0;
+  static int texture_w = 0, texture_h = 0;
+  static float texture_w_ratio = 0;
   static float speed = 0;
-  static int wind_part = 0;
-  /// TODO: finish wind animation
+  static int opacity = 255;
+
+  SDL_QueryTexture(ui->wind[0], NULL, NULL, &texture_w, &texture_h);
+  texture_w_ratio = (float)texture_h / texture_w;
+
   if (ui->wind_animation_play != 0)
   {
     if (init_anim == 1)
@@ -407,12 +415,37 @@ void wind_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, Ga
       ui->windCoords.w = w * window->win_width_ratio;
       ui->windCoords.h = h * window->win_width_ratio;
 
-      if (ui->wind_animation_play < 0)
-      {
-        ui->wind_speed = ui->wind_speed * -1;
-      }
+      if (ui->wind_animation_play == -1)
+        ui->wind_speed *= -1;
+
       real_x += ui->wind_speed;
-      real_y += ui->windCoords.h * (wind_part % 2);
+
+      if (ui->wind_animation_play == -1)
+      {
+        if (real_x < window->w * 0.4)
+        {
+          opacity = 255 * fabs(window->w * 0.25 - real_x) / fabs(window->w * 0.25 - window->w * 0.4);
+        }
+      }
+      else if (ui->wind_animation_play == 1)
+      {
+        if (real_x > window->w * 0.7)
+        {
+          opacity = 255 * fabs(window->w * 0.85 - real_x) / fabs(window->w * 0.85 - window->w * 0.7);
+        }
+      }
+
+      for (int i = 0; i < 28; i++)
+      {
+        set_Texture_Opacity(ui->wind[i], opacity);
+      }
+
+      if (real_x < window->w * 0.25 || real_x > window->w * 0.85)
+      {
+        ui->wind_animation_play = 0;
+        sound->wind_play = 0;
+        init_anim = 0;
+      }
 
       ui->windCoords.x = (int)real_x;
       ui->windCoords.y = (int)real_y;
@@ -420,12 +453,16 @@ void wind_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, Ga
     else if (init_anim == 0)
     {
       speed = get_Random_Number(&(window->r), 100, 200);
-      w = get_Random_Number(&(window->r), 100, 200) * window->win_width_ratio;
-      h = get_Random_Number(&(window->r), 100, 200) * window->win_width_ratio;
-      real_x = get_Random_Number(&(window->r), w * 3, window->w - (w * 3));
-      real_y = get_Random_Number(&(window->r), window->h * 0.1, window->h * 0.65);
 
-      wind_part = 0;
+      w = get_Random_Number(&(window->r), 200, 300) * window->win_width_ratio;
+      h = w * texture_w_ratio;
+
+      if (ui->wind_animation_play == 1)
+        real_x = get_Random_Number(&(window->r), window->w * 0.3, window->w * 0.35);
+      else if (ui->wind_animation_play == -1)
+        real_x = get_Random_Number(&(window->r), window->w * 0.75, window->w * 0.8);
+
+      real_y = get_Random_Number(&(window->r), window->h * 0.1, window->h * 0.5);
 
       sound->wind_play = 1;
       init_anim = 1;
@@ -439,7 +476,7 @@ void wind_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, Ga
       {
         do
         {
-          ui->wind_animation_play = get_Random_Number(&(window->r), -3, 3);
+          ui->wind_animation_play = get_Random_Number(&(window->r), -1, 1);
         } while (ui->wind_animation_play == 0);
 
         count = 0;
@@ -448,7 +485,7 @@ void wind_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, Ga
     else if (count == 0)
     {
       startCount = SDL_GetTicks();
-      delay = 0; //get_Random_Number(&(window->r), 3000, 7000);
+      delay = get_Random_Number(&(window->r), 4000, 7000);
       count = 1;
     }
   }

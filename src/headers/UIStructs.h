@@ -80,7 +80,7 @@ typedef struct
   SDL_Texture *bird1[9];
   SDL_Texture *bird2[9];
   SDL_Texture *bird3[9];
-  SDL_Texture *wind[48];
+  SDL_Texture *wind[28];
 
   // coords
   SDL_Rect main_Background_Coords;

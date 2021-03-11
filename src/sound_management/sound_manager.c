@@ -46,5 +46,21 @@ void sound_manager(GameObject *G)
                 Mix_FadeOutChannel(1, 1500);
             }
         }
+
+        // wind SFX
+        if (G->sound.wind_play == 1)
+        {
+            if (!Mix_Playing(3))
+            {
+                play_wind_SFX(&(G->sound));
+            }
+        }
+        else if (G->sound.wind_play == 0)
+        {
+            if (Mix_Playing(3))
+            {
+                Mix_FadeOutChannel(3, 1500);
+            }
+        }
     }
 }

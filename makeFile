@@ -14,19 +14,19 @@ game/dev-%: build
 	@./bin/$(GAME) $@ placeholder
 
 proto1/dev-%: build
-	@echo scenario: the very first prototype of the game
+	@echo test: the very first prototype of the game
 	@./bin/$(GAME) $@ placeholder
 
 lvl_system/dev-%: build
-	@echo scenario: leveling up simulation
+	@echo test: leveling up simulation
 	@./bin/$(GAME) $@ placeholder
 
 responsive_UI/dev-%: build
-	@echo scenario: a simulation for making the UI fully responsive
+	@echo test: a simulation for making the UI fully responsive
 	@./bin/$(GAME) $@ placeholder
 
 projectile/dev-%: build
-	@echo scenario: a simulation to test projectile design
+	@echo test: a simulation to test projectile design
 	@./bin/$(GAME) $@ placeholder
 
 
@@ -42,11 +42,12 @@ flags:
 	@echo "-enemy: let you spawn enemies mid game"
 
 
-scenarios:
+tests:
 	@echo "proto1: testing core of the game (movement, animation, shooting, gameplay ...)"
 	@echo "lvl_system: simulation of lvling up"
 	@echo "responsive_UI: testing how the UI should respond to window resize + rendering settings"
 	@echo "projectile: testing the projectile designs"
+
 
 build: $(OBJS)
 	@gcc \
@@ -68,10 +69,19 @@ $(OBJDIR)/%.o: src/%.c $(HEADERS)
 
 
 clean:
-	@rm -f build/*/scenarios/*.o
+	@rm -f build/*/tests/*.o
 	@rm -f build/*/*.o
 	@rm -f build/$(GAME).o
 	@rm -f bin/$(GAME).exe
+
+reset_saves:
+	@rm -f saves/*.txt
+
+reset_dev:
+	@rm -f saves/dev.txt
+
+reset_settings:
+	@rm -f saves/settings.txt
 
 count_lines:
 	@find ./src -name *.h -o -name *.c | xargs wc -l

@@ -2,9 +2,9 @@
 
 void dev_manager(int *argc, char *argv[], GameObject *G)
 {
-  // seperating scenarios and dev flags
+  // seperating tests and dev flags
   int devIndex = -1;
-  int scnIndex = -1;
+  int testIndex = -1;
   int charIndex = 0;
 
   while (argv[1][charIndex] != '\0')
@@ -16,7 +16,7 @@ void dev_manager(int *argc, char *argv[], GameObject *G)
       argv[1][charIndex] = '\0';
 
       devIndex = 2;
-      scnIndex = 1;
+      testIndex = 1;
       break;
     }
     charIndex++;
@@ -61,19 +61,19 @@ void dev_manager(int *argc, char *argv[], GameObject *G)
     }
   }
 
-  // scenarios redirection
-  if (scnIndex != -1)
+  // tests redirection
+  if (testIndex != -1)
   {
 
-    if (strcmp(argv[scnIndex], "game") == 0)
+    if (strcmp(argv[testIndex], "game") == 0)
       (*argc)--;
     else
     {
       SDL_DestroyWindow(G->window.mainWindow);
-      proto1(argv[scnIndex], G);
-      lvl_simulation(argv[scnIndex]);
-      responsive_UI(argv[scnIndex]);
-      projectile_test(argv[scnIndex]);
+      proto1(argv[testIndex], G);
+      lvl_simulation(argv[testIndex]);
+      responsive_UI(argv[testIndex]);
+      projectile_test(argv[testIndex]);
     }
   }
 }

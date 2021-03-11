@@ -95,9 +95,31 @@ void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window, GameSound *sound
     lib_errorLog("failed at rendering menu UI", SDL_GetError());
 
   // wind animation
+  static float delta_wind = 0;
+  static int wind_img = 0;
   if (ui->wind_animation_play != 0)
   {
-    rendered = SDL_RenderCopy(window->mainRenderer, ui->wind[20], NULL, &(ui->windCoords));
+
+    delta_wind += dev->deltaTime;
+    if (delta_wind > ((float)2 / 28))
+    {
+      delta_wind = 0;
+      wind_img = (wind_img + 1) % 28;
+    }
+  }
+  else
+  {
+    delta_wind = 0;
+    wind_img = 0;
+  }
+
+  if (ui->wind_animation_play == 1)
+  {
+    rendered = SDL_RenderCopy(window->mainRenderer, ui->wind[wind_img], NULL, &(ui->windCoords));
+  }
+  else if (ui->wind_animation_play == -1)
+  {
+    rendered = SDL_RenderCopyEx(window->mainRenderer, ui->wind[wind_img], NULL, &(ui->windCoords), 0, NULL, SDL_FLIP_HORIZONTAL);
   }
   if (rendered != 0)
     lib_errorLog("failed at rendering menu UI", SDL_GetError());

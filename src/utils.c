@@ -124,3 +124,10 @@ void convert_REAL_SDL(SDL_Rect *s_coords, real_Rect r_coords, real_Rect cam_coor
   s_coords->x = (r_coords.x - cam_coords.x - (w / 2)) * w_ratio;
   s_coords->y = (cam_coords.y - r_coords.y - (h / 2)) * w_ratio;
 }
+
+void set_Texture_Opacity(SDL_Texture *texture, int opacity)
+{
+  int set_opacity = SDL_SetTextureAlphaMod(texture, opacity);
+  if (set_opacity != 0)
+    lib_errorLog("failed at setting opacity", SDL_GetError());
+}
