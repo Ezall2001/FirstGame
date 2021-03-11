@@ -8,10 +8,7 @@ void init_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
   if (ui->menu_Font == NULL)
     lib_errorLog("failed at loading font", TTF_GetError());
 
-  ui->text_Color.r = 255;
-  ui->text_Color.g = 255;
-  ui->text_Color.b = 255;
-  ui->text_Color.a = 0;
+  ui->text_Color = set_color(255, 255, 255, 255);
 
   // imgs
   ui->static_Button = NULL;
@@ -93,7 +90,7 @@ void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow 
 
 void init_Scene1_Menu(Menu_Scene1_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
 {
-  ///TODO: finish this
+  ///TODO: init scene1
 }
 
 void init_Scene2_Menu(Menu_Scene2_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
@@ -202,7 +199,7 @@ void init_Scene3_Menu(Menu_Scene3_UI *ui, Menu_Common_UI *common_ui, GameWindow 
   // --- tutorial title ---
   ui->tutorial_Title_Text = NULL;
   load_Texture_Text(&(ui->tutorial_Title_Text), &(common_ui->menu_Font), "Tutorial", common_ui->text_Color, &(window->mainRenderer));
-  ///TODO: finish this
+  ///TODO: finish init scene3
 }
 
 void init_DevUI(DevUI *ui)
@@ -212,9 +209,8 @@ void init_DevUI(DevUI *ui)
   if (ui->dev_Font == NULL)
     lib_errorLog("failed at loaing font", TTF_GetError());
   ui->FPS_Text = NULL;
-  ui->FPS_Color.r = 255;
-  ui->FPS_Color.g = 255;
-  ui->FPS_Color.b = 0;
+
+  ui->FPS_Color = set_color(255, 255, 0, 255);
 }
 
 void init_Quit_PopUp(Quit_PopUp *ui, Menu_Common_UI *common_ui, GameWindow *window)

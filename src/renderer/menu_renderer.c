@@ -136,7 +136,7 @@ void render_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindo
 
 void render_Scene1_Menu(Menu_Scene1_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
 {
-  ///TODO: finish this
+  ///TODO: render scene1
 }
 
 void render_Scene2_Menu(Menu_Scene2_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
@@ -294,7 +294,7 @@ void render_Scene3_Menu(Menu_Scene3_UI *ui, Menu_Common_UI *common_ui, GameWindo
   rendered = SDL_RenderCopy(window->mainRenderer, ui->tutorial_Title_Text, NULL, &(ui->tutorial_Title_Text_Coords));
   if (rendered != 0)
     lib_errorLog("failed at rendering menu UI", SDL_GetError());
-  ///TODO: finish this
+  ///TODO: finish render scene3
 }
 
 void render_Quit_PopUp(Quit_PopUp *ui, Menu_Common_UI *common_ui, GameWindow *window)

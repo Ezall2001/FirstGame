@@ -118,23 +118,20 @@ void spawn_enemie(GameLogic *logic, GameInput *input, GameWindow *window)
 
 void set_Outlines_Coords(GameLogic *logic, DevUI *ui)
 {
-  ///TODO: refactor this
   ui->outline_num = 0;
 
   // --- active characters ---
   for (int i = 0; i < 2; i++)
   {
-    // coords
-    ui->outlines[ui->outline_num].coords.w = logic->players[i].coords.w * logic->CAM_REAL_Cam_w_Ratio;
-    ui->outlines[ui->outline_num].coords.h = logic->players[i].coords.h * logic->CAM_REAL_Cam_w_Ratio;
-    ui->outlines[ui->outline_num].coords.x = (logic->players[i].coords.x - logic->cam_Coords.x - logic->players[i].coords.w / 2) * logic->CAM_REAL_Cam_w_Ratio;
-    ui->outlines[ui->outline_num].coords.y = (logic->cam_Coords.y - logic->players[i].coords.y - logic->players[i].coords.h / 2) * logic->CAM_REAL_Cam_w_Ratio;
 
-    // color
-    ui->outlines[ui->outline_num].color.r = 52;
-    ui->outlines[ui->outline_num].color.g = 235;
-    ui->outlines[ui->outline_num].color.b = 140 + (100 * i);
-    ui->outlines[ui->outline_num].color.a = 255;
+    convert_REAL_SDL(&(ui->outlines[ui->outline_num].coords),
+                     logic->players[i].coords,
+                     logic->cam_Coords,
+                     logic->CAM_REAL_Cam_w_Ratio,
+                     logic->players[i].coords.w,
+                     logic->players[i].coords.h);
+
+    ui->outlines[ui->outline_num].color = set_color(52, 235, 140 + (100 * i), 255);
 
     (ui->outline_num)++;
   }
@@ -142,17 +139,15 @@ void set_Outlines_Coords(GameLogic *logic, DevUI *ui)
   // --- enmies ---
   for (int i = 0; i < logic->enemy_num; i++)
   {
-    // coords
-    ui->outlines[ui->outline_num].coords.w = logic->enemies[i].coords.w * logic->CAM_REAL_Cam_w_Ratio;
-    ui->outlines[ui->outline_num].coords.h = logic->enemies[i].coords.h * logic->CAM_REAL_Cam_w_Ratio;
-    ui->outlines[ui->outline_num].coords.x = (logic->enemies[i].coords.x - logic->cam_Coords.x - logic->enemies[i].coords.w / 2) * logic->CAM_REAL_Cam_w_Ratio;
-    ui->outlines[ui->outline_num].coords.y = (logic->cam_Coords.y - logic->enemies[i].coords.y - logic->enemies[i].coords.h / 2) * logic->CAM_REAL_Cam_w_Ratio;
 
-    // color
-    ui->outlines[ui->outline_num].color.r = 235;
-    ui->outlines[ui->outline_num].color.g = 52;
-    ui->outlines[ui->outline_num].color.b = 52;
-    ui->outlines[ui->outline_num].color.a = 255;
+    convert_REAL_SDL(&(ui->outlines[ui->outline_num].coords),
+                     logic->enemies[i].coords,
+                     logic->cam_Coords,
+                     logic->CAM_REAL_Cam_w_Ratio,
+                     logic->enemies[i].coords.w,
+                     logic->enemies[i].coords.h);
+
+    ui->outlines[ui->outline_num].color = set_color(235, 52, 52, 255);
 
     (ui->outline_num)++;
   }
@@ -160,17 +155,16 @@ void set_Outlines_Coords(GameLogic *logic, DevUI *ui)
   // --- obstacles ---
   for (int i = 0; i < logic->obstacle_num; i++)
   {
-    // coords
-    ui->outlines[ui->outline_num].coords.w = logic->obstacles[i].coords.w * logic->CAM_REAL_Cam_w_Ratio;
-    ui->outlines[ui->outline_num].coords.h = logic->obstacles[i].coords.h * logic->CAM_REAL_Cam_w_Ratio;
-    ui->outlines[ui->outline_num].coords.x = (logic->obstacles[i].coords.x - logic->cam_Coords.x - logic->obstacles[i].coords.w / 2) * logic->CAM_REAL_Cam_w_Ratio;
-    ui->outlines[ui->outline_num].coords.y = (logic->cam_Coords.y - logic->obstacles[i].coords.y - logic->obstacles[i].coords.h / 2) * logic->CAM_REAL_Cam_w_Ratio;
 
-    // color
-    ui->outlines[ui->outline_num].color.r = 235;
-    ui->outlines[ui->outline_num].color.g = 153;
-    ui->outlines[ui->outline_num].color.b = 52;
-    ui->outlines[ui->outline_num].color.a = 255;
+    convert_REAL_SDL(&(ui->outlines[ui->outline_num].coords),
+                     logic->obstacles[i].coords,
+                     logic->cam_Coords,
+                     logic->CAM_REAL_Cam_w_Ratio,
+                     logic->obstacles[i].coords.w,
+                     logic->obstacles[i].coords.h);
+
+    ui->outlines[ui->outline_num].color = set_color(235, 153, 52, 255);
+
     (ui->outline_num)++;
   }
 }

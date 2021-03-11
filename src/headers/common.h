@@ -27,8 +27,10 @@ void load_Texture_Img(SDL_Texture **texture, char path[], SDL_Renderer **rendere
 void load_Texture_Text(SDL_Texture **texture, TTF_Font **font, char text[], SDL_Color color, SDL_Renderer **renderer);
 void load_Sprite(SDL_Texture **texture, int num, char path[], SDL_Renderer **renderer);
 float get_Text_W_ratio(TTF_Font *font, char text[]);
+SDL_Color set_color(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 int get_Random_Number(MTRand *r, int min, int max);
 float convert_Radiant_Degree(float r);
 float convert_Degree_Radiant(float d);
+void convert_REAL_SDL(SDL_Rect *s_coords, real_Rect r_coords, real_Rect cam_coords, float w_ratio, float w, float h);
 
 #endif

@@ -50,7 +50,7 @@ typedef struct
 
 typedef struct
 {
-  ///TODO: finish this
+  ///TODO: finish credits struct
 } Credits_PopUp;
 
 ////////////////////////////////////
@@ -111,7 +111,7 @@ typedef struct
 
 typedef struct
 {
-  ///TODO: finish this
+  ///TODO: finish scene1 struct
 
 } Menu_Scene1_UI;
 
@@ -185,12 +185,13 @@ typedef struct
 typedef struct
 {
   // sprites
-  ///TODO: finish this
+  ///TODO: finish gameUI struct
 
   // test map
-  ///TODO: delete this
+  ///TODO: delete test map
   SDL_Texture *map;
   SDL_Rect src_Map_Coords;
 
 } In_Game_UI;
+
 #endif

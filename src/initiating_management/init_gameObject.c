@@ -21,7 +21,7 @@ void init_GameWindow(GameWindow *window)
   window->fullScreen = 0;
   window->running = 1;
   window->win_width_ratio = (float)window->w / window->default_w;
-  window->game_scene = 1;
+  window->game_scene = 0;
   window->menu_scene = 0;
   window->popUp = 0;
 
@@ -132,7 +132,7 @@ void init_GameUI(GameUI *ui, GameWindow *window)
 
 void init_GameLogic(GameLogic *logic, In_Game_UI *ui)
 {
-
+  ///TODO: finish initGameLogic
   // MAP system constant coords
   int map_w = 0, map_h = 0;
   int query = SDL_QueryTexture(ui->map, NULL, NULL, &map_w, &map_h);
@@ -152,12 +152,10 @@ void init_GameLogic(GameLogic *logic, In_Game_UI *ui)
   // JAMES
   strcpy(logic->survivors[0].name, "JAMES");
   logic->survivors[0].speed = 5;
-  ///TODO: finish this
 
   // MARIE
   strcpy(logic->survivors[1].name, "MARIE");
   logic->survivors[1].speed = 6;
-  ///TODO: finish this
 
   // stage objects
   logic->enemy_num = 0;

@@ -6,7 +6,6 @@
 void logic_manager(GameObject *G);
 
 //   ---- common ----
-// coords
 void update_Window_Coords(GameWindow *window);
 
 //   ---- menu ----
@@ -36,9 +35,11 @@ void spawn_Players(GameLogic *logic, GameWindow *window);
 void spawn_Obstacle(GameLogic *logic, GameWindow *window);
 void spawn_Bird(GameLogic *logic, GameWindow *window);
 
-void update_Main_Player_Coords(GameLogic *logic, GameWindow *window, GameInput *input);
 void update_Cam_Coords(GameLogic *logic, GameWindow *window, In_Game_UI *ui);
-
 void move(float speed, float ang, real_Rect *coords);
+float get_ang(real_Rect src, real_Rect dst);
+
+// input
+void keyboard_Player_Input(GameLogic *logic, GameWindow *window, GameInput *input);
 
 #endif

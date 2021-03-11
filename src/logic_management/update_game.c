@@ -18,7 +18,7 @@ void spawn_Players(GameLogic *logic, GameWindow *window)
 
 void spawn_Bird(GameLogic *logic, GameWindow *window)
 {
-  ///TODO: finish this
+  ///TODO: spawn_Bird
 }
 
 void spawn_Obstacle(GameLogic *logic, GameWindow *window)
@@ -74,55 +74,29 @@ void update_Cam_Coords(GameLogic *logic, GameWindow *window, In_Game_UI *ui)
   logic->CAM_REAL_Cam_w_Ratio = (float)window->w / logic->cam_Coords.w;
 }
 
-void update_Main_Player_Coords(GameLogic *logic, GameWindow *window, GameInput *input)
-{
-
-  if (input->keyboard_state[SDL_SCANCODE_W] == 1 && input->keyboard_state[SDL_SCANCODE_A] == 1)
-  {
-    logic->players[0].moving_ang = 135;
-    logic->players[0].moving = 1;
-  }
-  else if (input->keyboard_state[SDL_SCANCODE_W] == 1 && input->keyboard_state[SDL_SCANCODE_D] == 1)
-  {
-    logic->players[0].moving_ang = 45;
-    logic->players[0].moving = 1;
-  }
-  else if (input->keyboard_state[SDL_SCANCODE_S] == 1 && input->keyboard_state[SDL_SCANCODE_A] == 1)
-  {
-    logic->players[0].moving_ang = 225;
-    logic->players[0].moving = 1;
-  }
-  else if (input->keyboard_state[SDL_SCANCODE_S] == 1 && input->keyboard_state[SDL_SCANCODE_D] == 1)
-  {
-    logic->players[0].moving_ang = 315;
-    logic->players[0].moving = 1;
-  }
-  else if (input->keyboard_state[SDL_SCANCODE_W] == 1)
-  {
-    logic->players[0].moving_ang = 90;
-    logic->players[0].moving = 1;
-  }
-  else if (input->keyboard_state[SDL_SCANCODE_S] == 1)
-  {
-    logic->players[0].moving_ang = 270;
-    logic->players[0].moving = 1;
-  }
-  else if (input->keyboard_state[SDL_SCANCODE_A] == 1)
-  {
-    logic->players[0].moving_ang = 180;
-    logic->players[0].moving = 1;
-  }
-  else if (input->keyboard_state[SDL_SCANCODE_D] == 1)
-  {
-    logic->players[0].moving_ang = 0;
-    logic->players[0].moving = 1;
-  }
-}
-
 void move(float speed, float d, real_Rect *coords)
 {
   ///TODO: multiply speed by delta and w_ratio
   float r = convert_Degree_Radiant(d);
   coords->x += cos(r) * speed;
   coords->y += sin(r) * speed;
+}
+
+float get_ang(real_Rect src, real_Rect dst)
+{
+  ///TODO: test this in the real coords
+  float r_ang = 0;
+  float distance = sqrt(pow(dst.x - src.x, 2) + pow(dst.y - src.y, 2));
+  float a_sin = asin((dst.y - src.y) / distance);
+  float a_cos = acos((dst.x - src.x) / distance);
+  if (a_sin >= 0)
+  {
+    r_ang = a_cos;
+  }
+  else
+  {
+    r_ang = (M_PI * 2) - a_cos;
+  }
+
+  return convert_Radiant_Degree(r_ang);
 }

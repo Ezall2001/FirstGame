@@ -25,6 +25,10 @@ responsive_UI/dev-%: build
 	@echo scenario: a simulation for making the UI fully responsive
 	@./bin/$(GAME) $@ placeholder
 
+projectile/dev-%: build
+	@echo scenario: a simulation to test projectile design
+	@./bin/$(GAME) $@ placeholder
+
 
 
 flags:
@@ -42,7 +46,7 @@ scenarios:
 	@echo "proto1: testing core of the game (movement, animation, shooting, gameplay ...)"
 	@echo "lvl_system: simulation of lvling up"
 	@echo "responsive_UI: testing how the UI should respond to window resize + rendering settings"
-
+	@echo "projectile: testing the projectile designs"
 
 build: $(OBJS)
 	@gcc \

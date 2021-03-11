@@ -20,6 +20,7 @@ void set_enemy(char flag[], GameDev *dev);
 void proto1(char scn[], GameObject *G);
 void lvl_simulation(char scn[]);
 void responsive_UI(char scn[]);
+void projectile_test(char scn[]);
 
 //main loop
 void calcFPS(GameDev *dev);

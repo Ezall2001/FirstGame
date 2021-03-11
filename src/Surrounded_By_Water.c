@@ -4,9 +4,9 @@
 #include "./headers/logic.h"
 #include "./headers/renderer.h"
 #include "./headers/sound.h"
+#include "./headers/save.h"
 
 ///NOTE: change the game scene to 0 default
-///TODO: make a set color util function and use it
 
 int main(int argc, char *argv[])
 {
@@ -15,6 +15,8 @@ int main(int argc, char *argv[])
   // initiating the game
   init_manager(&G);
 
+  // laoding data
+  save_manager(&G, 1);
   // hundling dev flags and scenarios
   if (argc > 1)
     dev_manager(&argc, argv, &G);
@@ -41,7 +43,13 @@ int main(int argc, char *argv[])
       cap_FPS(G.dev);
     }
   }
+
+  // save data
+  save_manager(&G, 0);
+
+  // free memory
   destroy_GameObject(&G);
   quit_lib();
+
   return 0;
 }

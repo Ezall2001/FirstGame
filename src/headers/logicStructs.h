@@ -17,7 +17,7 @@ typedef struct
 
 typedef struct
 {
-  ///TODO: redo this
+  ///TODO: redo ability struct
 } Ability;
 
 typedef struct
@@ -30,7 +30,7 @@ typedef struct
 
 typedef struct
 {
-  ///TODO: init all of this
+  ///TODO: init characters
   char name[50];
   float hp, mp, speed;
   float damage, burn_damage, poison_damage;

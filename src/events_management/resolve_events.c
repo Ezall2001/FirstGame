@@ -57,7 +57,7 @@ void mouse_motion_events(SDL_Event *event, GameObject *G)
         break;
 
       case 1:
-        ///TODO: finish this
+        ///TODO: finish scene 1 events
         break;
 
       case 2:
@@ -97,7 +97,7 @@ void mouse_Input_events(SDL_Event *event, GameObject *G)
           break;
 
         case 1:
-          ///TODO: finish this
+          ////TODO: finish scene 1 events
           break;
 
         case 2:
@@ -109,7 +109,7 @@ void mouse_Input_events(SDL_Event *event, GameObject *G)
           break;
 
         case 3:
-          ///TODO: finish this
+          ////TODO: finish scene 3 events
           break;
 
         default:
@@ -135,7 +135,7 @@ void mouse_Input_events(SDL_Event *event, GameObject *G)
           break;
 
         case 1:
-          ///TODO: finish this
+          ////TODO: finish scene 1 events
           break;
 
         case 2:
@@ -147,7 +147,7 @@ void mouse_Input_events(SDL_Event *event, GameObject *G)
           break;
 
         case 3:
-          ///TODO: finish this
+          ////TODO: finish scene 3 events
           break;
 
         default:

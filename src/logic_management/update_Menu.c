@@ -60,7 +60,7 @@ void update_Menu_Scene0_Coords(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, Ga
 
 void update_Menu_Scene1_Coords(Menu_Scene1_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
 {
-  ///TODO: finish this
+  ///TODO: update scene1
 }
 
 void update_Menu_Scene2_Coords(Menu_Scene2_UI *ui, Menu_Common_UI *common_ui, GameWindow *window, GameSound *sound)
@@ -232,7 +232,7 @@ void update_Menu_Scene3_Coords(Menu_Scene3_UI *ui, Menu_Common_UI *common_ui, Ga
   ui->tutorial_Title_Text_Coords.x = ui->tutorial_Title_Coords.x + (ui->tutorial_Title_Coords.w - ui->tutorial_Title_Text_Coords.w) / 2;
   ui->tutorial_Title_Text_Coords.y = ui->tutorial_Title_Coords.y + (ui->tutorial_Title_Coords.h * 0.97 - ui->tutorial_Title_Text_Coords.h) / 2;
 
-  ///TODO: finish this
+  ///TODO: finish update scene3
 }
 
 void update_Quit_PopUp_Coords(Quit_PopUp *ui, Menu_Common_UI *common_ui, GameWindow *window)
