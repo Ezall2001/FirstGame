@@ -143,13 +143,19 @@ void render_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindo
     else if (ui->scene_buttons[i].hover == 1)
       rendered = SDL_RenderCopy(window->mainRenderer, common_ui->hover_Button, NULL, &(ui->scene_buttons[i].button_Coords));
     else
-      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->static_Button, NULL, &(ui->scene_buttons[i].button_Coords));
+      rendered = SDL_RenderCopy(window->mainRenderer, common_ui->static_Red_Button, NULL, &(ui->scene_buttons[i].button_Coords));
 
     if (rendered != 0)
       lib_errorLog("failed at rendering menu UI", SDL_GetError());
 
     // button's text
     rendered = SDL_RenderCopy(window->mainRenderer, ui->scene_buttons[i].text, NULL, &(ui->scene_buttons[i].text_Coords));
+
+    if (rendered != 0)
+      lib_errorLog("failed at rendering menu UI", SDL_GetError());
+
+    // button's icon
+    rendered = SDL_RenderCopy(window->mainRenderer, ui->button_Icons[i], NULL, &(ui->icons_Coords[i]));
 
     if (rendered != 0)
       lib_errorLog("failed at rendering menu UI", SDL_GetError());

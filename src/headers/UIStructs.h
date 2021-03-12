@@ -65,6 +65,7 @@ typedef struct
 
   // imgs
   SDL_Texture *static_Button;
+  SDL_Texture *static_Red_Button;
   SDL_Texture *static_Blue_Button;
   SDL_Texture *hover_Button;
   SDL_Texture *click_Button;
@@ -104,6 +105,8 @@ typedef struct
 {
   Button scene_buttons[4];
   SDL_Texture *buttons_Background;
+  SDL_Texture *button_Icons[4];
+  SDL_Rect icons_Coords[4];
   SDL_Rect buttons_Background_Coords;
   int buttons_Margin;
 

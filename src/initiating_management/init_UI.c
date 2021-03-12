@@ -12,6 +12,7 @@ void init_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
 
   // imgs
   ui->static_Button = NULL;
+  ui->static_Red_Button = NULL;
   ui->static_Blue_Button = NULL;
   ui->hover_Button = NULL;
   ui->click_Button = NULL;
@@ -24,6 +25,7 @@ void init_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
   ui->hover_Back_Shortcut = NULL;
 
   load_Texture_Img(&(ui->static_Button), "./assets/imgs/menu/static_yellow_button.png", &(window->mainRenderer));
+  load_Texture_Img(&(ui->static_Red_Button), "./assets/imgs/menu/static_red_button.png", &(window->mainRenderer));
   load_Texture_Img(&(ui->static_Blue_Button), "./assets/imgs/menu/static_blue_button.png", &(window->mainRenderer));
   load_Texture_Img(&(ui->hover_Button), "./assets/imgs/menu/hover_blue_button.png", &(window->mainRenderer));
   load_Texture_Img(&(ui->click_Button), "./assets/imgs/menu/click_button.png", &(window->mainRenderer));
@@ -73,6 +75,7 @@ void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow 
 
   //  --- main buttons ---
   char options[4][10] = {"Start", "Settings", "Tutorial", "Quit"};
+  char icons[4][20] = {"play_icon.png", "settings_icon.png", "tutorial_icon.png", "quit_icon.png"};
 
   for (int i = 0; i < 4; i++)
   {
@@ -82,6 +85,13 @@ void init_Scene0_Menu(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow 
     // text
     ui->scene_buttons[i].text = NULL;
     load_Texture_Text(&(ui->scene_buttons[i].text), &(common_ui->menu_Font), options[i], common_ui->text_Color, &(window->mainRenderer));
+
+    // button's icons
+    char base_icon_path[50] = "./assets/icons/menu/";
+    strcat(base_icon_path, icons[i]);
+
+    ui->button_Icons[i] = NULL;
+    load_Texture_Img(&(ui->button_Icons[i]), base_icon_path, &(window->mainRenderer));
 
     // state
     ui->scene_buttons[i].hover = 0;

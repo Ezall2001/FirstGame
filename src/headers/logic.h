@@ -29,6 +29,7 @@ void update_Scroller_Coords(Button buttons[], int num_Button, GameSound *sound, 
 void bird_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, GameDev *dev);
 void wind_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, GameDev *dev);
 void menu_Intro_Animation(Menu_Common_UI *ui, GameWindow *window, GameDev *dev);
+void scene0_Intro_Animation(Menu_Scene0_UI *ui, GameWindow *window, GameDev *dev);
 
 //   ---- game ----
 void spawn_Players(GameLogic *logic, GameWindow *window);

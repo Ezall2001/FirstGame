@@ -29,21 +29,21 @@ void update_Menu_Common_Coords(Menu_Common_UI *ui, GameWindow *window)
 void update_Menu_Scene0_Coords(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow *window)
 {
   // --- button's background ---
-  ui->buttons_Background_Coords.w = 640 * window->win_width_ratio;
-  ui->buttons_Background_Coords.h = 520 * window->win_width_ratio;
+  ui->buttons_Background_Coords.w = 700 * window->win_width_ratio;
+  ui->buttons_Background_Coords.h = window->h * 0.9;
   ui->buttons_Background_Coords.x = window->w * 0.96 - ui->buttons_Background_Coords.w;
-  ui->buttons_Background_Coords.y = window->h * 0.4;
+  ui->buttons_Background_Coords.y = 0;
 
   // --- main buttons ---
-  ui->buttons_Margin = ui->buttons_Background_Coords.h * 0.1;
+  ui->buttons_Margin = ui->buttons_Background_Coords.h * 0.055;
 
   for (int i = 0; i < 4; i++)
   {
     // buttons
     ui->scene_buttons[i].button_Coords.w = ui->buttons_Background_Coords.w * 0.7;
-    ui->scene_buttons[i].button_Coords.h = (ui->buttons_Background_Coords.h - ui->buttons_Margin * 5) / 4;
+    ui->scene_buttons[i].button_Coords.h = ((ui->buttons_Background_Coords.h - 420 * window->win_width_ratio) - ui->buttons_Margin * 5) / 4;
     ui->scene_buttons[i].button_Coords.x = ui->buttons_Background_Coords.x + (ui->buttons_Background_Coords.w - ui->scene_buttons[i].button_Coords.w) / 2;
-    ui->scene_buttons[i].button_Coords.y = ui->buttons_Background_Coords.y + ui->buttons_Margin * 0.85 + (ui->buttons_Margin + ui->scene_buttons[i].button_Coords.h) * i;
+    ui->scene_buttons[i].button_Coords.y = (ui->buttons_Background_Coords.h - 570 * window->win_width_ratio) + ui->buttons_Margin * 0.85 + (ui->buttons_Margin + ui->scene_buttons[i].button_Coords.h) * i;
 
     // text
     char options[4][10] = {"Start", "Settings", "Tutorial", "Quit"};
@@ -55,6 +55,15 @@ void update_Menu_Scene0_Coords(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, Ga
     ui->scene_buttons[i].text_Coords.h = ui->scene_buttons[i].text_Coords.w * text_w_ratio;
     ui->scene_buttons[i].text_Coords.x = ui->scene_buttons[i].button_Coords.x + ((ui->scene_buttons[i].button_Coords.w - ui->scene_buttons[i].text_Coords.w) / 2);
     ui->scene_buttons[i].text_Coords.y = ui->scene_buttons[i].button_Coords.y + ((ui->scene_buttons[i].button_Coords.h - ui->scene_buttons[i].text_Coords.h * 1.1) / 2);
+
+    // icons
+    SDL_QueryTexture(ui->button_Icons[i], NULL, NULL, &(ui->icons_Coords[i].w), &(ui->icons_Coords[i].h));
+    float texutre_w_ratio = (float)ui->icons_Coords[i].h / ui->icons_Coords[i].w;
+
+    ui->icons_Coords[i].w = ui->scene_buttons[i].button_Coords.w * 0.13;
+    ui->icons_Coords[i].h = ui->icons_Coords[i].w * texutre_w_ratio;
+    ui->icons_Coords[i].x = ui->scene_buttons[i].button_Coords.x + ui->scene_buttons[i].button_Coords.w * 0.85;
+    ui->icons_Coords[i].y = ui->scene_buttons[i].button_Coords.y + (ui->scene_buttons[i].button_Coords.h - ui->icons_Coords[i].h) / 2;
   }
 }
 
@@ -505,5 +514,65 @@ void menu_Intro_Animation(Menu_Common_UI *ui, GameWindow *window, GameDev *dev)
 
     w_mod -= 1 * dev->deltaTime;
     h_mod -= 1 * dev->deltaTime;
+  }
+}
+
+void scene0_Intro_Animation(Menu_Scene0_UI *ui, GameWindow *window, GameDev *dev)
+{
+  static float y_mod = 0;
+  static int init_animation = 0;
+  static int count = 0;
+  static int delay = 1500, start_count = 0;
+
+  if (init_animation == 1)
+  {
+    if (y_mod < 1)
+    {
+
+      ui->buttons_Background_Coords.y = ui->buttons_Background_Coords.h * (y_mod - 1);
+
+      for (int i = 0; i < 4; i++)
+      {
+        // buttons
+        ui->scene_buttons[i].button_Coords.y = ui->buttons_Background_Coords.y + (ui->buttons_Background_Coords.h - 570 * window->win_width_ratio) + ui->buttons_Margin * 0.85 + (ui->buttons_Margin + ui->scene_buttons[i].button_Coords.h) * i;
+
+        // text
+        ui->scene_buttons[i].text_Coords.y = ui->scene_buttons[i].button_Coords.y + ((ui->scene_buttons[i].button_Coords.h - ui->scene_buttons[i].text_Coords.h * 1.1) / 2);
+
+        // icons
+        ui->icons_Coords[i].y = ui->scene_buttons[i].button_Coords.y + (ui->scene_buttons[i].button_Coords.h - ui->icons_Coords[i].h) / 2;
+      }
+
+      y_mod += 1 * dev->deltaTime;
+    }
+  }
+  else if (init_animation == 0)
+  {
+    ui->buttons_Background_Coords.y = -ui->buttons_Background_Coords.h;
+
+    for (int i = 0; i < 4; i++)
+    {
+      // buttons
+      ui->scene_buttons[i].button_Coords.y = ui->buttons_Background_Coords.y + (ui->buttons_Background_Coords.h - 570 * window->win_width_ratio) + ui->buttons_Margin * 0.85 + (ui->buttons_Margin + ui->scene_buttons[i].button_Coords.h) * i;
+
+      // text
+      ui->scene_buttons[i].text_Coords.y = ui->scene_buttons[i].button_Coords.y + ((ui->scene_buttons[i].button_Coords.h - ui->scene_buttons[i].text_Coords.h * 1.1) / 2);
+
+      // icons
+      ui->icons_Coords[i].y = ui->scene_buttons[i].button_Coords.y + (ui->scene_buttons[i].button_Coords.h - ui->icons_Coords[i].h) / 2;
+    }
+
+    if (count == 1)
+    {
+      if (SDL_GetTicks() - start_count > delay)
+      {
+        init_animation = 1;
+      }
+    }
+    else if (count == 0)
+    {
+      start_count = SDL_GetTicks();
+      count = 1;
+    }
   }
 }
