@@ -5,11 +5,12 @@
 
 void renderer_manager(GameObject *G);
 
-// common
+// dev
 void update_renderer(GameWindow *window);
 void render_FPS(GameWindow *window, DevUI *ui, GameDev dev);
 void render_BlackLayer(GameWindow *window, Uint8 alpha);
 void render_Boxes(GameWindow *window, DevUI *ui);
+void render_Ranges(GameWindow *window, DevUI *ui);
 
 // menu
 void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, GameDev *dev);

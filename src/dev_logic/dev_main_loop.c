@@ -14,6 +14,9 @@ void dev_loop(GameObject *G)
 
   if (G->dev.show_boxes == 1)
     set_Boxes_Coords(&(G->logic), &(G->UI.dev_UI));
+
+  if (G->dev.show_ranges == 1)
+    set_Ranges_Coords(&(G->logic), &(G->UI.dev_UI));
 }
 
 void calcFPS(GameDev *dev)
@@ -72,10 +75,7 @@ void change_character(GameLogic *logic, GameInput *input)
   static int default_character = 1;
   if (default_character == 1)
   {
-    logic->survivors[0].coords = logic->players[0].coords;
     logic->players[0] = logic->survivors[0];
-
-    logic->survivors[1].coords = logic->players[1].coords;
     logic->players[1] = logic->survivors[1];
     default_character = 0;
   }
@@ -111,60 +111,228 @@ void spawn_enemie(GameLogic *logic, GameInput *input, GameWindow *window)
   {
     if (input->keys[i] == SDLK_F1)
     {
-      spawn_Bird(logic, window);
+      spawn_on_edge(logic, window, 0);
+    }
+    else if (input->keys[i] == SDLK_F12)
+    {
+      logic->enemy_num = 0;
     }
   }
 }
 
 void set_Boxes_Coords(GameLogic *logic, DevUI *ui)
 {
-  ui->boxes_num = 0;
+  ui->outlines_num = 0;
 
-  // --- active characters ---
+  ///////////////////////////////////////
+  ///////// --- players ---
+  ///////////////////////////////////////
   for (int i = 0; i < 2; i++)
   {
 
-    convert_REAL_SDL(&(ui->boxes[ui->boxes_num].coords),
+    convert_REAL_SDL(&(ui->outlines[ui->outlines_num].box_coords),
                      logic->players[i].coords,
                      logic->cam_Coords,
                      logic->CAM_REAL_Cam_w_Ratio,
                      logic->players[i].coords.w,
                      logic->players[i].coords.h);
 
-    ui->boxes[ui->boxes_num].color = set_color(52, 235, 140 + (100 * i), 255);
+    ui->outlines[ui->outlines_num].box_color = set_color(52, 235, 140 + (100 * i), 255);
 
-    (ui->boxes_num)++;
+    (ui->outlines_num)++;
   }
 
-  // --- enmies ---
+  ///////////////////////////////////////
+  ///////// --- enemies ---
+  ///////////////////////////////////////
   for (int i = 0; i < logic->enemy_num; i++)
   {
 
-    convert_REAL_SDL(&(ui->boxes[ui->boxes_num].coords),
+    convert_REAL_SDL(&(ui->outlines[ui->outlines_num].box_coords),
                      logic->enemies[i].coords,
                      logic->cam_Coords,
                      logic->CAM_REAL_Cam_w_Ratio,
                      logic->enemies[i].coords.w,
                      logic->enemies[i].coords.h);
 
-    ui->boxes[ui->boxes_num].color = set_color(235, 52, 52, 255);
+    if (strcmp(logic->enemies[i].name, "BIRD") == 0)
+      ui->outlines[ui->outlines_num].box_color = set_color(133, 91, 88, 255);
 
-    (ui->boxes_num)++;
+    (ui->outlines_num)++;
   }
 
-  // --- obstacles ---
+  ///////////////////////////////////////
+  ///////// --- obstacles ---
+  ///////////////////////////////////////
   for (int i = 0; i < logic->obstacle_num; i++)
   {
 
-    convert_REAL_SDL(&(ui->boxes[ui->boxes_num].coords),
+    convert_REAL_SDL(&(ui->outlines[ui->outlines_num].box_coords),
                      logic->obstacles[i].coords,
                      logic->cam_Coords,
                      logic->CAM_REAL_Cam_w_Ratio,
                      logic->obstacles[i].coords.w,
                      logic->obstacles[i].coords.h);
 
-    ui->boxes[ui->boxes_num].color = set_color(235, 153, 52, 255);
+    ui->outlines[ui->outlines_num].box_color = set_color(235, 153, 52, 255);
 
-    (ui->boxes_num)++;
+    (ui->outlines_num)++;
+  }
+}
+
+void set_Ranges_Coords(GameLogic *logic, DevUI *ui)
+{
+  ui->outlines_num = 0;
+  real_Rect range_coords;
+
+  ///////////////////////////////////////
+  ///////// --- players ---
+  ///////////////////////////////////////
+
+  for (int i = 0; i < 2; i++)
+  {
+    // init all ranges
+    ui->outlines[ui->outlines_num].roam_range_coords.w = 0;
+    ui->outlines[ui->outlines_num].detection_range_coords.w = 0;
+    ui->outlines[ui->outlines_num].obstacle_range_coords.w = 0;
+    ui->outlines[ui->outlines_num].attack_range_coords.w = 0;
+    ui->outlines[ui->outlines_num].dmg_range_coords.w = 0;
+    ui->outlines[ui->outlines_num].escape_range_coords.w = 0;
+
+    // dmg range
+    range_coords.x = logic->players[i].coords.x;
+    range_coords.y = logic->players[i].coords.y;
+    range_coords.w = logic->players[i].dmg_range;
+    range_coords.h = logic->players[i].dmg_range;
+
+    convert_REAL_SDL(&(ui->outlines[ui->outlines_num].dmg_range_coords),
+                     range_coords,
+                     logic->cam_Coords,
+                     logic->CAM_REAL_Cam_w_Ratio,
+                     range_coords.w,
+                     range_coords.h);
+
+    ui->outlines[ui->outlines_num].dmg_range_color = set_color(255, 17, 0, 255);
+
+    (ui->outlines_num)++;
+  }
+
+  ///////////////////////////////////////
+  ///////// --- enemies ---
+  ///////////////////////////////////////
+  for (int i = 0; i < logic->enemy_num; i++)
+  {
+    // init all ranges
+    ui->outlines[ui->outlines_num].roam_range_coords.w = 0;
+    ui->outlines[ui->outlines_num].detection_range_coords.w = 0;
+    ui->outlines[ui->outlines_num].obstacle_range_coords.w = 0;
+    ui->outlines[ui->outlines_num].attack_range_coords.w = 0;
+    ui->outlines[ui->outlines_num].dmg_range_coords.w = 0;
+    ui->outlines[ui->outlines_num].escape_range_coords.w = 0;
+
+    // roam range
+    if (logic->enemies[i].roam_range.w != 0)
+    {
+      convert_REAL_SDL(&(ui->outlines[ui->outlines_num].roam_range_coords),
+                       logic->enemies[i].roam_range,
+                       logic->cam_Coords,
+                       logic->CAM_REAL_Cam_w_Ratio,
+                       logic->enemies[i].roam_range.w,
+                       logic->enemies[i].roam_range.h);
+
+      ui->outlines[ui->outlines_num].roam_range_color = set_color(0, 255, 251, 255);
+    }
+
+    // detection range
+    if (logic->enemies[i].detection_range != 0)
+    {
+      range_coords.x = logic->enemies[i].coords.x;
+      range_coords.y = logic->enemies[i].coords.y;
+      range_coords.w = logic->enemies[i].detection_range;
+      range_coords.h = logic->enemies[i].detection_range;
+
+      convert_REAL_SDL(&(ui->outlines[ui->outlines_num].detection_range_coords),
+                       range_coords,
+                       logic->cam_Coords,
+                       logic->CAM_REAL_Cam_w_Ratio,
+                       range_coords.w,
+                       range_coords.h);
+
+      ui->outlines[ui->outlines_num].detection_range_color = set_color(2, 181, 178, 255);
+    }
+
+    // obstacle range
+    if (logic->enemies[i].avoid_obstacle_range != 0)
+    {
+      range_coords.x = logic->enemies[i].coords.x;
+      range_coords.y = logic->enemies[i].coords.y;
+      range_coords.w = logic->enemies[i].avoid_obstacle_range;
+      range_coords.h = logic->enemies[i].avoid_obstacle_range;
+
+      convert_REAL_SDL(&(ui->outlines[ui->outlines_num].obstacle_range_coords),
+                       range_coords,
+                       logic->cam_Coords,
+                       logic->CAM_REAL_Cam_w_Ratio,
+                       range_coords.w,
+                       range_coords.h);
+
+      ui->outlines[ui->outlines_num].obstacle_range_color = set_color(255, 174, 0, 255);
+    }
+
+    // attack range
+    if (logic->enemies[i].attack_range != 0)
+    {
+      range_coords.x = logic->enemies[i].coords.x;
+      range_coords.y = logic->enemies[i].coords.y;
+      range_coords.w = logic->enemies[i].attack_range;
+      range_coords.h = logic->enemies[i].attack_range;
+
+      convert_REAL_SDL(&(ui->outlines[ui->outlines_num].attack_range_coords),
+                       range_coords,
+                       logic->cam_Coords,
+                       logic->CAM_REAL_Cam_w_Ratio,
+                       range_coords.w,
+                       range_coords.h);
+
+      ui->outlines[ui->outlines_num].attack_range_color = set_color(227, 14, 92, 255);
+    }
+
+    // dmg range
+    if (logic->enemies[i].dmg_range != 0)
+    {
+      range_coords.x = logic->enemies[i].coords.x;
+      range_coords.y = logic->enemies[i].coords.y;
+      range_coords.w = logic->enemies[i].dmg_range;
+      range_coords.h = logic->enemies[i].dmg_range;
+
+      convert_REAL_SDL(&(ui->outlines[ui->outlines_num].dmg_range_coords),
+                       range_coords,
+                       logic->cam_Coords,
+                       logic->CAM_REAL_Cam_w_Ratio,
+                       range_coords.w,
+                       range_coords.h);
+
+      ui->outlines[ui->outlines_num].dmg_range_color = set_color(255, 17, 0, 255);
+    }
+
+    // escape range
+    if (logic->enemies[i].escape_range != 0)
+    {
+      range_coords.x = logic->enemies[i].coords.x;
+      range_coords.y = logic->enemies[i].coords.y;
+      range_coords.w = logic->enemies[i].escape_range;
+      range_coords.h = logic->enemies[i].escape_range;
+
+      convert_REAL_SDL(&(ui->outlines[ui->outlines_num].escape_range_coords),
+                       range_coords,
+                       logic->cam_Coords,
+                       logic->CAM_REAL_Cam_w_Ratio,
+                       range_coords.w,
+                       range_coords.h);
+
+      ui->outlines[ui->outlines_num].escape_range_color = set_color(255, 255, 255, 255);
+    }
+
+    (ui->outlines_num)++;
   }
 }

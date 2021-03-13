@@ -33,8 +33,10 @@ typedef struct
   // misc
   char name[50];
   int xp, lvl, coins;
+  float distance_walked;
+  float dmg_delt;
 
-  // stats
+  // properties
   float hp, shield, mp, speed;
   float dmg, burn_dmg, poison_dmg;
   float poison_applied, fire_applied;
@@ -59,7 +61,7 @@ typedef struct
   float attack_ang_offset[2];
 
   // ranges
-  float attack_range;
+  float dmg_range;
 
   // states
   int is_spawned;
@@ -74,10 +76,11 @@ typedef struct
   // misc
   char name[50];
   int herd_id;
+  int num_spawned;
   int give_xp;
   int give_coin;
 
-  // states
+  // properties
   float hp, shield, speed;
   float dmg, burn_dmg, poison_dmg;
   float poison_applied, fire_applied;
@@ -90,19 +93,19 @@ typedef struct
   float action_ang;
 
   // ranges
-  float obstacle_range;
+  real_Rect roam_range;
+  float detection_range;
+  float avoid_obstacle_range;
   float attack_range;
   float dmg_range;
-  float run_from_range;
-  float roam_range;
-  float detection_range;
+  float escape_range;
 
   // states
-  int is_attacking;
-  int is_moving;
-  int is_dead;
-  int is_aiming;
   int is_alerted;
+  int is_moving;
+  int is_attacking;
+  int is_aiming;
+  int is_dead;
 
 } Enemie;
 

@@ -45,7 +45,7 @@ void bird_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev);
 // spawn
 void spawn_Players(GameLogic *logic, GameWindow *window);
 void spawn_Obstacle(GameLogic *logic, GameWindow *window);
-void spawn_Bird(GameLogic *logic, GameWindow *window);
+void spawn_on_edge(GameLogic *logic, GameWindow *window, int enemy_type);
 
 void update_Cam_Coords(GameLogic *logic, GameWindow *window, In_Game_UI *ui);
 void move(float speed, float ang, real_Rect *coords);

@@ -36,10 +36,11 @@ flags:
 	@echo "-fps: show fps in the window"
 	@echo "-limit_fps:X limit the fps to X" 
 
-	@echo "-full_dev: draw all the collision boxes, ranges, directions, decisions, and gives capabilty to change character and enemies"
-	@echo "-boxes: draw the boxes around enemies and player"
+	@echo "-full_dev: draw all the collision boxes, ranges, directions, decisions, and gives capabilty to change players and enemies"
+	@echo "-boxes: draw the boxes around enemies and players"
+	@echo "-ranges: draw the ranges of enemies and players"
 	@echo "-spawn: character and enemy flags combined"
-	@echo "-character: let you change the character mid game"
+	@echo "-character: let you change the player mid game"
 	@echo "-enemy: let you spawn enemies mid game"
 
 

@@ -36,10 +36,14 @@ void renderer_manager(GameObject *G)
   }
   else if (G->window.game_scene == 1)
   {
+
     render_Map(&(G->window), &(G->UI.in_game_UI));
 
     if (G->dev.show_boxes == 1)
       render_Boxes(&(G->window), &(G->UI.dev_UI));
+
+    if (G->dev.show_ranges == 1)
+      render_Ranges(&(G->window), &(G->UI.dev_UI));
   }
 
   if (G->dev.show_FPS == 1)

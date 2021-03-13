@@ -4,21 +4,24 @@ void spawn_Players(GameLogic *logic, GameWindow *window)
 {
 
   // main player spawn coords
-  logic->players[0].coords.w = 100;
-  logic->players[0].coords.h = 100;
   logic->players[0].coords.x = get_Random_Number(&(window->r), -(logic->MAP_Map_Coords.w) / 3, (logic->MAP_Map_Coords.w) / 3);
   logic->players[0].coords.y = get_Random_Number(&(window->r), -(logic->MAP_Map_Coords.h) / 3, (logic->MAP_Map_Coords.h) / 3);
 
   // secondary player spawn coords
-  logic->players[1].coords.w = 100;
-  logic->players[1].coords.h = 100;
   logic->players[1].coords.x = logic->players[0].coords.x + logic->players[0].coords.w + 20;
   logic->players[1].coords.y = logic->players[0].coords.y;
 }
 
-void spawn_Bird(GameLogic *logic, GameWindow *window)
+void spawn_on_edge(GameLogic *logic, GameWindow *window, int enemy_type)
 {
-  ///TODO: spawn_Bird
+  ///TODO: finish spawn
+  logic->enemies[logic->enemy_num] = logic->enemy_types[enemy_type];
+
+  logic->enemies[logic->enemy_num].coords.x = 50;
+  logic->enemies[logic->enemy_num].coords.y = 50;
+
+  (logic->enemy_types[0].num_spawned)++;
+  (logic->enemy_num)++;
 }
 
 void spawn_Obstacle(GameLogic *logic, GameWindow *window)
@@ -42,7 +45,6 @@ void move(float speed, float d, real_Rect *coords)
 
 float get_ang(real_Rect src, real_Rect dst)
 {
-  ///TODO: test this in the real coords
   float r_ang = 0;
   float distance = sqrt(pow(dst.x - src.x, 2) + pow(dst.y - src.y, 2));
   float a_sin = asin((dst.y - src.y) / distance);

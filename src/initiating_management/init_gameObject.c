@@ -23,6 +23,8 @@ void init_GameWindow(GameWindow *window)
   window->win_width_ratio = (float)window->w / window->default_w;
   ///NOTE: change this to 0 after dev
   window->game_scene = 1;
+  window->game_stage = 1;
+  window->in_game_init = 0;
   window->menu_scene = 0;
   window->popUp = 0;
 
@@ -58,6 +60,7 @@ void init_GameDev(GameDev *dev)
   // states
   dev->show_FPS = 0;
   dev->show_boxes = 0;
+  dev->show_ranges = 0;
   dev->change_character = 0;
   dev->spawn_enemy = 0;
 
@@ -151,6 +154,7 @@ void init_GameLogic(GameLogic *logic, In_Game_UI *ui)
   logic->MAP_Origin_Coords.w = 0;
 
   init_survivors(logic);
+  init_bird(logic, 1);
 
   // stage objects
   logic->enemy_num = 0;
@@ -168,15 +172,80 @@ void init_survivors(GameLogic *logic)
     {
       logic->survivors[i].xp = 0;
       logic->survivors[i].lvl = 0;
+      first_time = 0;
     }
 
+    logic->survivors[i].distance_walked = 0;
     logic->survivors[i].is_spawned = 0;
   }
 
-  // JAMES
+  //////////////////////////////////////////////////////
+  ////////////// JAMES
+  //////////////////////////////////////////////////////
+  // misc
   strcpy(logic->survivors[0].name, "JAMES");
+
+  // properties
   logic->survivors[0].speed = 5;
-  // MARIE
+
+  // ranges
+  logic->survivors[0].dmg_range = 700;
+
+  // coords
+  logic->survivors[0].coords.w = 70;
+  logic->survivors[0].coords.h = 100;
+  logic->survivors[0].coords.x = 0;
+  logic->survivors[0].coords.y = 0;
+
+  //////////////////////////////////////////////////////
+  ////////////// MARIE
+  //////////////////////////////////////////////////////
+  // misc
   strcpy(logic->survivors[1].name, "MARIE");
+
+  // ranges
+  logic->survivors[1].dmg_range = 500;
+
+  // coords
+  logic->survivors[1].coords.w = 60;
+  logic->survivors[1].coords.h = 80;
+  logic->survivors[1].coords.x = 0;
+  logic->survivors[1].coords.y = 0;
+
+  // properties
   logic->survivors[1].speed = 6;
+}
+
+void init_bird(GameLogic *logic, int stage)
+{
+  ///TODO: finish init bird
+
+  // misc
+  strcpy(logic->enemy_types[0].name, "BIRD");
+  logic->enemy_types[0].herd_id = 0;
+  logic->enemy_types[0].num_spawned = 0;
+
+  // properties
+  logic->enemy_types[0].speed = 8;
+
+  // coords
+  logic->enemy_types[0].coords.x = 0;
+  logic->enemy_types[0].coords.y = 0;
+  logic->enemy_types[0].coords.w = 50;
+  logic->enemy_types[0].coords.h = 50;
+
+  // ranges
+  logic->enemy_types[0].roam_range.w = 0;
+  logic->enemy_types[0].detection_range = 0;
+  logic->enemy_types[0].avoid_obstacle_range = 500;
+  logic->enemy_types[0].attack_range = 100;
+  logic->enemy_types[0].dmg_range = 150;
+  logic->enemy_types[0].escape_range = 0;
+
+  // states
+  logic->enemy_types[0].is_alerted = 1;
+  logic->enemy_types[0].is_moving = 0;
+  logic->enemy_types[0].is_attacking = 0;
+  logic->enemy_types[0].is_aiming = 0;
+  logic->enemy_types[0].is_dead = 0;
 }

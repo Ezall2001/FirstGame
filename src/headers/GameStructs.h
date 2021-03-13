@@ -20,6 +20,8 @@ typedef struct
   int x, y, w, h, default_w, default_h, max_w, max_h;
   float win_width_ratio;
   int game_scene; // 0:outgame - 1:ingame
+  int game_stage;
+  int in_game_init;
   int menu_scene; // 0:mainMenu - 1:startMenu - 2:optionsMenu - 3:tutorialMenu
   int popUp;      // 0:nopopUp - 1:QuitPopUp - 2:CreditsPopUp
 
@@ -30,6 +32,7 @@ typedef struct
   // states
   int show_FPS;
   int show_boxes;
+  int show_ranges;
   int change_character;
   int spawn_enemy;
 
@@ -114,12 +117,12 @@ typedef struct
 
   // objects definition
   Character survivors[4]; // 0:JAMES - 1:MARIE - 2:CAPTAIN WILL - 3:HULI
-  Character enemy_types[10];
+  Enemie enemy_types[10]; // 0: bird
   Obstacle obstacle_types[5];
 
   // stage objects
   Character players[3]; // 0:ACTIVE - 1:ACTIVE - 2:PASSIVE
-  Character enemies[40];
+  Enemie enemies[40];
   Obstacle obstacles[20];
 
   int enemy_num;

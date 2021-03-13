@@ -13,12 +13,29 @@ void main_player_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev, Ga
   if (logic->players[0].is_moving == 1)
   {
     move(logic->players[0].speed, logic->players[0].action_ang, &(logic->players[0].coords));
+    logic->players[0].distance_walked += logic->players[0].speed * dev->deltaTime;
+    logic->players[1].distance_walked += logic->players[1].speed * dev->deltaTime;
     logic->players[0].is_moving = 0;
   }
 }
 
 void bird_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev)
 {
+  float target_distance_walked = 150; ///TODO: make it dependent on stage
+
+  if (logic->players[0].distance_walked - (logic->enemy_types[0].num_spawned * target_distance_walked) > target_distance_walked)
+  {
+    spawn_on_edge(logic, window, 0);
+  }
+
+  for (int i = 0; i < logic->enemy_num; i++)
+  {
+    if (strcmp(logic->enemies[i].name, "BIRD") == 0)
+    {
+      logic->enemies[i].action_ang = get_ang(logic->enemies[i].coords, logic->players[0].coords);
+      move(logic->enemies[i].speed, logic->enemies[i].action_ang, &(logic->enemies[i].coords));
+    }
+  }
 }
 
 void update_Cam_Coords(GameLogic *logic, GameWindow *window, In_Game_UI *ui)

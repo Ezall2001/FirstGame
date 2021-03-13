@@ -1,4 +1,5 @@
 #include "../headers/logic.h"
+#include "../headers/init.h"
 
 void logic_manager(GameObject *G)
 {
@@ -15,10 +16,13 @@ void logic_manager(GameObject *G)
     ///////////////////////////////
     ///////// init game
     ///////////////////////////////
-    static int game_init = 0;
-    if (game_init == 0)
+    if (G->window.in_game_init == 0)
     {
+      init_survivors(&(G->logic));
+      init_bird(&(G->logic), G->window.game_stage);
+      G->window.in_game_init = 1;
     }
+
     ///////////////////////////////
     ///////// behaviors
     ///////////////////////////////
