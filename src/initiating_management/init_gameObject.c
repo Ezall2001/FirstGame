@@ -21,7 +21,8 @@ void init_GameWindow(GameWindow *window)
   window->fullScreen = 0;
   window->running = 1;
   window->win_width_ratio = (float)window->w / window->default_w;
-  window->game_scene = 0;
+  ///NOTE: change this to 0 after dev
+  window->game_scene = 1;
   window->menu_scene = 0;
   window->popUp = 0;
 
@@ -56,7 +57,7 @@ void init_GameDev(GameDev *dev)
 {
   // states
   dev->show_FPS = 0;
-  dev->show_outlines = 0;
+  dev->show_boxes = 0;
   dev->change_character = 0;
   dev->spawn_enemy = 0;
 
@@ -149,15 +150,33 @@ void init_GameLogic(GameLogic *logic, In_Game_UI *ui)
   logic->MAP_Origin_Coords.h = 0;
   logic->MAP_Origin_Coords.w = 0;
 
-  // JAMES
-  strcpy(logic->survivors[0].name, "JAMES");
-  logic->survivors[0].speed = 5;
-
-  // MARIE
-  strcpy(logic->survivors[1].name, "MARIE");
-  logic->survivors[1].speed = 6;
+  init_survivors(logic);
 
   // stage objects
   logic->enemy_num = 0;
   logic->obstacle_num = 0;
+}
+
+/// TODO: put these in seperate file
+void init_survivors(GameLogic *logic)
+{
+  // common
+  static int first_time = 1;
+  for (int i = 0; i < 4; i++)
+  {
+    if (first_time == 1)
+    {
+      logic->survivors[i].xp = 0;
+      logic->survivors[i].lvl = 0;
+    }
+
+    logic->survivors[i].is_spawned = 0;
+  }
+
+  // JAMES
+  strcpy(logic->survivors[0].name, "JAMES");
+  logic->survivors[0].speed = 5;
+  // MARIE
+  strcpy(logic->survivors[1].name, "MARIE");
+  logic->survivors[1].speed = 6;
 }

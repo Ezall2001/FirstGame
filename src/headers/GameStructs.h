@@ -29,7 +29,7 @@ typedef struct
 {
   // states
   int show_FPS;
-  int show_outlines;
+  int show_boxes;
   int change_character;
   int spawn_enemy;
 

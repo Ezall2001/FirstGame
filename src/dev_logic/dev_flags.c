@@ -35,10 +35,20 @@ void set_mute(char flag[], GameSound *sound)
     sound->mute = 1;
 }
 
-void set_outlines(char flag[], GameDev *dev)
+void set_full_dev(char flag[], GameDev *dev)
 {
-  if (strcmp(flag, "outline") == 0)
-    dev->show_outlines = 1;
+  if (strcmp(flag, "full_dev") == 0)
+  {
+    dev->show_boxes = 1;
+    dev->change_character = 1;
+    dev->spawn_enemy = 1;
+  }
+}
+
+void set_boxes(char flag[], GameDev *dev)
+{
+  if (strcmp(flag, "boxes") == 0)
+    dev->show_boxes = 1;
 }
 
 void set_spawn(char flag[], GameDev *dev)

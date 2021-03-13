@@ -181,8 +181,8 @@ typedef struct
   TTF_Font *dev_Font;
   SDL_Texture *FPS_Text;
   SDL_Color FPS_Color;
-  Outline outlines[40];
-  int outline_num;
+  Outline boxes[40];
+  int boxes_num;
 } DevUI;
 
 typedef struct

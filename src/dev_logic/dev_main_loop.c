@@ -12,8 +12,8 @@ void dev_loop(GameObject *G)
   if (G->dev.spawn_enemy == 1)
     spawn_enemie(&(G->logic), &(G->input), &(G->window));
 
-  if (G->dev.show_outlines == 1)
-    set_Outlines_Coords(&(G->logic), &(G->UI.dev_UI));
+  if (G->dev.show_boxes == 1)
+    set_Boxes_Coords(&(G->logic), &(G->UI.dev_UI));
 }
 
 void calcFPS(GameDev *dev)
@@ -69,15 +69,15 @@ void cap_FPS(GameDev dev)
 
 void change_character(GameLogic *logic, GameInput *input)
 {
-  static int default_character = 0;
-  if (default_character == 0)
+  static int default_character = 1;
+  if (default_character == 1)
   {
     logic->survivors[0].coords = logic->players[0].coords;
     logic->players[0] = logic->survivors[0];
 
     logic->survivors[1].coords = logic->players[1].coords;
     logic->players[1] = logic->survivors[1];
-    default_character = 1;
+    default_character = 0;
   }
 
   for (int i = 0; i < input->num_keys; i++)
@@ -116,55 +116,55 @@ void spawn_enemie(GameLogic *logic, GameInput *input, GameWindow *window)
   }
 }
 
-void set_Outlines_Coords(GameLogic *logic, DevUI *ui)
+void set_Boxes_Coords(GameLogic *logic, DevUI *ui)
 {
-  ui->outline_num = 0;
+  ui->boxes_num = 0;
 
   // --- active characters ---
   for (int i = 0; i < 2; i++)
   {
 
-    convert_REAL_SDL(&(ui->outlines[ui->outline_num].coords),
+    convert_REAL_SDL(&(ui->boxes[ui->boxes_num].coords),
                      logic->players[i].coords,
                      logic->cam_Coords,
                      logic->CAM_REAL_Cam_w_Ratio,
                      logic->players[i].coords.w,
                      logic->players[i].coords.h);
 
-    ui->outlines[ui->outline_num].color = set_color(52, 235, 140 + (100 * i), 255);
+    ui->boxes[ui->boxes_num].color = set_color(52, 235, 140 + (100 * i), 255);
 
-    (ui->outline_num)++;
+    (ui->boxes_num)++;
   }
 
   // --- enmies ---
   for (int i = 0; i < logic->enemy_num; i++)
   {
 
-    convert_REAL_SDL(&(ui->outlines[ui->outline_num].coords),
+    convert_REAL_SDL(&(ui->boxes[ui->boxes_num].coords),
                      logic->enemies[i].coords,
                      logic->cam_Coords,
                      logic->CAM_REAL_Cam_w_Ratio,
                      logic->enemies[i].coords.w,
                      logic->enemies[i].coords.h);
 
-    ui->outlines[ui->outline_num].color = set_color(235, 52, 52, 255);
+    ui->boxes[ui->boxes_num].color = set_color(235, 52, 52, 255);
 
-    (ui->outline_num)++;
+    (ui->boxes_num)++;
   }
 
   // --- obstacles ---
   for (int i = 0; i < logic->obstacle_num; i++)
   {
 
-    convert_REAL_SDL(&(ui->outlines[ui->outline_num].coords),
+    convert_REAL_SDL(&(ui->boxes[ui->boxes_num].coords),
                      logic->obstacles[i].coords,
                      logic->cam_Coords,
                      logic->CAM_REAL_Cam_w_Ratio,
                      logic->obstacles[i].coords.w,
                      logic->obstacles[i].coords.h);
 
-    ui->outlines[ui->outline_num].color = set_color(235, 153, 52, 255);
+    ui->boxes[ui->boxes_num].color = set_color(235, 153, 52, 255);
 
-    (ui->outline_num)++;
+    (ui->boxes_num)++;
   }
 }

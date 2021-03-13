@@ -5,10 +5,14 @@
 
 void logic_manager(GameObject *G);
 
-//   ---- common ----
+/////////////////////////////////////
+/////// common
+////////////////////////////////////
 void update_Window_Coords(GameWindow *window);
 
-//   ---- menu ----
+/////////////////////////////////////
+/////// menu
+////////////////////////////////////
 // coords
 void update_Menu_Common_Coords(Menu_Common_UI *ui, GameWindow *window);
 void update_Menu_Scene0_Coords(Menu_Scene0_UI *ui, Menu_Common_UI *common_ui, GameWindow *window);
@@ -31,7 +35,14 @@ void wind_Animation(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, Ga
 void menu_Intro_Animation(Menu_Common_UI *ui, GameWindow *window, GameDev *dev);
 void scene0_Intro_Animation(Menu_Scene0_UI *ui, GameWindow *window, GameDev *dev);
 
-//   ---- game ----
+/////////////////////////////////////
+/////// game
+////////////////////////////////////
+// behavior
+void main_player_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev, GameInput *input);
+void bird_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev);
+
+// spawn
 void spawn_Players(GameLogic *logic, GameWindow *window);
 void spawn_Obstacle(GameLogic *logic, GameWindow *window);
 void spawn_Bird(GameLogic *logic, GameWindow *window);

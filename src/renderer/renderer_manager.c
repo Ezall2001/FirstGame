@@ -38,8 +38,8 @@ void renderer_manager(GameObject *G)
   {
     render_Map(&(G->window), &(G->UI.in_game_UI));
 
-    if (G->dev.show_outlines == 1)
-      render_Outline(&(G->window), &(G->UI.dev_UI));
+    if (G->dev.show_boxes == 1)
+      render_Boxes(&(G->window), &(G->UI.dev_UI));
   }
 
   if (G->dev.show_FPS == 1)
