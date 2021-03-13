@@ -21,7 +21,6 @@ void init_GameWindow(GameWindow *window)
   window->fullScreen = 0;
   window->running = 1;
   window->win_width_ratio = (float)window->w / window->default_w;
-  ///NOTE: change this to 0 after dev
   window->game_scene = 1;
   window->game_stage = 1;
   window->in_game_init = 0;
@@ -61,6 +60,7 @@ void init_GameDev(GameDev *dev)
   dev->show_FPS = 0;
   dev->show_boxes = 0;
   dev->show_ranges = 0;
+  dev->show_directions = 0;
   dev->change_character = 0;
   dev->spawn_enemy = 0;
 
@@ -175,6 +175,7 @@ void init_survivors(GameLogic *logic)
       first_time = 0;
     }
 
+    logic->survivors[i].action_ang = 0;
     logic->survivors[i].distance_walked = 0;
     logic->survivors[i].is_spawned = 0;
   }
@@ -233,6 +234,8 @@ void init_bird(GameLogic *logic, int stage)
   logic->enemy_types[0].coords.y = 0;
   logic->enemy_types[0].coords.w = 50;
   logic->enemy_types[0].coords.h = 50;
+
+  logic->enemy_types[0].action_ang = 0;
 
   // ranges
   logic->enemy_types[0].roam_range.w = 0;

@@ -33,6 +33,7 @@ typedef struct
   int show_FPS;
   int show_boxes;
   int show_ranges;
+  int show_directions;
   int change_character;
   int spawn_enemy;
 
@@ -122,7 +123,7 @@ typedef struct
 
   // stage objects
   Character players[3]; // 0:ACTIVE - 1:ACTIVE - 2:PASSIVE
-  Enemie enemies[40];
+  Enemie enemies[50];
   Obstacle obstacles[20];
 
   int enemy_num;

@@ -57,6 +57,7 @@ void dev_manager(int *argc, char *argv[], GameObject *G)
       set_full_dev(flags[i], &(G->dev));
       set_boxes(flags[i], &(G->dev));
       set_ranges(flags[i], &(G->dev));
+      set_directions(flags[i], &(G->dev));
       set_spawn(flags[i], &(G->dev));
       set_character(flags[i], &(G->dev));
       set_enemy(flags[i], &(G->dev));

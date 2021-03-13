@@ -13,6 +13,7 @@ void set_FPS_cap(char flag[], GameDev *dev);
 void set_mute(char flag[], GameSound *sound);
 void set_boxes(char flag[], GameDev *dev);
 void set_ranges(char flag[], GameDev *dev);
+void set_directions(char flag[], GameDev *dev);
 void set_spawn(char flag[], GameDev *dev);
 void set_character(char flag[], GameDev *dev);
 void set_enemy(char flag[], GameDev *dev);
@@ -31,6 +32,7 @@ void change_character(GameLogic *logic, GameInput *input);
 void spawn_enemie(GameLogic *logic, GameInput *input, GameWindow *window);
 void set_Boxes_Coords(GameLogic *logic, DevUI *ui);
 void set_Ranges_Coords(GameLogic *logic, DevUI *ui);
+void set_Directions_Coords(GameLogic *logic, DevUI *ui);
 
 //direct call functions
 void cap_FPS(GameDev dev);

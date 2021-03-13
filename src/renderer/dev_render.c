@@ -63,6 +63,7 @@ void render_Boxes(GameWindow *window, DevUI *ui)
   int outline = 0;
   for (int i = 0; i < ui->outlines_num; i++)
   {
+    // main box
     int setColor = SDL_SetRenderDrawColor(window->mainRenderer, ui->outlines[i].box_color.r, ui->outlines[i].box_color.g, ui->outlines[i].box_color.b, ui->outlines[i].box_color.a);
     if (setColor != 0)
       lib_errorLog("failed at setting renderer color", SDL_GetError());
@@ -74,6 +75,18 @@ void render_Boxes(GameWindow *window, DevUI *ui)
     outline = SDL_RenderDrawPoint(window->mainRenderer, ui->outlines[i].box_coords.x + ui->outlines[i].box_coords.w / 2, ui->outlines[i].box_coords.y + ui->outlines[i].box_coords.h / 2);
     if (outline != 0)
       lib_errorLog("failed at rendering the outline", SDL_GetError());
+
+    // checkpoints
+    for (int j = 0; j < 4; j++)
+    {
+      int setColor = SDL_SetRenderDrawColor(window->mainRenderer, ui->outlines[i].checkpoints_color.r, ui->outlines[i].checkpoints_color.g, ui->outlines[i].checkpoints_color.b, ui->outlines[i].checkpoints_color.a);
+      if (setColor != 0)
+        lib_errorLog("failed at setting renderer color", SDL_GetError());
+
+      outline = SDL_RenderDrawRect(window->mainRenderer, &(ui->outlines[i].checkpoints[j]));
+      if (outline != 0)
+        lib_errorLog("failed at rendering the outline", SDL_GetError());
+    }
   }
 }
 
@@ -155,5 +168,22 @@ void render_Ranges(GameWindow *window, DevUI *ui)
       if (outline != 0)
         lib_errorLog("failed at rendering the outline", SDL_GetError());
     }
+  }
+}
+
+void render_Directions(GameWindow *window, DevUI *ui)
+{
+  int outline = 0;
+  int setColor = 0;
+
+  for (int i = 0; i < ui->outlines_num; i++)
+  {
+    setColor = SDL_SetRenderDrawColor(window->mainRenderer, ui->outlines[i].direction_color.r, ui->outlines[i].direction_color.g, ui->outlines[i].direction_color.b, ui->outlines[i].direction_color.a);
+    if (setColor != 0)
+      lib_errorLog("failed at setting renderer color", SDL_GetError());
+
+    outline = SDL_RenderDrawLine(window->mainRenderer, ui->outlines[i].direction_coords.x1, ui->outlines[i].direction_coords.y1, ui->outlines[i].direction_coords.x2, ui->outlines[i].direction_coords.y2);
+    if (outline != 0)
+      lib_errorLog("failed at rendering the outline", SDL_GetError());
   }
 }

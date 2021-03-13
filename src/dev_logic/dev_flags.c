@@ -41,6 +41,7 @@ void set_full_dev(char flag[], GameDev *dev)
   {
     dev->show_boxes = 1;
     dev->show_ranges = 1;
+    dev->show_directions = 1;
     dev->change_character = 1;
     dev->spawn_enemy = 1;
   }
@@ -57,6 +58,14 @@ void set_ranges(char flag[], GameDev *dev)
   if (strcmp(flag, "ranges") == 0)
   {
     dev->show_ranges = 1;
+  }
+}
+
+void set_directions(char flag[], GameDev *dev)
+{
+  if (strcmp(flag, "directions") == 0)
+  {
+    dev->show_directions = 1;
   }
 }
 

@@ -17,6 +17,9 @@ void dev_loop(GameObject *G)
 
   if (G->dev.show_ranges == 1)
     set_Ranges_Coords(&(G->logic), &(G->UI.dev_UI));
+
+  if (G->dev.show_directions == 1)
+    set_Directions_Coords(&(G->logic), &(G->UI.dev_UI));
 }
 
 void calcFPS(GameDev *dev)
@@ -123,6 +126,7 @@ void spawn_enemie(GameLogic *logic, GameInput *input, GameWindow *window)
 void set_Boxes_Coords(GameLogic *logic, DevUI *ui)
 {
   ui->outlines_num = 0;
+  real_Rect checkpoint = {0, 0, 10, 10};
 
   ///////////////////////////////////////
   ///////// --- players ---
@@ -130,6 +134,7 @@ void set_Boxes_Coords(GameLogic *logic, DevUI *ui)
   for (int i = 0; i < 2; i++)
   {
 
+    // main box
     convert_REAL_SDL(&(ui->outlines[ui->outlines_num].box_coords),
                      logic->players[i].coords,
                      logic->cam_Coords,
@@ -138,6 +143,23 @@ void set_Boxes_Coords(GameLogic *logic, DevUI *ui)
                      logic->players[i].coords.h);
 
     ui->outlines[ui->outlines_num].box_color = set_color(52, 235, 140 + (100 * i), 255);
+
+    // checkpoint
+    for (int j = 0; j < 4; j++)
+    {
+      checkpoint.x = logic->players[i].coords.x + ((logic->players[i].coords.w / 2) - 1) * pow(-1, j + 1);
+      checkpoint.y = logic->players[i].coords.y + ((logic->players[i].coords.h / 2) - 1) * pow(-1, (j + 2) / 2);
+
+      convert_REAL_SDL(&(ui->outlines[ui->outlines_num].checkpoints[j]),
+                       checkpoint,
+                       logic->cam_Coords,
+                       logic->CAM_REAL_Cam_w_Ratio,
+                       checkpoint.w,
+                       checkpoint.h);
+
+      ui->outlines[ui->outlines_num].checkpoints_color = ui->outlines[ui->outlines_num].box_color;
+      ui->outlines[ui->outlines_num].checkpoints_color.a = 180;
+    }
 
     (ui->outlines_num)++;
   }
@@ -148,6 +170,7 @@ void set_Boxes_Coords(GameLogic *logic, DevUI *ui)
   for (int i = 0; i < logic->enemy_num; i++)
   {
 
+    // main box
     convert_REAL_SDL(&(ui->outlines[ui->outlines_num].box_coords),
                      logic->enemies[i].coords,
                      logic->cam_Coords,
@@ -157,6 +180,23 @@ void set_Boxes_Coords(GameLogic *logic, DevUI *ui)
 
     if (strcmp(logic->enemies[i].name, "BIRD") == 0)
       ui->outlines[ui->outlines_num].box_color = set_color(133, 91, 88, 255);
+
+    // checkpoint
+    for (int j = 0; j < 4; j++)
+    {
+      checkpoint.x = logic->enemies[i].coords.x + ((logic->enemies[i].coords.w / 2) - 1) * pow(-1, j + 1);
+      checkpoint.y = logic->enemies[i].coords.y + ((logic->enemies[i].coords.h / 2) - 1) * pow(-1, (j + 2) / 2);
+
+      convert_REAL_SDL(&(ui->outlines[ui->outlines_num].checkpoints[j]),
+                       checkpoint,
+                       logic->cam_Coords,
+                       logic->CAM_REAL_Cam_w_Ratio,
+                       checkpoint.w,
+                       checkpoint.h);
+
+      ui->outlines[ui->outlines_num].checkpoints_color = ui->outlines[ui->outlines_num].box_color;
+      ui->outlines[ui->outlines_num].checkpoints_color.a = 100;
+    }
 
     (ui->outlines_num)++;
   }
@@ -332,6 +372,92 @@ void set_Ranges_Coords(GameLogic *logic, DevUI *ui)
 
       ui->outlines[ui->outlines_num].escape_range_color = set_color(255, 255, 255, 255);
     }
+
+    (ui->outlines_num)++;
+  }
+}
+
+void set_Directions_Coords(GameLogic *logic, DevUI *ui)
+{
+  ui->outlines_num = 0;
+  float static_line_length = 25;
+  real_Rect r_direction_coords;
+  SDL_Rect s_direction_coords;
+
+  ///////////////////////////////////////
+  ///////// --- players ---
+  ///////////////////////////////////////
+  for (int i = 0; i < 2; i++)
+  {
+    // first point
+    r_direction_coords.x = logic->players[i].coords.x;
+    r_direction_coords.y = logic->players[i].coords.y;
+
+    convert_REAL_SDL(&s_direction_coords,
+                     r_direction_coords,
+                     logic->cam_Coords,
+                     logic->CAM_REAL_Cam_w_Ratio,
+                     0,
+                     0);
+
+    ui->outlines[ui->outlines_num].direction_coords.x1 = s_direction_coords.x;
+    ui->outlines[ui->outlines_num].direction_coords.y1 = s_direction_coords.y;
+
+    // second point
+    float action_r_ang = convert_Degree_Radiant(logic->players[i].action_ang);
+    r_direction_coords.x = logic->players[i].coords.x + (cos(action_r_ang) * static_line_length * logic->players[i].speed);
+    r_direction_coords.y = logic->players[i].coords.y + (sin(action_r_ang) * static_line_length * logic->players[i].speed);
+
+    convert_REAL_SDL(&s_direction_coords,
+                     r_direction_coords,
+                     logic->cam_Coords,
+                     logic->CAM_REAL_Cam_w_Ratio,
+                     0,
+                     0);
+
+    ui->outlines[ui->outlines_num].direction_coords.x2 = s_direction_coords.x;
+    ui->outlines[ui->outlines_num].direction_coords.y2 = s_direction_coords.y;
+
+    ui->outlines[ui->outlines_num].direction_color = set_color(51, 18, 219, 255);
+
+    (ui->outlines_num)++;
+  }
+
+  ///////////////////////////////////////
+  ///////// --- enemies ---
+  ///////////////////////////////////////
+  for (int i = 0; i < logic->enemy_num; i++)
+  {
+    // first point
+    r_direction_coords.x = logic->enemies[i].coords.x;
+    r_direction_coords.y = logic->enemies[i].coords.y;
+
+    convert_REAL_SDL(&s_direction_coords,
+                     r_direction_coords,
+                     logic->cam_Coords,
+                     logic->CAM_REAL_Cam_w_Ratio,
+                     0,
+                     0);
+
+    ui->outlines[ui->outlines_num].direction_coords.x1 = s_direction_coords.x;
+    ui->outlines[ui->outlines_num].direction_coords.y1 = s_direction_coords.y;
+
+    // second point
+    float action_r_ang = convert_Degree_Radiant(logic->enemies[i].action_ang);
+    r_direction_coords.x = logic->enemies[i].coords.x + (cos(action_r_ang) * static_line_length * logic->enemies[i].speed);
+    r_direction_coords.y = logic->enemies[i].coords.y + (sin(action_r_ang) * static_line_length * logic->enemies[i].speed);
+
+    convert_REAL_SDL(&s_direction_coords,
+                     r_direction_coords,
+                     logic->cam_Coords,
+                     logic->CAM_REAL_Cam_w_Ratio,
+                     0,
+                     0);
+
+    ui->outlines[ui->outlines_num].direction_coords.x2 = s_direction_coords.x;
+    ui->outlines[ui->outlines_num].direction_coords.y2 = s_direction_coords.y;
+
+    ui->outlines[ui->outlines_num].direction_color = set_color(51, 18, 219, 255);
 
     (ui->outlines_num)++;
   }

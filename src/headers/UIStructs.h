@@ -24,17 +24,23 @@ typedef struct
 
 typedef struct
 {
+  int x1, y1, x2, y2;
+} SDL_Line;
+
+typedef struct
+{
   ///TODO: finish the Outline struct
+
   // coords
   SDL_Rect box_coords;
+  SDL_Rect checkpoints[4];
   SDL_Rect roam_range_coords;
   SDL_Rect detection_range_coords;
   SDL_Rect obstacle_range_coords;
   SDL_Rect attack_range_coords;
   SDL_Rect dmg_range_coords;
   SDL_Rect escape_range_coords;
-  SDL_Rect direction_coords;
-  SDL_Rect checkpoints[4];
+  SDL_Line direction_coords;
 
   // colors
   SDL_Color box_color;             // brown: bird
@@ -44,8 +50,8 @@ typedef struct
   SDL_Color attack_range_color;    // red pink
   SDL_Color dmg_range_color;       // red
   SDL_Color escape_range_color;    // white
-  SDL_Color direction_color;
-  SDL_Color checkpoints_color;
+  SDL_Color direction_color;       // dark blue
+  SDL_Color checkpoints_color;     // box_color with a bit of opacity
 
 } Outline;
 
@@ -202,7 +208,7 @@ typedef struct
   TTF_Font *dev_Font;
   SDL_Texture *FPS_Text;
   SDL_Color FPS_Color;
-  Outline outlines[40];
+  Outline outlines[100];
   int outlines_num;
 } DevUI;
 

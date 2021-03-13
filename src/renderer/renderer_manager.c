@@ -44,6 +44,9 @@ void renderer_manager(GameObject *G)
 
     if (G->dev.show_ranges == 1)
       render_Ranges(&(G->window), &(G->UI.dev_UI));
+
+    if (G->dev.show_directions == 1)
+      render_Directions(&(G->window), &(G->UI.dev_UI));
   }
 
   if (G->dev.show_FPS == 1)

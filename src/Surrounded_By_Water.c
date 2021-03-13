@@ -7,6 +7,7 @@
 #include "./headers/save.h"
 
 ///NOTE: change the game scene to 0 default
+///TODO: update comments
 
 int main(int argc, char *argv[])
 {
