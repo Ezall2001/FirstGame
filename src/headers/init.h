@@ -32,5 +32,6 @@ void init_In_Game_UI(In_Game_UI *ui, GameWindow *window);
 // init Logic
 void init_survivors(GameLogic *logic);
 void init_bird(GameLogic *logic, int stage);
+void init_sheep(GameLogic *logic, int stage);
 
 #endif

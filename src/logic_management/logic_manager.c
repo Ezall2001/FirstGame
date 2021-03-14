@@ -20,6 +20,8 @@ void logic_manager(GameObject *G)
     {
       init_survivors(&(G->logic));
       init_bird(&(G->logic), G->window.game_stage);
+      init_sheep(&(G->logic), 1);
+
       G->window.in_game_init = 1;
     }
 
@@ -29,11 +31,15 @@ void logic_manager(GameObject *G)
     main_player_Behavior(&(G->logic), &(G->window), &(G->dev), &(G->input));
 
     bird_Behavior(&(G->logic), &(G->window), &(G->dev));
+    // sheep_Behavior(&(G->logic), &(G->window), &(G->dev));
+    melee_skeleton_Behavior(&(G->logic), &(G->window), &(G->dev));
+    archer_skeleton_Behavior(&(G->logic), &(G->window), &(G->dev));
 
     ///////////////////////////////
     ///////// converting systems
     ///////////////////////////////
     update_Cam_Coords(&(G->logic), &(G->window), &(G->UI.in_game_UI));
+    update_Minimap_Coords(&(G->logic), &(G->window), &(G->UI.in_game_UI));
   }
   G->input.num_keys = 0;
 }

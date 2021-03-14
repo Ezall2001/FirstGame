@@ -118,7 +118,7 @@ typedef struct
 
   // objects definition
   Character survivors[4]; // 0:JAMES - 1:MARIE - 2:CAPTAIN WILL - 3:HULI
-  Enemie enemy_types[10]; // 0: bird
+  Enemie enemy_types[10]; // 0:BIRD - 1:SHEEP
   Obstacle obstacle_types[5];
 
   // stage objects

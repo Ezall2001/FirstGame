@@ -41,13 +41,18 @@ void scene0_Intro_Animation(Menu_Scene0_UI *ui, GameWindow *window, GameDev *dev
 // behavior
 void main_player_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev, GameInput *input);
 void bird_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev);
+void sheep_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev);
+void melee_skeleton_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev);
+void archer_skeleton_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev);
 
 // spawn
 void spawn_Players(GameLogic *logic, GameWindow *window);
 void spawn_Obstacle(GameLogic *logic, GameWindow *window);
 void spawn_on_edge(GameLogic *logic, GameWindow *window, int enemy_type);
+void spawn_herd(GameLogic *logic, GameWindow *window, int enemy_type, int enemy_num);
 
 void update_Cam_Coords(GameLogic *logic, GameWindow *window, In_Game_UI *ui);
+void update_Minimap_Coords(GameLogic *logic, GameWindow *window, In_Game_UI *ui);
 void move(float speed, float ang, real_Rect *coords);
 float get_ang(real_Rect src, real_Rect dst);
 

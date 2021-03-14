@@ -155,6 +155,7 @@ void init_GameLogic(GameLogic *logic, In_Game_UI *ui)
 
   init_survivors(logic);
   init_bird(logic, 1);
+  init_sheep(logic, 1);
 
   // stage objects
   logic->enemy_num = 0;
@@ -187,7 +188,7 @@ void init_survivors(GameLogic *logic)
   strcpy(logic->survivors[0].name, "JAMES");
 
   // properties
-  logic->survivors[0].speed = 5;
+  logic->survivors[0].speed = 10;
 
   // ranges
   logic->survivors[0].dmg_range = 700;
@@ -251,4 +252,40 @@ void init_bird(GameLogic *logic, int stage)
   logic->enemy_types[0].is_attacking = 0;
   logic->enemy_types[0].is_aiming = 0;
   logic->enemy_types[0].is_dead = 0;
+}
+
+void init_sheep(GameLogic *logic, int stage)
+{
+  ///TODO: finish init sheep
+
+  // misc
+  strcpy(logic->enemy_types[1].name, "SHEEP");
+  logic->enemy_types[1].herd_id = 0;
+  logic->enemy_types[1].num_spawned = 0;
+
+  // properties
+  logic->enemy_types[1].speed = 3;
+
+  // coords
+  logic->enemy_types[1].coords.x = 0;
+  logic->enemy_types[1].coords.y = 0;
+  logic->enemy_types[1].coords.w = 150;
+  logic->enemy_types[1].coords.h = 130;
+
+  logic->enemy_types[1].action_ang = 0;
+
+  // ranges
+  logic->enemy_types[1].roam_range.w = 1000;
+  logic->enemy_types[1].detection_range = 200;
+  logic->enemy_types[1].avoid_obstacle_range = 750;
+  logic->enemy_types[1].attack_range = 600;
+  logic->enemy_types[1].dmg_range = 700;
+  logic->enemy_types[1].escape_range = 0;
+
+  // states
+  logic->enemy_types[1].is_alerted = 0;
+  logic->enemy_types[1].is_moving = 0;
+  logic->enemy_types[1].is_attacking = 0;
+  logic->enemy_types[1].is_aiming = 0;
+  logic->enemy_types[1].is_dead = 0;
 }

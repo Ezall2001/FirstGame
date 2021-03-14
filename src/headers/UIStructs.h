@@ -222,6 +222,15 @@ typedef struct
   SDL_Texture *map;
   SDL_Rect src_Map_Coords;
 
+  // minimap
+  SDL_Texture *minimap_frame;
+  SDL_Rect minimap_coords;
+  SDL_Rect minimap_camera_coords;
+  SDL_Rect minimap_frame_coords;
+  SDL_Rect minimap_players_coords[2];
+  SDL_Rect minimap_enemies_coords[50];
+  int enemies_num;
+
 } In_Game_UI;
 
 #endif

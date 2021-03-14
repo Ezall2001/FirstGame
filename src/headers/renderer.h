@@ -24,5 +24,6 @@ void menu_intro(GameWindow *window, GameDev *dev);
 
 // in game
 void render_Map(GameWindow *window, In_Game_UI *ui);
+void render_minimap(GameWindow *window, In_Game_UI *ui);
 
 #endif

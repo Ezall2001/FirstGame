@@ -254,6 +254,11 @@ void init_In_Game_UI(In_Game_UI *ui, GameWindow *window)
 {
   // test map
   ui->map = NULL;
-  ///TODO: change this
+  ///TODO: change this to a real map
   load_Texture_Img(&(ui->map), "./assets/test/map_4K.png", &(window->mainRenderer));
+
+  // minimap
+  ui->minimap_frame = NULL;
+  load_Texture_Img(&(ui->minimap_frame), "./assets/imgs/in_game/minimap_frame.png", &(window->mainRenderer));
+  ui->enemies_num = 0;
 }
