@@ -173,3 +173,8 @@ int DrawCircle(SDL_Renderer *renderer, int32_t centreX, int32_t centreY, int32_t
   }
   return outline;
 }
+
+float get_distance(real_Rect p1, real_Rect p2)
+{
+  return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
+}

@@ -35,5 +35,6 @@ float convert_Radiant_Degree(float r);
 float convert_Degree_Radiant(float d);
 void convert_REAL_SDL(SDL_Rect *s_coords, real_Rect r_coords, real_Rect cam_coords, float w_ratio, float w, float h);
 int DrawCircle(SDL_Renderer *renderer, int32_t centreX, int32_t centreY, int32_t radius);
+float get_distance(real_Rect p1, real_Rect p2);
 
 #endif

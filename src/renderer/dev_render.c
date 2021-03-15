@@ -187,3 +187,20 @@ void render_Directions(GameWindow *window, DevUI *ui)
       lib_errorLog("failed at rendering the outline", SDL_GetError());
   }
 }
+
+void render_Distances(GameWindow *window, DevUI *ui)
+{
+  int distance = 0;
+  int setColor = 0;
+
+  for (int i = 0; i < ui->distances_num; i++)
+  {
+    setColor = SDL_SetRenderDrawColor(window->mainRenderer, 240, 62, 186, 255);
+    if (setColor != 0)
+      lib_errorLog("failed at setting renderer color", SDL_GetError());
+
+    distance = SDL_RenderDrawLine(window->mainRenderer, ui->distances[i].x1, ui->distances[i].y1, ui->distances[i].x2, ui->distances[i].y2);
+    if (distance != 0)
+      lib_errorLog("failed at rendering the outline", SDL_GetError());
+  }
+}

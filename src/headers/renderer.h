@@ -12,6 +12,7 @@ void render_BlackLayer(GameWindow *window, Uint8 alpha);
 void render_Boxes(GameWindow *window, DevUI *ui);
 void render_Ranges(GameWindow *window, DevUI *ui);
 void render_Directions(GameWindow *window, DevUI *ui);
+void render_Distances(GameWindow *window, DevUI *ui);
 
 // menu
 void render_Common_Menu(Menu_Common_UI *ui, GameWindow *window, GameSound *sound, GameDev *dev);

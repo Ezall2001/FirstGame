@@ -34,6 +34,7 @@ void spawn_enemie(GameLogic *logic, GameInput *input, GameWindow *window);
 void set_Boxes_Coords(GameLogic *logic, DevUI *ui);
 void set_Ranges_Coords(GameLogic *logic, DevUI *ui);
 void set_Directions_Coords(GameLogic *logic, DevUI *ui);
+void set_Distances_Coords(GameLogic *logic, DevUI *ui);
 
 //direct call functions
 void cap_FPS(GameDev dev);

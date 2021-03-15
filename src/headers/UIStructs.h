@@ -43,7 +43,7 @@ typedef struct
   SDL_Line direction_coords;
 
   // colors
-  SDL_Color box_color;             // brown: bird
+  SDL_Color box_color;             // brown: bird - white: sheep
   SDL_Color roam_range_color;      // cian
   SDL_Color detection_range_color; // dark cian
   SDL_Color obstacle_range_color;  // orange
@@ -209,7 +209,10 @@ typedef struct
   SDL_Texture *FPS_Text;
   SDL_Color FPS_Color;
   Outline outlines[100];
+  SDL_Line distances[50];
+
   int outlines_num;
+  int distances_num;
 } DevUI;
 
 typedef struct

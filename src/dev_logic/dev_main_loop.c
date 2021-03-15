@@ -16,7 +16,10 @@ void dev_loop(GameObject *G)
     set_Boxes_Coords(&(G->logic), &(G->UI.dev_UI));
 
   if (G->dev.show_ranges == 1)
+  {
     set_Ranges_Coords(&(G->logic), &(G->UI.dev_UI));
+    set_Distances_Coords(&(G->logic), &(G->UI.dev_UI));
+  }
 
   if (G->dev.show_directions == 1)
     set_Directions_Coords(&(G->logic), &(G->UI.dev_UI));
@@ -116,6 +119,10 @@ void spawn_enemie(GameLogic *logic, GameInput *input, GameWindow *window)
     {
       spawn_on_edge(logic, window, 0);
     }
+    else if (input->keys[i] == SDLK_F2)
+    {
+      spawn_herd(logic, window, 1, 3);
+    }
     else if (input->keys[i] == SDLK_F12)
     {
       logic->enemy_num = 0;
@@ -180,6 +187,8 @@ void set_Boxes_Coords(GameLogic *logic, DevUI *ui)
 
     if (strcmp(logic->enemies[i].name, "BIRD") == 0)
       ui->outlines[ui->outlines_num].box_color = set_color(133, 91, 88, 255);
+    else if (strcmp(logic->enemies[i].name, "SHEEP") == 0)
+      ui->outlines[ui->outlines_num].box_color = set_color(255, 255, 255, 255);
 
     // checkpoint
     for (int j = 0; j < 4; j++)
@@ -278,7 +287,7 @@ void set_Ranges_Coords(GameLogic *logic, DevUI *ui)
                        logic->cam_Coords,
                        logic->CAM_REAL_Cam_w_Ratio,
                        logic->enemies[i].roam_range.w,
-                       logic->enemies[i].roam_range.h);
+                       logic->enemies[i].roam_range.w);
 
       ui->outlines[ui->outlines_num].roam_range_color = set_color(0, 255, 251, 255);
     }
@@ -461,4 +470,41 @@ void set_Directions_Coords(GameLogic *logic, DevUI *ui)
 
     (ui->outlines_num)++;
   }
+}
+
+void set_Distances_Coords(GameLogic *logic, DevUI *ui)
+{
+  /// this is for pure test meaning that the code in here is not stable and can be changed at any time
+  // ui->distances_num = 0;
+  // SDL_Rect s_direction_coords;
+
+  // for (int i = 0; i < logic->enemy_num; i++)
+  // {
+  //   if (strcmp(logic->enemies[i].name, "SHEEP") == 0)
+  //   {
+  //     // first point
+  //     convert_REAL_SDL(&s_direction_coords,
+  //                      logic->enemies[i].coords,
+  //                      logic->cam_Coords,
+  //                      logic->CAM_REAL_Cam_w_Ratio,
+  //                      0,
+  //                      0);
+
+  //     ui->distances[ui->distances_num].x1 = s_direction_coords.x;
+  //     ui->distances[ui->distances_num].y1 = s_direction_coords.y;
+
+  //     // second point
+  //     convert_REAL_SDL(&s_direction_coords,
+  //                      logic->enemies[i].roam_range,
+  //                      logic->cam_Coords,
+  //                      logic->CAM_REAL_Cam_w_Ratio,
+  //                      0,
+  //                      0);
+
+  //     ui->distances[ui->distances_num].x2 = s_direction_coords.x;
+  //     ui->distances[ui->distances_num].y2 = s_direction_coords.y;
+
+  //     (ui->distances_num)++;
+  //   }
+  // }
 }

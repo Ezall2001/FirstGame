@@ -64,34 +64,69 @@ void spawn_on_edge(GameLogic *logic, GameWindow *window, int enemy_type)
 void spawn_herd(GameLogic *logic, GameWindow *window, int enemy_type, int enemy_num)
 {
   // herd coords
-  int x_limit1 = -logic->MAP_Map_Coords.w / 2 + logic->enemy_types[enemy_type].roam_range.w;
-  int x_limit2 = logic->MAP_Map_Coords.w / 2 - logic->enemy_types[enemy_type].roam_range.w;
-  int x_herd = get_Random_Number(&(window->r), x_limit1, x_limit2);
+  float y_herd = 0, x_herd = 0;
 
-  int y_limit1 = -logic->MAP_Map_Coords.h / 2 + logic->enemy_types[enemy_type].roam_range.w;
-  int y_limit2 = logic->MAP_Map_Coords.h / 2 - logic->enemy_types[enemy_type].roam_range.w;
-  int y_herd = get_Random_Number(&(window->r), y_limit1, y_limit2);
+  float x_limit1 = -logic->MAP_Map_Coords.w / 2 + logic->enemy_types[enemy_type].roam_range.w;
+  float x_limit2 = logic->MAP_Map_Coords.w / 2 - logic->enemy_types[enemy_type].roam_range.w;
 
-  logic->enemy_types[enemy_type].roam_range.x = x_herd;
-  logic->enemy_types[enemy_type].roam_range.y = y_herd;
+  float y_limit1 = -logic->MAP_Map_Coords.h / 2 + logic->enemy_types[enemy_type].roam_range.w;
+  float y_limit2 = logic->MAP_Map_Coords.h / 2 - logic->enemy_types[enemy_type].roam_range.w;
 
-  (logic->enemy_types[enemy_type].num_spawned)++;
-  logic->enemy_types[enemy_type].herd_id = logic->enemy_types[enemy_type].num_spawned;
-
-  // indiv coords
-  for (int i = 0; i < enemy_num; i++)
+  int collision = 0;
+  float herd_offset = logic->enemy_types[enemy_type].roam_range.w;
+  int max_spawn = 0;
+  do
   {
-    float ang_herd = get_Random_Number(&(window->r), 0, 360);
-    int distance_herd = get_Random_Number(&(window->r), 0, logic->enemy_types[enemy_type].roam_range.w);
+    collision = 0;
 
-    logic->enemy_types[enemy_type].coords.x = x_herd + cos(ang_herd) * distance_herd;
-    logic->enemy_types[enemy_type].coords.y = y_herd + sin(ang_herd) * distance_herd;
+    x_herd = get_Random_Number(&(window->r), x_limit1, x_limit2);
+    y_herd = get_Random_Number(&(window->r), y_limit1, y_limit2);
+    real_Rect herd_coords = {x_herd, y_herd, 0, 0};
 
-    logic->enemies[logic->enemy_num] = logic->enemy_types[enemy_type];
-    (logic->enemy_num)++;
+    // check for other herds
+    for (int i = 0; i < logic->enemy_num; i++)
+    {
+      if (strcmp(logic->enemies[i].name, "SHEEP") == 0)
+      {
+        float distance = get_distance(herd_coords, logic->enemies[i].roam_range);
+        if (distance < logic->enemies[i].roam_range.w * 2 + herd_offset)
+        {
+          collision = 1;
+          i = logic->enemy_num;
+        }
+      }
+    }
+
+    ///TODO: check for player
+
+    max_spawn++;
+    if (max_spawn == 10000)
+      break;
+
+  } while (collision == 1);
+
+  if (max_spawn < 10000)
+  {
+    logic->enemy_types[enemy_type].roam_range.x = x_herd;
+    logic->enemy_types[enemy_type].roam_range.y = y_herd;
+
+    (logic->enemy_types[enemy_type].num_spawned)++;
+    logic->enemy_types[enemy_type].herd_id = logic->enemy_types[enemy_type].num_spawned;
+
+    // indiv coords
+    for (int i = 0; i < enemy_num; i++)
+    {
+      float ang_herd = get_Random_Number(&(window->r), 0, 360);
+      int distance_herd = get_Random_Number(&(window->r), 0, logic->enemy_types[enemy_type].roam_range.w);
+
+      logic->enemy_types[enemy_type].coords.x = x_herd + cos(ang_herd) * distance_herd;
+      logic->enemy_types[enemy_type].coords.y = y_herd + sin(ang_herd) * distance_herd;
+
+      logic->enemies[logic->enemy_num] = logic->enemy_types[enemy_type];
+      (logic->enemy_num)++;
+    }
   }
 }
-
 void spawn_Obstacle(GameLogic *logic, GameWindow *window)
 {
 
@@ -109,9 +144,22 @@ void move(float speed, float d, real_Rect *coords)
 float get_ang(real_Rect src, real_Rect dst)
 {
   float r_ang = 0;
-  float distance = sqrt(pow(dst.x - src.x, 2) + pow(dst.y - src.y, 2));
+  float distance = get_distance(src, dst);
+
+  if (distance == 0)
+  {
+    return 0;
+  }
+
   float a_sin = asin((dst.y - src.y) / distance);
   float a_cos = acos((dst.x - src.x) / distance);
+
+  if (isnan(a_sin))
+    a_sin = 0;
+
+  if (isnan(a_cos))
+    a_cos = 0;
+
   if (a_sin >= 0)
   {
     r_ang = a_cos;

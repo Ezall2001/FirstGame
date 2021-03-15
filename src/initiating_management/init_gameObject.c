@@ -188,7 +188,7 @@ void init_survivors(GameLogic *logic)
   strcpy(logic->survivors[0].name, "JAMES");
 
   // properties
-  logic->survivors[0].speed = 10;
+  logic->survivors[0].speed = 20;
 
   // ranges
   logic->survivors[0].dmg_range = 700;
@@ -275,7 +275,7 @@ void init_sheep(GameLogic *logic, int stage)
   logic->enemy_types[1].action_ang = 0;
 
   // ranges
-  logic->enemy_types[1].roam_range.w = 1000;
+  logic->enemy_types[1].roam_range.w = 700;
   logic->enemy_types[1].detection_range = 200;
   logic->enemy_types[1].avoid_obstacle_range = 750;
   logic->enemy_types[1].attack_range = 600;

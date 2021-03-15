@@ -221,6 +221,9 @@ void init_DevUI(DevUI *ui)
   ui->FPS_Text = NULL;
 
   ui->FPS_Color = set_color(255, 255, 0, 255);
+
+  ui->outlines_num = 0;
+  ui->distances_num = 0;
 }
 
 void init_Quit_PopUp(Quit_PopUp *ui, Menu_Common_UI *common_ui, GameWindow *window)
