@@ -11,11 +11,11 @@ all: build
 
 
 game/dev-%: build
-	@./bin/$(GAME) $@ placeholder
+	@./bin/$(GAME) $@ one_very_very_very_also_verrrry_long_placeholder_to_avoid_replaceing_placeholder_bug
 
 proto1/dev-%: build
 	@echo test: the very first prototype of the game
-	@./bin/$(GAME) $@ placeholder
+	@./bin/$(GAME) $@ one_very_very_very_also_verrrry_long_placeholder_to_avoid_replaceing_placeholder_bug
 
 lvl_system/dev-%: build
 	@echo test: leveling up simulation
@@ -23,11 +23,11 @@ lvl_system/dev-%: build
 
 responsive_UI/dev-%: build
 	@echo test: a simulation for making the UI fully responsive
-	@./bin/$(GAME) $@ placeholder
+	@./bin/$(GAME) $@ one_very_very_very_also_verrrry_long_placeholder_to_avoid_replaceing_placeholder_bug
 
 projectile/dev-%: build
 	@echo test: a simulation to test projectile design
-	@./bin/$(GAME) $@ placeholder
+	@./bin/$(GAME) $@ one_very_very_very_also_verrrry_long_placeholder_to_avoid_replaceing_placeholder_bug
 
 
 
@@ -35,6 +35,8 @@ flags:
 	@echo "-fullscreen: set the game in full screen mode"
 	@echo "-fps: show fps in the window"
 	@echo "-limit_fps:X limit the fps to X" 
+	@echo "-mute: starts the game with mute on"
+	@echo "-sprite:<sprite/path>: rename the sprite imgs from 0.png to N.png"
 
 	@echo "-full_dev: draw all the collision boxes, ranges, directions, decisions, and gives capabilty to change players and enemies"
 	@echo "-boxes: draw the boxes around enemies and players"

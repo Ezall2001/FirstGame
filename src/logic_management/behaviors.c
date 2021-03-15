@@ -16,35 +16,25 @@ void spawn_on_edge(GameLogic *logic, GameWindow *window, int enemy_type)
 {
   logic->enemies[logic->enemy_num] = logic->enemy_types[enemy_type];
 
-  int exclude_side = 0; // 0: none 1:top 2:right 3:bottom 4:left
+  int exclude_side_vertical = 0;   // 0: none 1:top 3:bottom
+  int exclude_side_horizontal = 0; // 0: none 2:right 4:left
   int side = 0;
-  float side_offset = logic->MAP_Map_Coords.h * 0.1;
+  float side_offset = logic->MAP_Map_Coords.h * 0.15;
 
-  coords_log(logic->players[0].coords.x, logic->players[0].coords.y, logic->players[0].coords.w, logic->players[0].coords.h);
   if (logic->players[0].coords.y > (logic->MAP_Map_Coords.h / 2) - side_offset)
-  {
-    exclude_side = 1;
-    printf("top");
-  }
+    exclude_side_vertical = 1;
   else if (logic->players[0].coords.y < (-logic->MAP_Map_Coords.h / 2) + side_offset)
-  {
-    exclude_side = 3;
-    printf("bottom");
-  }
-  else if (logic->players[0].coords.x > logic->MAP_Map_Coords.w - side_offset)
-  {
-    exclude_side = 2;
-    printf("right");
-  }
-  else if (logic->players[0].coords.x < -logic->MAP_Map_Coords.h + side_offset)
-  {
-    exclude_side = 4;
-    printf("left");
-  }
+    exclude_side_vertical = 3;
+
+  if (logic->players[0].coords.x > (logic->MAP_Map_Coords.w / 2) - side_offset)
+    exclude_side_horizontal = 2;
+  else if (logic->players[0].coords.x < (-logic->MAP_Map_Coords.h / 2) + side_offset)
+    exclude_side_horizontal = 4;
+
   do
   {
     side = get_Random_Number(&(window->r), 1, 4);
-  } while (side == exclude_side);
+  } while (side == exclude_side_horizontal || side == exclude_side_vertical);
 
   if (side == 1)
   {

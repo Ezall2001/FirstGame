@@ -141,7 +141,7 @@ void update_Minimap_Coords(GameLogic *logic, GameWindow *window, In_Game_UI *ui)
 
   ui->minimap_camera_coords.w = ((float)logic->cam_Coords.w / logic->MAP_Map_Coords.w) * ui->minimap_coords.w;
   ui->minimap_camera_coords.h = ((float)logic->cam_Coords.h / logic->MAP_Map_Coords.h) * ui->minimap_coords.h;
-  ui->minimap_camera_coords.x = ui->minimap_coords.x + ui->minimap_coords.w * x_ratio;
+  ui->minimap_camera_coords.x = ui->minimap_coords.x + ui->minimap_coords.w * x_ratio + 1;
   ui->minimap_camera_coords.y = ui->minimap_coords.y + ui->minimap_coords.h * y_ratio;
 
   // players

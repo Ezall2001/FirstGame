@@ -57,8 +57,7 @@ void init_Common_Menu(Menu_Common_UI *ui, GameWindow *window)
   load_Sprite(ui->bird1, 9, "./assets/sprites/menu/bird1/", &(window->mainRenderer));
   load_Sprite(ui->bird2, 9, "./assets/sprites/menu/bird2/", &(window->mainRenderer));
   load_Sprite(ui->bird3, 9, "./assets/sprites/menu/bird3/", &(window->mainRenderer));
-  ///TODO: rename the imgs
-  load_Sprite(ui->wind, 28, "./assets/sprites/menu/wind/wind_", &(window->mainRenderer));
+  load_Sprite(ui->wind, 29, "./assets/sprites/menu/wind/", &(window->mainRenderer));
 
   // states
   ui->bird_speed = 0;
@@ -255,7 +254,7 @@ void init_In_Game_UI(In_Game_UI *ui, GameWindow *window)
   // test map
   ui->map = NULL;
   ///TODO: change this to a real map
-  load_Texture_Img(&(ui->map), "./assets/test/map_4K.png", &(window->mainRenderer));
+  load_Texture_Img(&(ui->map), "./assets/test/map_4Kx1.5.png", &(window->mainRenderer));
 
   // minimap
   ui->minimap_frame = NULL;

@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
 
   // laoding data
   save_manager(&G, 1);
+
   // hundling dev flags and scenarios
   if (argc > 1)
     dev_manager(&argc, argv, &G);

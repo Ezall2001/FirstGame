@@ -25,7 +25,7 @@ void dev_manager(int *argc, char *argv[], GameObject *G)
   if (devIndex != -1)
   {
     // flags extraction
-    char flags[20][30];
+    char flags[7][80];
     int flagCount = 1;
     int charCount = 0;
     int charIndex = 4;
@@ -54,6 +54,7 @@ void dev_manager(int *argc, char *argv[], GameObject *G)
       set_FPS(flags[i], &(G->dev));
       set_FPS_cap(flags[i], &(G->dev));
       set_mute(flags[i], &(G->sound));
+      set_sprites(flags[i]);
       set_full_dev(flags[i], &(G->dev));
       set_boxes(flags[i], &(G->dev));
       set_ranges(flags[i], &(G->dev));

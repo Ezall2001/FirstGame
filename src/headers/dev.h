@@ -11,6 +11,7 @@ void set_fullScreen(char flag[], GameWindow *window);
 void set_FPS(char flag[], GameDev *dev);
 void set_FPS_cap(char flag[], GameDev *dev);
 void set_mute(char flag[], GameSound *sound);
+void set_sprites(char flag[]);
 void set_boxes(char flag[], GameDev *dev);
 void set_ranges(char flag[], GameDev *dev);
 void set_directions(char flag[], GameDev *dev);
