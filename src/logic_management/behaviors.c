@@ -97,10 +97,18 @@ void spawn_herd(GameLogic *logic, GameWindow *window, int enemy_type, int enemy_
       }
     }
 
-    ///TODO: check for player
+    for (int i = 0; i < 2; i++)
+    {
+      float distance = get_distance(herd_coords, logic->players[i].coords);
+      if (distance < logic->enemies[i].roam_range.w * 2 + herd_offset)
+      {
+        collision = 1;
+        i = 2;
+      }
+    }
 
     max_spawn++;
-    if (max_spawn == 10000)
+    if (max_spawn == 100000)
       break;
 
   } while (collision == 1);
@@ -133,12 +141,131 @@ void spawn_Obstacle(GameLogic *logic, GameWindow *window)
   (logic->obstacle_num)++;
 }
 
-void move(float speed, float d, real_Rect *coords)
+void roam(Enemie *enemy, GameWindow *window, GameDev *dev)
 {
-  ///TODO: multiply speed by delta and w_ratio
+  if (enemy->is_moving == 1)
+  {
+    if (enemy->init_action == 1)
+    {
+      // move
+      move(enemy->speed, enemy->action_ang, &(enemy->coords), enemy->checkpoints, dev->deltaTime);
+
+      if (get_distance(enemy->coords, enemy->roam_range) > enemy->roam_range.w)
+      {
+        float range_ang = get_ang(enemy->roam_range, enemy->coords);
+        move(enemy->speed, range_ang + 180, &(enemy->coords), enemy->checkpoints, dev->deltaTime);
+        enemy->action_ang = get_Random_Number(&(window->r), range_ang + 180 - 45, enemy->action_ang + 180 + 45);
+
+        enemy->delay -= 1000;
+      }
+
+      if (SDL_GetTicks() - enemy->start_count > enemy->delay)
+      {
+        enemy->delay = 0;
+        enemy->start_count = 0;
+        enemy->init_action = 0;
+        enemy->is_moving = 0;
+      }
+    }
+    else if (enemy->init_action == 0)
+    {
+      enemy->action_ang = get_Random_Number(&(window->r), 0, 360);
+      enemy->start_count = SDL_GetTicks();
+      enemy->delay = get_Random_Number(&(window->r), 5000, 7000);
+      enemy->init_action = 1;
+    }
+  }
+  else if (enemy->is_moving == 0)
+  {
+    // wait
+    if (enemy->start_count != 0)
+    {
+      if (SDL_GetTicks() - enemy->start_count > enemy->delay)
+      {
+        enemy->is_moving = 1;
+        enemy->delay = 0;
+        enemy->start_count = 0;
+      }
+    }
+    else if (enemy->start_count == 0)
+    {
+      enemy->start_count = SDL_GetTicks();
+      enemy->delay = get_Random_Number(&(window->r), 5000, 15000);
+    }
+  }
+}
+
+void alert_herd(GameLogic *logic, Enemie *enemy, float new_speed)
+{
+  // detection of the first enemy
+  if ((get_distance(enemy->coords, logic->players[0].coords) < enemy->detection_range && enemy->is_alerted == 0) || enemy->is_alerted == 2)
+  {
+
+    // detection of the other enemies of the same herd
+    if (enemy->is_alerted == 0)
+    {
+      for (int i = 0; i < logic->enemy_num; i++)
+      {
+        if (strcmp(logic->enemies[i].name, enemy->name) == 0 && logic->enemies[i].herd_id == enemy->herd_id)
+        {
+          logic->enemies[i].is_alerted = 2;
+          logic->enemies[i].is_moving = 0;
+          logic->enemies[i].speed = new_speed;
+        }
+      }
+
+      enemy->start_count = 0;
+    }
+
+    // delay for animation
+    if (enemy->start_count != 0)
+    {
+      if (SDL_GetTicks() - enemy->start_count > enemy->delay)
+      {
+        for (int i = 0; i < logic->enemy_num; i++)
+        {
+          if (strcmp(logic->enemies[i].name, enemy->name) == 0 && logic->enemies[i].herd_id == enemy->herd_id)
+          {
+            logic->enemies[i].is_moving = 1;
+            logic->enemies[i].is_alerted = 1;
+          }
+        }
+      }
+      else
+      {
+        // aiming
+        for (int i = 0; i < logic->enemy_num; i++)
+        {
+          if (strcmp(logic->enemies[i].name, enemy->name) == 0 && logic->enemies[i].herd_id == enemy->herd_id)
+          {
+            logic->enemies[i].action_ang = get_ang(logic->enemies[i].coords, logic->players[0].coords);
+          }
+        }
+      }
+    }
+    else if (enemy->start_count == 0)
+    {
+      enemy->delay = 1000;
+      enemy->start_count = SDL_GetTicks();
+    }
+  }
+}
+
+void move(float speed, float d, real_Rect *main_coords, real_Rect checkpoints[], float deltaTime)
+{
+  // main coords
   float r = convert_Degree_Radiant(d);
-  coords->x += cos(r) * speed;
-  coords->y += sin(r) * speed;
+  main_coords->x += cos(r) * speed * deltaTime;
+  main_coords->y += sin(r) * speed * deltaTime;
+
+  // checkpoints
+  real_Rect checkpoint = {0, 0, 10, 10};
+  for (int i = 0; i < 4; i++)
+  {
+    checkpoint.x = main_coords->x + ((main_coords->w / 2) - 1) * pow(-1, i + 1);
+    checkpoint.y = main_coords->y + ((main_coords->h / 2) - 1) * pow(-1, i / 2);
+    checkpoints[i] = checkpoint;
+  }
 }
 
 float get_ang(real_Rect src, real_Rect dst)
@@ -155,10 +282,10 @@ float get_ang(real_Rect src, real_Rect dst)
   float a_cos = acos((dst.x - src.x) / distance);
 
   if (isnan(a_sin))
-    a_sin = 0;
+    a_sin = M_PI / 4;
 
   if (isnan(a_cos))
-    a_cos = 0;
+    a_cos = M_PI / 4;
 
   if (a_sin >= 0)
   {

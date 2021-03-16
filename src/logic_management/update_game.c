@@ -8,11 +8,12 @@ void main_player_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev, Ga
     logic->players[0].is_spawned = 1;
   }
 
-  keyboard_Player_Input(logic, window, input);
+  aim_Input(logic, window, input);
+  move_Input(logic, window, input);
 
   if (logic->players[0].is_moving == 1)
   {
-    move(logic->players[0].speed, logic->players[0].action_ang, &(logic->players[0].coords));
+    move(logic->players[0].speed, logic->players[0].action_ang, &(logic->players[0].coords), logic->players[0].checkpoints, dev->deltaTime);
     logic->players[0].distance_walked += logic->players[0].speed * dev->deltaTime;
     logic->players[1].distance_walked += logic->players[1].speed * dev->deltaTime;
     logic->players[0].is_moving = 0;
@@ -24,7 +25,7 @@ void bird_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev)
   ///////////////////////////////////////////////
   ////////////// --- spawn ---
   ///////////////////////////////////////////////
-  float target_distance_walked = 150; ///TODO: make it dependent on stage
+  float target_distance_walked = 10000; ///TODO: make it dependent on stage
 
   if (logic->players[0].distance_walked - (logic->enemy_types[0].num_spawned * target_distance_walked) > target_distance_walked)
   {
@@ -36,7 +37,10 @@ void bird_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev)
     if (strcmp(logic->enemies[i].name, "BIRD") == 0)
     {
       logic->enemies[i].action_ang = get_ang(logic->enemies[i].coords, logic->players[0].coords);
-      move(logic->enemies[i].speed, logic->enemies[i].action_ang, &(logic->enemies[i].coords));
+      ///////////////////////////////////////////////
+      ////////////// --- move ---
+      ///////////////////////////////////////////////
+      move(logic->enemies[i].speed, logic->enemies[i].action_ang, &(logic->enemies[i].coords), logic->enemies[i].checkpoints, dev->deltaTime);
     }
   }
 }
@@ -56,6 +60,32 @@ void sheep_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev)
       spawn_herd(logic, window, 1, sheep_num);
     }
   }
+
+  for (int i = 0; i < logic->enemy_num; i++)
+  {
+    if (strcmp(logic->enemies[i].name, "SHEEP") == 0)
+    {
+      // alert herd
+      alert_herd(logic, &(logic->enemies[i]), 250);
+
+      // roam
+      if (logic->enemies[i].is_alerted == 0)
+      {
+        roam(&(logic->enemies[i]), window, dev);
+      }
+      else if (logic->enemies[i].is_alerted == 1)
+      {
+        // get player angle
+        logic->enemies[i].action_ang = get_ang(logic->enemies[i].coords, logic->players[0].coords);
+
+        // move
+        if (logic->enemies[i].is_moving == 1)
+        {
+          move(logic->enemies[i].speed, logic->enemies[i].action_ang, &(logic->enemies[i].coords), logic->enemies[i].checkpoints, dev->deltaTime);
+        }
+      }
+    }
+  }
 }
 
 void melee_skeleton_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev)
@@ -66,6 +96,10 @@ void melee_skeleton_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev)
 }
 
 void archer_skeleton_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev)
+{
+}
+
+void obstacles_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev)
 {
 }
 

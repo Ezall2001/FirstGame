@@ -22,6 +22,8 @@ typedef struct
 
 typedef struct
 {
+  char name[50];
+  int num_spawned;
   float damage;
   float fire_damage;
   float poison_damage;
@@ -55,7 +57,7 @@ typedef struct
 
   // coords
   real_Rect coords;
-  real_Rect checkpoints[4];
+  real_Rect checkpoints[4]; // 0:top-left 1:top-right 2:bottom-right 3:bottom-left
   real_Rect AI_anchor;
   float action_ang;
   float attack_ang_offset[2];
@@ -88,7 +90,7 @@ typedef struct
 
   // coords
   real_Rect coords;
-  real_Rect checkpoints[4];
+  real_Rect checkpoints[4]; // 0:top-left 1:top-right 2:bottom-right 3:bottom-left
   float attack_ang_offset[2];
   float action_ang;
 
@@ -101,11 +103,16 @@ typedef struct
   float escape_range;
 
   // states
-  int is_alerted;
+  int is_alerted; // 1: alerted - 2: being alerted
   int is_moving;
   int is_attacking;
   int is_aiming;
   int is_dead;
+
+  // timers
+  int start_count;
+  int delay;
+  int init_action;
 
 } Enemie;
 

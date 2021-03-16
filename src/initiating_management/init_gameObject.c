@@ -176,6 +176,14 @@ void init_survivors(GameLogic *logic)
       first_time = 0;
     }
 
+    for (int j = 0; j < 4; j++)
+    {
+      logic->survivors[i].checkpoints[j].w = 10;
+      logic->survivors[i].checkpoints[j].h = 10;
+      logic->survivors[i].checkpoints[j].x = 0;
+      logic->survivors[i].checkpoints[j].y = 0;
+    }
+
     logic->survivors[i].action_ang = 0;
     logic->survivors[i].distance_walked = 0;
     logic->survivors[i].is_spawned = 0;
@@ -188,7 +196,7 @@ void init_survivors(GameLogic *logic)
   strcpy(logic->survivors[0].name, "JAMES");
 
   // properties
-  logic->survivors[0].speed = 20;
+  logic->survivors[0].speed = 1300;
 
   // ranges
   logic->survivors[0].dmg_range = 700;
@@ -228,13 +236,21 @@ void init_bird(GameLogic *logic, int stage)
   logic->enemy_types[0].num_spawned = 0;
 
   // properties
-  logic->enemy_types[0].speed = 8;
+  logic->enemy_types[0].speed = 600;
 
   // coords
   logic->enemy_types[0].coords.x = 0;
   logic->enemy_types[0].coords.y = 0;
   logic->enemy_types[0].coords.w = 50;
   logic->enemy_types[0].coords.h = 50;
+
+  for (int i = 0; i < 4; i++)
+  {
+    logic->enemy_types[0].checkpoints[i].w = 10;
+    logic->enemy_types[0].checkpoints[i].h = 10;
+    logic->enemy_types[0].checkpoints[i].x = 0;
+    logic->enemy_types[0].checkpoints[i].y = 0;
+  }
 
   logic->enemy_types[0].action_ang = 0;
 
@@ -252,6 +268,11 @@ void init_bird(GameLogic *logic, int stage)
   logic->enemy_types[0].is_attacking = 0;
   logic->enemy_types[0].is_aiming = 0;
   logic->enemy_types[0].is_dead = 0;
+
+  // timers
+  logic->enemy_types[0].start_count = 0;
+  logic->enemy_types[0].delay = 0;
+  logic->enemy_types[0].init_action = 0;
 }
 
 void init_sheep(GameLogic *logic, int stage)
@@ -264,7 +285,7 @@ void init_sheep(GameLogic *logic, int stage)
   logic->enemy_types[1].num_spawned = 0;
 
   // properties
-  logic->enemy_types[1].speed = 3;
+  logic->enemy_types[1].speed = 130;
 
   // coords
   logic->enemy_types[1].coords.x = 0;
@@ -272,6 +293,15 @@ void init_sheep(GameLogic *logic, int stage)
   logic->enemy_types[1].coords.w = 150;
   logic->enemy_types[1].coords.h = 130;
 
+  for (int i = 0; i < 4; i++)
+  {
+    logic->enemy_types[1].checkpoints[i].w = 10;
+    logic->enemy_types[1].checkpoints[i].h = 10;
+    logic->enemy_types[1].checkpoints[i].x = 0;
+    logic->enemy_types[1].checkpoints[i].y = 0;
+  }
+
+  ///TODO: make this a random starting ang
   logic->enemy_types[1].action_ang = 0;
 
   // ranges
@@ -284,8 +314,13 @@ void init_sheep(GameLogic *logic, int stage)
 
   // states
   logic->enemy_types[1].is_alerted = 0;
-  logic->enemy_types[1].is_moving = 0;
+  logic->enemy_types[1].is_moving = 1;
   logic->enemy_types[1].is_attacking = 0;
   logic->enemy_types[1].is_aiming = 0;
   logic->enemy_types[1].is_dead = 0;
+
+  // timers
+  logic->enemy_types[1].start_count = SDL_GetTicks();
+  logic->enemy_types[1].delay = 4500;
+  logic->enemy_types[1].init_action = 1;
 }

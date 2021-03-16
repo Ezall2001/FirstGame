@@ -133,7 +133,6 @@ void spawn_enemie(GameLogic *logic, GameInput *input, GameWindow *window)
 void set_Boxes_Coords(GameLogic *logic, DevUI *ui)
 {
   ui->outlines_num = 0;
-  real_Rect checkpoint = {0, 0, 10, 10};
 
   ///////////////////////////////////////
   ///////// --- players ---
@@ -154,18 +153,16 @@ void set_Boxes_Coords(GameLogic *logic, DevUI *ui)
     // checkpoint
     for (int j = 0; j < 4; j++)
     {
-      checkpoint.x = logic->players[i].coords.x + ((logic->players[i].coords.w / 2) - 1) * pow(-1, j + 1);
-      checkpoint.y = logic->players[i].coords.y + ((logic->players[i].coords.h / 2) - 1) * pow(-1, (j + 2) / 2);
 
       convert_REAL_SDL(&(ui->outlines[ui->outlines_num].checkpoints[j]),
-                       checkpoint,
+                       logic->players[i].checkpoints[j],
                        logic->cam_Coords,
                        logic->CAM_REAL_Cam_w_Ratio,
-                       checkpoint.w,
-                       checkpoint.h);
+                       logic->players[i].checkpoints[j].w,
+                       logic->players[i].checkpoints[j].h);
 
       ui->outlines[ui->outlines_num].checkpoints_color = ui->outlines[ui->outlines_num].box_color;
-      ui->outlines[ui->outlines_num].checkpoints_color.a = 180;
+      ui->outlines[ui->outlines_num].checkpoints_color.a = 100;
     }
 
     (ui->outlines_num)++;
@@ -193,15 +190,13 @@ void set_Boxes_Coords(GameLogic *logic, DevUI *ui)
     // checkpoint
     for (int j = 0; j < 4; j++)
     {
-      checkpoint.x = logic->enemies[i].coords.x + ((logic->enemies[i].coords.w / 2) - 1) * pow(-1, j + 1);
-      checkpoint.y = logic->enemies[i].coords.y + ((logic->enemies[i].coords.h / 2) - 1) * pow(-1, (j + 2) / 2);
 
       convert_REAL_SDL(&(ui->outlines[ui->outlines_num].checkpoints[j]),
-                       checkpoint,
+                       logic->enemies[i].checkpoints[j],
                        logic->cam_Coords,
                        logic->CAM_REAL_Cam_w_Ratio,
-                       checkpoint.w,
-                       checkpoint.h);
+                       logic->enemies[i].checkpoints[j].w,
+                       logic->enemies[i].checkpoints[j].h);
 
       ui->outlines[ui->outlines_num].checkpoints_color = ui->outlines[ui->outlines_num].box_color;
       ui->outlines[ui->outlines_num].checkpoints_color.a = 100;
@@ -389,7 +384,7 @@ void set_Ranges_Coords(GameLogic *logic, DevUI *ui)
 void set_Directions_Coords(GameLogic *logic, DevUI *ui)
 {
   ui->outlines_num = 0;
-  float static_line_length = 25;
+  float static_line_length = 0.35;
   real_Rect r_direction_coords;
   SDL_Rect s_direction_coords;
 
