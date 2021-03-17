@@ -63,6 +63,7 @@ void render_Boxes(GameWindow *window, DevUI *ui)
   int outline = 0;
   for (int i = 0; i < ui->outlines_num; i++)
   {
+
     // main box
     int setColor = SDL_SetRenderDrawColor(window->mainRenderer, ui->outlines[i].box_color.r, ui->outlines[i].box_color.g, ui->outlines[i].box_color.b, ui->outlines[i].box_color.a);
     if (setColor != 0)
@@ -79,7 +80,7 @@ void render_Boxes(GameWindow *window, DevUI *ui)
     // checkpoints
     for (int j = 0; j < 4; j++)
     {
-      int setColor = SDL_SetRenderDrawColor(window->mainRenderer, ui->outlines[i].checkpoints_color.r, ui->outlines[i].checkpoints_color.g, ui->outlines[i].checkpoints_color.b, ui->outlines[i].checkpoints_color.a);
+      int setColor = SDL_SetRenderDrawColor(window->mainRenderer, ui->outlines[i].checkpoints_color[j].r, ui->outlines[i].checkpoints_color[j].g, ui->outlines[i].checkpoints_color[j].b, ui->outlines[i].checkpoints_color[j].a);
       if (setColor != 0)
         lib_errorLog("failed at setting renderer color", SDL_GetError());
 
@@ -178,7 +179,8 @@ void render_Directions(GameWindow *window, DevUI *ui)
 
   for (int i = 0; i < ui->outlines_num; i++)
   {
-    setColor = SDL_SetRenderDrawColor(window->mainRenderer, ui->outlines[i].direction_color.r, ui->outlines[i].direction_color.g, ui->outlines[i].direction_color.b, ui->outlines[i].direction_color.a);
+    if (ui->outlines[i].direction_coords.x1 != 0 && ui->outlines[i].direction_coords.x2 != 0 && ui->outlines[i].direction_coords.y1 != 0 && ui->outlines[i].direction_coords.y2 != 0)
+      setColor = SDL_SetRenderDrawColor(window->mainRenderer, ui->outlines[i].direction_color.r, ui->outlines[i].direction_color.g, ui->outlines[i].direction_color.b, ui->outlines[i].direction_color.a);
     if (setColor != 0)
       lib_errorLog("failed at setting renderer color", SDL_GetError());
 

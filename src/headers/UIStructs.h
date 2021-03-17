@@ -51,7 +51,7 @@ typedef struct
   SDL_Color dmg_range_color;       // red
   SDL_Color escape_range_color;    // white
   SDL_Color direction_color;       // dark blue
-  SDL_Color checkpoints_color;     // box_color with a bit of opacity
+  SDL_Color checkpoints_color[4];  // box_color with a bit of opacity
 
 } Outline;
 

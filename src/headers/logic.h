@@ -48,16 +48,19 @@ void obstacles_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev);
 
 // spawn
 void spawn_Players(GameLogic *logic, GameWindow *window);
-void spawn_Obstacle(GameLogic *logic, GameWindow *window);
+void spawn_Obstacle(GameLogic *logic, GameWindow *window, int obstacle_type);
 void spawn_on_edge(GameLogic *logic, GameWindow *window, int enemy_type);
-void spawn_herd(GameLogic *logic, GameWindow *window, int enemy_type, int enemy_num);
+void spawn_herd(GameLogic *logic, GameWindow *window, GameDev *dev, int enemy_type, int enemy_num);
 
 void update_Cam_Coords(GameLogic *logic, GameWindow *window, In_Game_UI *ui);
 void update_Minimap_Coords(GameLogic *logic, GameWindow *window, In_Game_UI *ui);
 void roam(Enemie *enemy, GameWindow *window, GameDev *dev);
 void alert_herd(GameLogic *logic, Enemie *enemy, float new_speed);
-void move(float speed, float d, real_Rect *main_coords, real_Rect checkpoints[], float deltaTime);
+void move(float speed, float d, real_Rect *main_coords, Checkpoint checkpoints[], float deltaTime);
 float get_ang(real_Rect src, real_Rect dst);
+void update_checkpoints(real_Rect main_coords, Checkpoint checkpoints[]);
+
+int set_collision_checkpoints(GameLogic *logic, Checkpoint checkpoints[], int id); // 0:noCollision - 1:obstacle - 2:enemy - 3:player
 
 // input
 void move_Input(GameLogic *logic, GameWindow *window, GameInput *input);

@@ -30,7 +30,7 @@ void projectile_test(char scn[]);
 void calcFPS(GameDev *dev);
 void set_DeltaTime(GameDev *dev);
 void change_character(GameLogic *logic, GameInput *input);
-void spawn_enemie(GameLogic *logic, GameInput *input, GameWindow *window);
+void spawn_enemie(GameLogic *logic, GameInput *input, GameWindow *window, GameDev *dev);
 void set_Boxes_Coords(GameLogic *logic, DevUI *ui);
 void set_Ranges_Coords(GameLogic *logic, DevUI *ui);
 void set_Directions_Coords(GameLogic *logic, DevUI *ui);

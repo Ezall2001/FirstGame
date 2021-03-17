@@ -18,9 +18,7 @@ void logic_manager(GameObject *G)
     ///////////////////////////////
     if (G->window.in_game_init == 0)
     {
-      init_survivors(&(G->logic));
-      init_bird(&(G->logic), G->window.game_stage);
-      init_sheep(&(G->logic), 1);
+      init_GameLogic(&(G->logic), &(G->UI.in_game_UI));
 
       G->window.in_game_init = 1;
     }
@@ -28,6 +26,8 @@ void logic_manager(GameObject *G)
     ///////////////////////////////
     ///////// behaviors
     ///////////////////////////////
+    obstacles_Behavior(&(G->logic), &(G->window), &(G->dev));
+
     main_player_Behavior(&(G->logic), &(G->window), &(G->dev), &(G->input));
 
     bird_Behavior(&(G->logic), &(G->window), &(G->dev));

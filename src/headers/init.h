@@ -30,8 +30,12 @@ void init_Quit_PopUp(Quit_PopUp *ui, Menu_Common_UI *common_ui, GameWindow *wind
 void init_In_Game_UI(In_Game_UI *ui, GameWindow *window);
 
 // init Logic
-void init_survivors(GameLogic *logic);
+void init_common_survivors(GameLogic *logic);
+void init_James(GameLogic *logic);
+void init_Marie(GameLogic *logic);
+void init_common_enemies(GameLogic *logic, int stage);
 void init_bird(GameLogic *logic, int stage);
 void init_sheep(GameLogic *logic, int stage);
+void init_common_obstacles(GameLogic *logic, int stage);
 
 #endif

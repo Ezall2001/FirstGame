@@ -16,15 +16,14 @@ void main_player_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev, Ga
     move(logic->players[0].speed, logic->players[0].action_ang, &(logic->players[0].coords), logic->players[0].checkpoints, dev->deltaTime);
     logic->players[0].distance_walked += logic->players[0].speed * dev->deltaTime;
     logic->players[1].distance_walked += logic->players[1].speed * dev->deltaTime;
-    logic->players[0].is_moving = 0;
+
+    set_collision_checkpoints(logic, logic->players[0].checkpoints, 0);
   }
 }
 
 void bird_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev)
 {
-  ///////////////////////////////////////////////
-  ////////////// --- spawn ---
-  ///////////////////////////////////////////////
+  // spawn
   float target_distance_walked = 10000; ///TODO: make it dependent on stage
 
   if (logic->players[0].distance_walked - (logic->enemy_types[0].num_spawned * target_distance_walked) > target_distance_walked)
@@ -37,19 +36,18 @@ void bird_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev)
     if (strcmp(logic->enemies[i].name, "BIRD") == 0)
     {
       logic->enemies[i].action_ang = get_ang(logic->enemies[i].coords, logic->players[0].coords);
-      ///////////////////////////////////////////////
-      ////////////// --- move ---
-      ///////////////////////////////////////////////
+
+      // move
       move(logic->enemies[i].speed, logic->enemies[i].action_ang, &(logic->enemies[i].coords), logic->enemies[i].checkpoints, dev->deltaTime);
+
+      set_collision_checkpoints(logic, logic->enemies[i].checkpoints, logic->enemies[i].id);
     }
   }
 }
 
 void sheep_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev)
 {
-  ///////////////////////////////////////////////
-  ////////////// --- spawn ---
-  ///////////////////////////////////////////////
+  // spawn
   int herd_num = 1; ///TODO: make this stage dependent
   int sheep_num;
   if (logic->enemy_types[1].num_spawned == 0)
@@ -57,7 +55,7 @@ void sheep_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev)
     for (int i = 0; i < herd_num; i++)
     {
       sheep_num = get_Random_Number(&(window->r), 2, 3);
-      spawn_herd(logic, window, 1, sheep_num);
+      spawn_herd(logic, window, dev, 1, sheep_num);
     }
   }
 
@@ -101,6 +99,10 @@ void archer_skeleton_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev
 
 void obstacles_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev)
 {
+  if (logic->obstacle_types[0].num_spawned == 0)
+  {
+    spawn_Obstacle(logic, window, 0);
+  }
 }
 
 void update_Cam_Coords(GameLogic *logic, GameWindow *window, In_Game_UI *ui)

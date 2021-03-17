@@ -6,15 +6,17 @@ void spawn_Players(GameLogic *logic, GameWindow *window)
   // main player spawn coords
   logic->players[0].coords.x = get_Random_Number(&(window->r), -(logic->MAP_Map_Coords.w) / 3, (logic->MAP_Map_Coords.w) / 3);
   logic->players[0].coords.y = get_Random_Number(&(window->r), -(logic->MAP_Map_Coords.h) / 3, (logic->MAP_Map_Coords.h) / 3);
-
+  logic->players[0].id = 0;
   // secondary player spawn coords
   logic->players[1].coords.x = logic->players[0].coords.x + logic->players[0].coords.w + 20;
   logic->players[1].coords.y = logic->players[0].coords.y;
+  logic->players[1].id = 1;
+
+  logic->next_id = 2;
 }
 
 void spawn_on_edge(GameLogic *logic, GameWindow *window, int enemy_type)
 {
-  logic->enemies[logic->enemy_num] = logic->enemy_types[enemy_type];
 
   int exclude_side_vertical = 0;   // 0: none 1:top 3:bottom
   int exclude_side_horizontal = 0; // 0: none 2:right 4:left
@@ -38,30 +40,35 @@ void spawn_on_edge(GameLogic *logic, GameWindow *window, int enemy_type)
 
   if (side == 1)
   {
-    logic->enemies[logic->enemy_num].coords.x = get_Random_Number(&(window->r), -logic->MAP_Map_Coords.w / 2, logic->MAP_Map_Coords.w / 2);
-    logic->enemies[logic->enemy_num].coords.y = logic->MAP_Map_Coords.h / 2 + logic->enemies[logic->enemy_num].coords.h / 2;
+    logic->enemy_types[enemy_type].coords.x = get_Random_Number(&(window->r), -logic->MAP_Map_Coords.w / 2, logic->MAP_Map_Coords.w / 2);
+    logic->enemy_types[enemy_type].coords.y = logic->MAP_Map_Coords.h / 2 + logic->enemy_types[enemy_type].coords.h / 2;
   }
   else if (side == 3)
   {
-    logic->enemies[logic->enemy_num].coords.x = get_Random_Number(&(window->r), -logic->MAP_Map_Coords.w / 2, logic->MAP_Map_Coords.w / 2);
-    logic->enemies[logic->enemy_num].coords.y = -logic->MAP_Map_Coords.h / 2 - logic->enemies[logic->enemy_num].coords.h / 2;
+    logic->enemy_types[enemy_type].coords.x = get_Random_Number(&(window->r), -logic->MAP_Map_Coords.w / 2, logic->MAP_Map_Coords.w / 2);
+    logic->enemy_types[enemy_type].coords.y = -logic->MAP_Map_Coords.h / 2 - logic->enemy_types[enemy_type].coords.h / 2;
   }
   else if (side == 2)
   {
-    logic->enemies[logic->enemy_num].coords.x = logic->MAP_Map_Coords.w / 2 + logic->enemies[logic->enemy_num].coords.w / 2;
-    logic->enemies[logic->enemy_num].coords.y = get_Random_Number(&(window->r), -logic->MAP_Map_Coords.h / 2, logic->MAP_Map_Coords.h / 2);
+    logic->enemy_types[enemy_type].coords.x = logic->MAP_Map_Coords.w / 2 + logic->enemy_types[enemy_type].coords.w / 2;
+    logic->enemy_types[enemy_type].coords.y = get_Random_Number(&(window->r), -logic->MAP_Map_Coords.h / 2, logic->MAP_Map_Coords.h / 2);
   }
   else if (side == 4)
   {
-    logic->enemies[logic->enemy_num].coords.x = -logic->MAP_Map_Coords.w / 2 - logic->enemies[logic->enemy_num].coords.w / 2;
-    logic->enemies[logic->enemy_num].coords.y = get_Random_Number(&(window->r), -logic->MAP_Map_Coords.h / 2, logic->MAP_Map_Coords.h / 2);
+    logic->enemy_types[enemy_type].coords.x = -logic->MAP_Map_Coords.w / 2 - logic->enemy_types[enemy_type].coords.w / 2;
+    logic->enemy_types[enemy_type].coords.y = get_Random_Number(&(window->r), -logic->MAP_Map_Coords.h / 2, logic->MAP_Map_Coords.h / 2);
   }
+
+  logic->enemy_types[enemy_type].id = logic->next_id;
+
+  logic->enemies[logic->enemy_num] = logic->enemy_types[enemy_type];
 
   (logic->enemy_types[0].num_spawned)++;
   (logic->enemy_num)++;
+  (logic->next_id)++;
 }
 
-void spawn_herd(GameLogic *logic, GameWindow *window, int enemy_type, int enemy_num)
+void spawn_herd(GameLogic *logic, GameWindow *window, GameDev *dev, int enemy_type, int enemy_num)
 {
   // herd coords
   float y_herd = 0, x_herd = 0;
@@ -124,20 +131,51 @@ void spawn_herd(GameLogic *logic, GameWindow *window, int enemy_type, int enemy_
     // indiv coords
     for (int i = 0; i < enemy_num; i++)
     {
-      float ang_herd = get_Random_Number(&(window->r), 0, 360);
-      int distance_herd = get_Random_Number(&(window->r), 0, logic->enemy_types[enemy_type].roam_range.w);
+      float ang_herd = 0;
+      int distance_herd = 0;
+      max_spawn = 0;
 
-      logic->enemy_types[enemy_type].coords.x = x_herd + cos(ang_herd) * distance_herd;
-      logic->enemy_types[enemy_type].coords.y = y_herd + sin(ang_herd) * distance_herd;
+      logic->enemy_types[enemy_type].id = logic->next_id;
+      logic->enemy_types[enemy_type].action_ang = get_Random_Number(&(window->r), 0, 360);
+
+      do
+      {
+        ang_herd = get_Random_Number(&(window->r), 0, 360);
+        distance_herd = get_Random_Number(&(window->r), 0, logic->enemy_types[enemy_type].roam_range.w);
+
+        logic->enemy_types[enemy_type].coords.x = x_herd + cos(ang_herd) * distance_herd;
+        logic->enemy_types[enemy_type].coords.y = y_herd + sin(ang_herd) * distance_herd;
+
+        update_checkpoints(logic->enemy_types[enemy_type].coords, logic->enemy_types[enemy_type].checkpoints);
+
+        max_spawn++;
+        if (max_spawn == 100000)
+          break;
+
+      } while (set_collision_checkpoints(logic, logic->enemy_types[enemy_type].checkpoints, logic->enemy_types[enemy_type].id) != 0);
 
       logic->enemies[logic->enemy_num] = logic->enemy_types[enemy_type];
+
+      (logic->next_id)++;
       (logic->enemy_num)++;
     }
   }
 }
-void spawn_Obstacle(GameLogic *logic, GameWindow *window)
+
+void spawn_Obstacle(GameLogic *logic, GameWindow *window, int obstacle_type)
 {
 
+  ///TODO: redo this
+  logic->obstacle_types[obstacle_type].coords.x = get_Random_Number(&(window->r), -300, 300);
+  logic->obstacle_types[obstacle_type].coords.y = get_Random_Number(&(window->r), -300, 300);
+  logic->obstacle_types[obstacle_type].coords.w = 200;
+  logic->obstacle_types[obstacle_type].coords.h = 200;
+
+  update_checkpoints(logic->obstacle_types[obstacle_type].coords, logic->obstacle_types[obstacle_type].checkpoints);
+
+  logic->obstacles[logic->obstacle_num] = logic->obstacle_types[obstacle_type];
+
+  (logic->obstacle_types[obstacle_type].num_spawned)++;
   (logic->obstacle_num)++;
 }
 
@@ -245,25 +283,29 @@ void alert_herd(GameLogic *logic, Enemie *enemy, float new_speed)
     }
     else if (enemy->start_count == 0)
     {
-      enemy->delay = 1000;
+      enemy->delay = 1500;
       enemy->start_count = SDL_GetTicks();
     }
   }
 }
 
-void move(float speed, float d, real_Rect *main_coords, real_Rect checkpoints[], float deltaTime)
+void move(float speed, float d, real_Rect *main_coords, Checkpoint checkpoints[], float deltaTime)
 {
   // main coords
   float r = convert_Degree_Radiant(d);
   main_coords->x += cos(r) * speed * deltaTime;
   main_coords->y += sin(r) * speed * deltaTime;
 
-  // checkpoints
-  real_Rect checkpoint = {0, 0, 10, 10};
+  update_checkpoints(*main_coords, checkpoints);
+}
+
+void update_checkpoints(real_Rect main_coords, Checkpoint checkpoints[])
+{
+  Checkpoint checkpoint = {0, 0, 10, 10};
   for (int i = 0; i < 4; i++)
   {
-    checkpoint.x = main_coords->x + ((main_coords->w / 2) - 1) * pow(-1, i + 1);
-    checkpoint.y = main_coords->y + ((main_coords->h / 2) - 1) * pow(-1, i / 2);
+    checkpoint.coords.x = main_coords.x + ((main_coords.w / 2) - 1) * pow(-1, i + 1);
+    checkpoint.coords.y = main_coords.y + ((main_coords.h / 2) - 1) * pow(-1, i / 2);
     checkpoints[i] = checkpoint;
   }
 }
@@ -277,6 +319,8 @@ float get_ang(real_Rect src, real_Rect dst)
   {
     return 0;
   }
+
+  ///TODO: deal with vertical/horizontal line edge case
 
   float a_sin = asin((dst.y - src.y) / distance);
   float a_cos = acos((dst.x - src.x) / distance);
@@ -297,4 +341,69 @@ float get_ang(real_Rect src, real_Rect dst)
   }
 
   return convert_Radiant_Degree(r_ang);
+}
+
+int set_collision_checkpoints(GameLogic *logic, Checkpoint checkpoints[], int id)
+{
+
+  int is_colliding = 0;
+  // collision with boxes
+  for (int i = 0; i < logic->obstacle_num; i++)
+  {
+    for (int j = 0; j < 4; j++)
+    {
+      if (checkpoints[j].coords.x + checkpoints[j].coords.w > logic->obstacles[i].checkpoints[0].coords.x && checkpoints[j].coords.x - checkpoints[j].coords.w < logic->obstacles[i].checkpoints[1].coords.x)
+      {
+        if (checkpoints[j].coords.y - checkpoints[j].coords.h < logic->obstacles[i].checkpoints[0].coords.y && checkpoints[j].coords.y + checkpoints[j].coords.h > logic->obstacles[i].checkpoints[2].coords.y)
+        {
+          checkpoints[j].colliding = 1;
+          is_colliding = 1;
+        }
+      }
+    }
+  }
+
+  // collision with enemies
+  for (int i = 0; i < logic->enemy_num; i++)
+  {
+
+    if (logic->enemies[i].id != id)
+    {
+
+      for (int j = 0; j < 4; j++)
+      {
+        if (checkpoints[j].coords.x + checkpoints[j].coords.w > logic->enemies[i].checkpoints[0].coords.x && checkpoints[j].coords.x - checkpoints[j].coords.w < logic->enemies[i].checkpoints[1].coords.x)
+        {
+          if (checkpoints[j].coords.y - checkpoints[j].coords.h < logic->enemies[i].checkpoints[0].coords.y && checkpoints[j].coords.y + checkpoints[j].coords.h > logic->enemies[i].checkpoints[2].coords.y)
+          {
+            checkpoints[j].colliding = 1;
+            is_colliding = 2;
+          }
+        }
+      }
+    }
+  }
+
+  // collision with players
+  for (int i = 0; i < 2; i++)
+  {
+
+    if (logic->players[i].id != id)
+    {
+
+      for (int j = 0; j < 4; j++)
+      {
+        if (checkpoints[j].coords.x + checkpoints[j].coords.w > logic->players[i].checkpoints[0].coords.x && checkpoints[j].coords.x - checkpoints[j].coords.w < logic->players[i].checkpoints[1].coords.x)
+        {
+          if (checkpoints[j].coords.y - checkpoints[j].coords.h < logic->players[i].checkpoints[0].coords.y && checkpoints[j].coords.y + checkpoints[j].coords.h > logic->players[i].checkpoints[2].coords.y)
+          {
+            checkpoints[j].colliding = 1;
+            is_colliding = 3;
+          }
+        }
+      }
+    }
+  }
+
+  return is_colliding;
 }

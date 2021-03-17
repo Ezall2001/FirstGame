@@ -10,7 +10,7 @@ void dev_loop(GameObject *G)
     change_character(&(G->logic), &(G->input));
 
   if (G->dev.spawn_enemy == 1)
-    spawn_enemie(&(G->logic), &(G->input), &(G->window));
+    spawn_enemie(&(G->logic), &(G->input), &(G->window), &(G->dev));
 
   if (G->dev.show_boxes == 1)
     set_Boxes_Coords(&(G->logic), &(G->UI.dev_UI));
@@ -111,7 +111,7 @@ void change_character(GameLogic *logic, GameInput *input)
   }
 }
 
-void spawn_enemie(GameLogic *logic, GameInput *input, GameWindow *window)
+void spawn_enemie(GameLogic *logic, GameInput *input, GameWindow *window, GameDev *dev)
 {
   for (int i = 0; i < input->num_keys; i++)
   {
@@ -121,7 +121,7 @@ void spawn_enemie(GameLogic *logic, GameInput *input, GameWindow *window)
     }
     else if (input->keys[i] == SDLK_F2)
     {
-      spawn_herd(logic, window, 1, 3);
+      spawn_herd(logic, window, dev, 1, 3);
     }
     else if (input->keys[i] == SDLK_F12)
     {
@@ -155,14 +155,22 @@ void set_Boxes_Coords(GameLogic *logic, DevUI *ui)
     {
 
       convert_REAL_SDL(&(ui->outlines[ui->outlines_num].checkpoints[j]),
-                       logic->players[i].checkpoints[j],
+                       logic->players[i].checkpoints[j].coords,
                        logic->cam_Coords,
                        logic->CAM_REAL_Cam_w_Ratio,
-                       logic->players[i].checkpoints[j].w,
-                       logic->players[i].checkpoints[j].h);
+                       logic->players[i].checkpoints[j].coords.w,
+                       logic->players[i].checkpoints[j].coords.h);
 
-      ui->outlines[ui->outlines_num].checkpoints_color = ui->outlines[ui->outlines_num].box_color;
-      ui->outlines[ui->outlines_num].checkpoints_color.a = 100;
+      ui->outlines[ui->outlines_num].checkpoints_color[j] = ui->outlines[ui->outlines_num].box_color;
+
+      if (logic->players[i].checkpoints[j].colliding == 1)
+      {
+        ui->outlines[ui->outlines_num].checkpoints_color[j].r += 50;
+      }
+      else
+      {
+        ui->outlines[ui->outlines_num].checkpoints_color[j].a = 100;
+      }
     }
 
     (ui->outlines_num)++;
@@ -192,14 +200,22 @@ void set_Boxes_Coords(GameLogic *logic, DevUI *ui)
     {
 
       convert_REAL_SDL(&(ui->outlines[ui->outlines_num].checkpoints[j]),
-                       logic->enemies[i].checkpoints[j],
+                       logic->enemies[i].checkpoints[j].coords,
                        logic->cam_Coords,
                        logic->CAM_REAL_Cam_w_Ratio,
-                       logic->enemies[i].checkpoints[j].w,
-                       logic->enemies[i].checkpoints[j].h);
+                       logic->enemies[i].checkpoints[j].coords.w,
+                       logic->enemies[i].checkpoints[j].coords.h);
 
-      ui->outlines[ui->outlines_num].checkpoints_color = ui->outlines[ui->outlines_num].box_color;
-      ui->outlines[ui->outlines_num].checkpoints_color.a = 100;
+      ui->outlines[ui->outlines_num].checkpoints_color[j] = ui->outlines[ui->outlines_num].box_color;
+
+      if (logic->enemies[i].checkpoints[j].colliding == 1)
+      {
+        ui->outlines[ui->outlines_num].checkpoints_color[j].r += 50;
+      }
+      else
+      {
+        ui->outlines[ui->outlines_num].checkpoints_color[j].a = 100;
+      }
     }
 
     (ui->outlines_num)++;
@@ -219,6 +235,29 @@ void set_Boxes_Coords(GameLogic *logic, DevUI *ui)
                      logic->obstacles[i].coords.h);
 
     ui->outlines[ui->outlines_num].box_color = set_color(235, 153, 52, 255);
+
+    // checkpoint
+    for (int j = 0; j < 4; j++)
+    {
+
+      convert_REAL_SDL(&(ui->outlines[ui->outlines_num].checkpoints[j]),
+                       logic->obstacles[i].checkpoints[j].coords,
+                       logic->cam_Coords,
+                       logic->CAM_REAL_Cam_w_Ratio,
+                       logic->obstacles[i].checkpoints[j].coords.w,
+                       logic->obstacles[i].checkpoints[j].coords.h);
+
+      ui->outlines[ui->outlines_num].checkpoints_color[j] = ui->outlines[ui->outlines_num].box_color;
+
+      if (logic->obstacles[i].checkpoints[j].colliding == 1)
+      {
+        ui->outlines[ui->outlines_num].checkpoints_color[j].r += 50;
+      }
+      else
+      {
+        ui->outlines[ui->outlines_num].checkpoints_color[j].a = 100;
+      }
+    }
 
     (ui->outlines_num)++;
   }
@@ -379,6 +418,20 @@ void set_Ranges_Coords(GameLogic *logic, DevUI *ui)
 
     (ui->outlines_num)++;
   }
+
+  ///////////////////////////////////////
+  ///////// --- obstacles ---
+  ///////////////////////////////////////
+  for (int i = 0; i < logic->obstacle_num; i++)
+  {
+    ui->outlines[ui->outlines_num].roam_range_coords.w = 0;
+    ui->outlines[ui->outlines_num].detection_range_coords.w = 0;
+    ui->outlines[ui->outlines_num].obstacle_range_coords.w = 0;
+    ui->outlines[ui->outlines_num].attack_range_coords.w = 0;
+    ui->outlines[ui->outlines_num].dmg_range_coords.w = 0;
+    ui->outlines[ui->outlines_num].escape_range_coords.w = 0;
+    (ui->outlines_num)++;
+  }
 }
 
 void set_Directions_Coords(GameLogic *logic, DevUI *ui)
@@ -463,6 +516,18 @@ void set_Directions_Coords(GameLogic *logic, DevUI *ui)
 
     ui->outlines[ui->outlines_num].direction_color = set_color(51, 18, 219, 255);
 
+    (ui->outlines_num)++;
+  }
+
+  ///////////////////////////////////////
+  ///////// --- obstacles ---
+  ///////////////////////////////////////
+  for (int i = 0; i < logic->obstacle_num; i++)
+  {
+    ui->outlines[ui->outlines_num].direction_coords.x1 = 0;
+    ui->outlines[ui->outlines_num].direction_coords.y1 = 0;
+    ui->outlines[ui->outlines_num].direction_coords.x2 = 0;
+    ui->outlines[ui->outlines_num].direction_coords.y2 = 0;
     (ui->outlines_num)++;
   }
 }

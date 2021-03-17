@@ -117,9 +117,9 @@ typedef struct
   real_Rect cam_Coords;
 
   // objects definition
-  Character survivors[4]; // 0:JAMES - 1:MARIE - 2:CAPTAIN WILL - 3:HULI
-  Enemie enemy_types[10]; // 0:BIRD - 1:SHEEP
-  Obstacle obstacle_types[5];
+  Character survivors[4];     // 0:JAMES - 1:MARIE - 2:CAPTAIN WILL - 3:HULI
+  Enemie enemy_types[10];     // 0:BIRD - 1:SHEEP
+  Obstacle obstacle_types[5]; // 0:box
 
   // stage objects
   Character players[3]; // 0:ACTIVE - 1:ACTIVE - 2:PASSIVE
@@ -128,6 +128,7 @@ typedef struct
 
   int enemy_num;
   int obstacle_num;
+  int next_id;
 
 } GameLogic;
 

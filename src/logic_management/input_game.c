@@ -43,6 +43,10 @@ void move_Input(GameLogic *logic, GameWindow *window, GameInput *input)
     logic->players[0].action_ang = 0;
     logic->players[0].is_moving = 1;
   }
+  else
+  {
+    logic->players[0].is_moving = 0;
+  }
 }
 
 void aim_Input(GameLogic *logic, GameWindow *window, GameInput *input)

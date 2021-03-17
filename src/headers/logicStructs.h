@@ -22,18 +22,26 @@ typedef struct
 
 typedef struct
 {
+  real_Rect coords;
+  int colliding;
+} Checkpoint;
+
+typedef struct
+{
   char name[50];
   int num_spawned;
   float damage;
   float fire_damage;
   float poison_damage;
   real_Rect coords;
+  Checkpoint checkpoints[4];
 } Obstacle;
 
 typedef struct
 {
   // misc
   char name[50];
+  int id;
   int xp, lvl, coins;
   float distance_walked;
   float dmg_delt;
@@ -57,7 +65,7 @@ typedef struct
 
   // coords
   real_Rect coords;
-  real_Rect checkpoints[4]; // 0:top-left 1:top-right 2:bottom-right 3:bottom-left
+  Checkpoint checkpoints[4]; // 0:top-left 1:top-right 2:bottom-right 3:bottom-left
   real_Rect AI_anchor;
   float action_ang;
   float attack_ang_offset[2];
@@ -77,6 +85,7 @@ typedef struct
 {
   // misc
   char name[50];
+  int id;
   int herd_id;
   int num_spawned;
   int give_xp;
@@ -84,13 +93,13 @@ typedef struct
 
   // properties
   float hp, shield, speed;
-  float dmg, burn_dmg, poison_dmg;
+  float dmg, fire_dmg, poison_dmg;
   float poison_applied, fire_applied;
   int poison_duration, fire_duration;
 
   // coords
   real_Rect coords;
-  real_Rect checkpoints[4]; // 0:top-left 1:top-right 2:bottom-right 3:bottom-left
+  Checkpoint checkpoints[4]; // 0:top-left 1:top-right 2:bottom-left 3:bottom-right
   float attack_ang_offset[2];
   float action_ang;
 
