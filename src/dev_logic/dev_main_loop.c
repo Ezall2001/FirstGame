@@ -155,21 +155,27 @@ void set_Boxes_Coords(GameLogic *logic, DevUI *ui)
     {
 
       convert_REAL_SDL(&(ui->outlines[ui->outlines_num].checkpoints[j]),
-                       logic->players[i].checkpoints[j].coords,
+                       logic->players[i].checkpoints[j],
                        logic->cam_Coords,
                        logic->CAM_REAL_Cam_w_Ratio,
-                       logic->players[i].checkpoints[j].coords.w,
-                       logic->players[i].checkpoints[j].coords.h);
+                       logic->players[i].checkpoints[j].w,
+                       logic->players[i].checkpoints[j].h);
 
       ui->outlines[ui->outlines_num].checkpoints_color[j] = ui->outlines[ui->outlines_num].box_color;
+      ui->outlines[ui->outlines_num].checkpoints_color[j].a = 100;
+    }
 
-      if (logic->players[i].checkpoints[j].colliding == 1)
+    for (int j = 0; j < 4; j++)
+    {
+      int collision_num = logic->players[i].collision_sides[j].collision_num;
+
+      for (int k = 0; k < collision_num; k++)
       {
-        ui->outlines[ui->outlines_num].checkpoints_color[j].r += 50;
-      }
-      else
-      {
-        ui->outlines[ui->outlines_num].checkpoints_color[j].a = 100;
+        if (logic->players[i].collision_sides[j].collision_type[k] != 0)
+        {
+          ui->outlines[ui->outlines_num].checkpoints_color[j] = set_color(255, 97, 97, 255);
+          ui->outlines[ui->outlines_num].checkpoints_color[(j + 1) % 4] = set_color(255, 97, 97, 255);
+        }
       }
     }
 
@@ -200,21 +206,27 @@ void set_Boxes_Coords(GameLogic *logic, DevUI *ui)
     {
 
       convert_REAL_SDL(&(ui->outlines[ui->outlines_num].checkpoints[j]),
-                       logic->enemies[i].checkpoints[j].coords,
+                       logic->enemies[i].checkpoints[j],
                        logic->cam_Coords,
                        logic->CAM_REAL_Cam_w_Ratio,
-                       logic->enemies[i].checkpoints[j].coords.w,
-                       logic->enemies[i].checkpoints[j].coords.h);
+                       logic->enemies[i].checkpoints[j].w,
+                       logic->enemies[i].checkpoints[j].h);
 
       ui->outlines[ui->outlines_num].checkpoints_color[j] = ui->outlines[ui->outlines_num].box_color;
+      ui->outlines[ui->outlines_num].checkpoints_color[j].a = 100;
+    }
 
-      if (logic->enemies[i].checkpoints[j].colliding == 1)
+    for (int j = 0; j < 4; j++)
+    {
+      int collision_num = logic->enemies[i].collision_sides[j].collision_num;
+      for (int k = 0; k < collision_num; k++)
       {
-        ui->outlines[ui->outlines_num].checkpoints_color[j].r += 50;
-      }
-      else
-      {
-        ui->outlines[ui->outlines_num].checkpoints_color[j].a = 100;
+
+        if (logic->enemies[i].collision_sides[j].collision_type[k] != 0)
+        {
+          ui->outlines[ui->outlines_num].checkpoints_color[j] = set_color(255, 97, 97, 255);
+          ui->outlines[ui->outlines_num].checkpoints_color[(j + 1) % 4] = set_color(255, 97, 97, 255);
+        }
       }
     }
 
@@ -241,21 +253,27 @@ void set_Boxes_Coords(GameLogic *logic, DevUI *ui)
     {
 
       convert_REAL_SDL(&(ui->outlines[ui->outlines_num].checkpoints[j]),
-                       logic->obstacles[i].checkpoints[j].coords,
+                       logic->obstacles[i].checkpoints[j],
                        logic->cam_Coords,
                        logic->CAM_REAL_Cam_w_Ratio,
-                       logic->obstacles[i].checkpoints[j].coords.w,
-                       logic->obstacles[i].checkpoints[j].coords.h);
+                       logic->obstacles[i].checkpoints[j].w,
+                       logic->obstacles[i].checkpoints[j].h);
 
       ui->outlines[ui->outlines_num].checkpoints_color[j] = ui->outlines[ui->outlines_num].box_color;
+      ui->outlines[ui->outlines_num].checkpoints_color[j].a = 100;
+    }
 
-      if (logic->obstacles[i].checkpoints[j].colliding == 1)
+    for (int j = 0; j < 4; j++)
+    {
+      int collision_num = logic->obstacles[i].collision_sides[j].collision_num;
+      for (int k = 0; k < collision_num; k++)
       {
-        ui->outlines[ui->outlines_num].checkpoints_color[j].r += 50;
-      }
-      else
-      {
-        ui->outlines[ui->outlines_num].checkpoints_color[j].a = 100;
+
+        if (logic->obstacles[i].collision_sides[j].collision_type[k] != 0)
+        {
+          ui->outlines[ui->outlines_num].checkpoints_color[j] = set_color(255, 97, 97, 255);
+          ui->outlines[ui->outlines_num].checkpoints_color[(j + 1) % 4] = set_color(255, 97, 97, 255);
+        }
       }
     }
 

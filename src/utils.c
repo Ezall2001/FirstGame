@@ -178,3 +178,70 @@ float get_distance(real_Rect p1, real_Rect p2)
 {
   return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
 }
+
+float get_point_line_distance(real_Rect p, real_Rect l1, real_Rect l2)
+{
+  real_Rect l1_p_l2 = {p.x, p.y, 0, 0};
+  if (fabs(l1.x - l2.x) < 1)
+  {
+    l1_p_l2.x = l1.x;
+  }
+  else if (fabs(l1.y - l2.y) < 1)
+  {
+    l1_p_l2.y = l1.y;
+  }
+
+  return get_distance(p, l1_p_l2);
+}
+
+void sort_array(float nums[], int size)
+{
+  for (int i = 0; i < size - 1; i++)
+  {
+    for (int j = i; j < size; j++)
+    {
+      if (nums[j] < nums[i])
+      {
+        float temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+      }
+    }
+  }
+}
+
+void get_min_max(float nums[], int size, int *min_index, int *max_index)
+{
+  float max_val = 0, min_val = 0;
+  min_val = nums[0];
+  max_val = nums[0];
+
+  for (int i = 1; i < size; i++)
+  {
+    if (nums[i] < min_val)
+    {
+      min_val = nums[i];
+      if (min_index != NULL)
+        *min_index = i;
+    }
+
+    if (nums[i] > max_val)
+    {
+      max_val = nums[i];
+      if (max_index != NULL)
+        *max_index = i;
+    }
+  }
+}
+
+void deMask(int demask[], int mask)
+{
+  int index = 0;
+  while (mask > 0)
+  {
+    demask[index] = mask % 10;
+
+    mask /= 10;
+    index++;
+  }
+}

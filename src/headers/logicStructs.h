@@ -22,19 +22,23 @@ typedef struct
 
 typedef struct
 {
-  real_Rect coords;
-  int colliding;
-} Checkpoint;
+  int collision_type[5]; // 0:none 1:player 2:enemie 3:obstacle
+  int collider_id[5];
+  int collision_num;
+} Collision_side;
 
 typedef struct
 {
   char name[50];
+  int id;
   int num_spawned;
   float damage;
   float fire_damage;
   float poison_damage;
   real_Rect coords;
-  Checkpoint checkpoints[4];
+  real_Rect checkpoints[4];          // 0:top-left 1:top-right 2:bottom-right 3:bottom-left
+  Collision_side collision_sides[4]; // 0:top 1:right 2:bottom 3:left
+
 } Obstacle;
 
 typedef struct
@@ -65,10 +69,11 @@ typedef struct
 
   // coords
   real_Rect coords;
-  Checkpoint checkpoints[4]; // 0:top-left 1:top-right 2:bottom-right 3:bottom-left
+  real_Rect checkpoints[4]; // 0:top-left 1:top-right 2:bottom-right 3:bottom-left
   real_Rect AI_anchor;
   float action_ang;
   float attack_ang_offset[2];
+  Collision_side collision_sides[4]; // 0:top 1:right 2:bottom 3:left
 
   // ranges
   float dmg_range;
@@ -99,9 +104,10 @@ typedef struct
 
   // coords
   real_Rect coords;
-  Checkpoint checkpoints[4]; // 0:top-left 1:top-right 2:bottom-left 3:bottom-right
+  real_Rect checkpoints[4]; // 0:top-left 1:top-right 2:bottom-right 3:bottom-left
   float attack_ang_offset[2];
   float action_ang;
+  Collision_side collision_sides[4]; // 0:top 1:right 2:bottom 3:left
 
   // ranges
   real_Rect roam_range;

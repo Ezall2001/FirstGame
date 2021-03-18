@@ -26,14 +26,19 @@ void logic_manager(GameObject *G)
     ///////////////////////////////
     ///////// behaviors
     ///////////////////////////////
-    obstacles_Behavior(&(G->logic), &(G->window), &(G->dev));
-
     main_player_Behavior(&(G->logic), &(G->window), &(G->dev), &(G->input));
 
     bird_Behavior(&(G->logic), &(G->window), &(G->dev));
-    sheep_Behavior(&(G->logic), &(G->window), &(G->dev));
-    melee_skeleton_Behavior(&(G->logic), &(G->window), &(G->dev));
-    archer_skeleton_Behavior(&(G->logic), &(G->window), &(G->dev));
+    // sheep_Behavior(&(G->logic), &(G->window), &(G->dev));
+    // melee_skeleton_Behavior(&(G->logic), &(G->window), &(G->dev));
+    // archer_skeleton_Behavior(&(G->logic), &(G->window), &(G->dev));
+
+    obstacles_Behavior(&(G->logic), &(G->window), &(G->dev));
+    ///////////////////////////////
+    ///////// hundling collisions
+    ///////////////////////////////
+    reset_collisions(&(G->logic));
+    set_collisions(&(G->logic));
 
     ///////////////////////////////
     ///////// converting systems

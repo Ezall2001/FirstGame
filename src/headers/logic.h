@@ -46,6 +46,9 @@ void melee_skeleton_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev)
 void archer_skeleton_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev);
 void obstacles_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev);
 
+void set_collisions(GameLogic *logic);
+void reset_collisions(GameLogic *logic);
+
 // spawn
 void spawn_Players(GameLogic *logic, GameWindow *window);
 void spawn_Obstacle(GameLogic *logic, GameWindow *window, int obstacle_type);
@@ -56,11 +59,13 @@ void update_Cam_Coords(GameLogic *logic, GameWindow *window, In_Game_UI *ui);
 void update_Minimap_Coords(GameLogic *logic, GameWindow *window, In_Game_UI *ui);
 void roam(Enemie *enemy, GameWindow *window, GameDev *dev);
 void alert_herd(GameLogic *logic, Enemie *enemy, float new_speed);
-void move(float speed, float d, real_Rect *main_coords, Checkpoint checkpoints[], float deltaTime);
+void move_enemie(Enemie *enemie, Character player, Obstacle obstacles[], int obstacles_num, float deltaTime);
+void update_checkpoints(real_Rect main_coords, real_Rect checkpoints[]);
 float get_ang(real_Rect src, real_Rect dst);
-void update_checkpoints(real_Rect main_coords, Checkpoint checkpoints[]);
+void move_player(Character *player, Obstacle obstacles[], int obstacles_num, float deltaTime);
 
-int set_collision_checkpoints(GameLogic *logic, Checkpoint checkpoints[], int id); // 0:noCollision - 1:obstacle - 2:enemy - 3:player
+int check_collision(real_Rect checkpoints_1[], real_Rect checkpoints_2[], real_Rect coords_1, real_Rect coords_2); // 0:noCollision - 1's:obstacle - 10's:enemy - 100's:player
+void player_slide_obstacle(Obstacle obstacles[], int obstacle_num, Character *player);
 
 // input
 void move_Input(GameLogic *logic, GameWindow *window, GameInput *input);

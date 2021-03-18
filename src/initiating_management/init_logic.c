@@ -17,11 +17,12 @@ void init_common_survivors(GameLogic *logic)
 
     for (int j = 0; j < 4; j++)
     {
-      logic->survivors[i].checkpoints[j].coords.w = 10;
-      logic->survivors[i].checkpoints[j].coords.h = 10;
-      logic->survivors[i].checkpoints[j].coords.x = logic->MAP_Map_Coords.w;
-      logic->survivors[i].checkpoints[j].coords.y = logic->MAP_Map_Coords.h;
-      logic->survivors[i].checkpoints[j].colliding = 0;
+      logic->survivors[i].checkpoints[j].w = 10;
+      logic->survivors[i].checkpoints[j].h = 10;
+      logic->survivors[i].checkpoints[j].x = logic->MAP_Map_Coords.w;
+      logic->survivors[i].checkpoints[j].y = logic->MAP_Map_Coords.h;
+
+      logic->players[i].collision_sides[j].collision_num = 0;
     }
 
     logic->survivors[i].id = 0;
@@ -37,7 +38,7 @@ void init_James(GameLogic *logic)
   strcpy(logic->survivors[0].name, "JAMES");
 
   // properties
-  logic->survivors[0].speed = 1300;
+  logic->survivors[0].speed = 300;
 
   // ranges
   logic->survivors[0].dmg_range = 700;
@@ -95,11 +96,12 @@ void init_common_enemies(GameLogic *logic, int stage)
 
     for (int j = 0; j < 4; j++)
     {
-      logic->enemy_types[i].checkpoints[j].coords.w = 10;
-      logic->enemy_types[i].checkpoints[j].coords.h = 10;
-      logic->enemy_types[i].checkpoints[j].coords.x = logic->MAP_Map_Coords.w;
-      logic->enemy_types[i].checkpoints[j].coords.y = logic->MAP_Map_Coords.h;
-      logic->enemy_types[i].checkpoints[j].colliding = 0;
+      logic->enemy_types[i].checkpoints[j].w = 10;
+      logic->enemy_types[i].checkpoints[j].h = 10;
+      logic->enemy_types[i].checkpoints[j].x = logic->MAP_Map_Coords.w;
+      logic->enemy_types[i].checkpoints[j].y = logic->MAP_Map_Coords.h;
+
+      logic->enemies[i].collision_sides[j].collision_num = 0;
     }
 
     for (int j = 0; j < 2; j++)
@@ -189,5 +191,17 @@ void init_sheep(GameLogic *logic, int stage)
 void init_common_obstacles(GameLogic *logic, int stage)
 {
   ///TODO: finish initiating obstacles
+  for (int j = 0; j < 4; j++)
+  {
+    logic->obstacle_types[0].checkpoints[j].w = 10;
+    logic->obstacle_types[0].checkpoints[j].h = 10;
+    logic->obstacle_types[0].checkpoints[j].x = logic->MAP_Map_Coords.w;
+    logic->obstacle_types[0].checkpoints[j].y = logic->MAP_Map_Coords.h;
+
+    logic->obstacle_types[0].collision_sides[j].collision_num = 0;
+  }
+
+  strcpy(logic->obstacle_types[0].name, "BOX");
+  logic->obstacle_types[0].id = 0;
   logic->obstacle_types[0].num_spawned = 0;
 }

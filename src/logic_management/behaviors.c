@@ -138,21 +138,22 @@ void spawn_herd(GameLogic *logic, GameWindow *window, GameDev *dev, int enemy_ty
       logic->enemy_types[enemy_type].id = logic->next_id;
       logic->enemy_types[enemy_type].action_ang = get_Random_Number(&(window->r), 0, 360);
 
-      do
-      {
-        ang_herd = get_Random_Number(&(window->r), 0, 360);
-        distance_herd = get_Random_Number(&(window->r), 0, logic->enemy_types[enemy_type].roam_range.w);
+      ///TODO: spawn without collision
+      // do
+      // {
+      //   ang_herd = get_Random_Number(&(window->r), 0, 360);
+      //   distance_herd = get_Random_Number(&(window->r), 0, logic->enemy_types[enemy_type].roam_range.w);
 
-        logic->enemy_types[enemy_type].coords.x = x_herd + cos(ang_herd) * distance_herd;
-        logic->enemy_types[enemy_type].coords.y = y_herd + sin(ang_herd) * distance_herd;
+      //   logic->enemy_types[enemy_type].coords.x = x_herd + cos(ang_herd) * distance_herd;
+      //   logic->enemy_types[enemy_type].coords.y = y_herd + sin(ang_herd) * distance_herd;
 
-        update_checkpoints(logic->enemy_types[enemy_type].coords, logic->enemy_types[enemy_type].checkpoints);
+      //   update_checkpoints(logic->enemy_types[enemy_type].coords, logic->enemy_types[enemy_type].checkpoints);
 
-        max_spawn++;
-        if (max_spawn == 100000)
-          break;
+      //   max_spawn++;
+      //   if (max_spawn == 100000)
+      //     break;
 
-      } while (set_collision_checkpoints(logic, logic->enemy_types[enemy_type].checkpoints, logic->enemy_types[enemy_type].id) != 0);
+      // } while (set_collision_checkpoints(logic, logic->enemy_types[enemy_type].checkpoints, logic->enemy_types[enemy_type].id) != 0);
 
       logic->enemies[logic->enemy_num] = logic->enemy_types[enemy_type];
 
@@ -171,66 +172,69 @@ void spawn_Obstacle(GameLogic *logic, GameWindow *window, int obstacle_type)
   logic->obstacle_types[obstacle_type].coords.w = 200;
   logic->obstacle_types[obstacle_type].coords.h = 200;
 
+  logic->obstacle_types[obstacle_type].id = logic->next_id;
+
   update_checkpoints(logic->obstacle_types[obstacle_type].coords, logic->obstacle_types[obstacle_type].checkpoints);
 
   logic->obstacles[logic->obstacle_num] = logic->obstacle_types[obstacle_type];
 
   (logic->obstacle_types[obstacle_type].num_spawned)++;
   (logic->obstacle_num)++;
+  (logic->next_id)++;
 }
 
 void roam(Enemie *enemy, GameWindow *window, GameDev *dev)
 {
-  if (enemy->is_moving == 1)
-  {
-    if (enemy->init_action == 1)
-    {
-      // move
-      move(enemy->speed, enemy->action_ang, &(enemy->coords), enemy->checkpoints, dev->deltaTime);
+  // if (enemy->is_moving == 1)
+  // {
+  //   if (enemy->init_action == 1)
+  //   {
+  //     // move
+  //     move_enemie(&(logic->enemies[i]), logic->obstacles, logic->obstacle_num, dev->deltaTime);
 
-      if (get_distance(enemy->coords, enemy->roam_range) > enemy->roam_range.w)
-      {
-        float range_ang = get_ang(enemy->roam_range, enemy->coords);
-        move(enemy->speed, range_ang + 180, &(enemy->coords), enemy->checkpoints, dev->deltaTime);
-        enemy->action_ang = get_Random_Number(&(window->r), range_ang + 180 - 45, enemy->action_ang + 180 + 45);
+  //     if (get_distance(enemy->coords, enemy->roam_range) > enemy->roam_range.w)
+  //     {
+  //       float range_ang = get_ang(enemy->roam_range, enemy->coords);
+  //       move(enemy->speed, range_ang + 180, &(enemy->coords), enemy->checkpoints, enemy->collision_sides, dev->deltaTime);
+  //       enemy->action_ang = get_Random_Number(&(window->r), range_ang + 180 - 45, enemy->action_ang + 180 + 45);
 
-        enemy->delay -= 1000;
-      }
+  //       enemy->delay -= 1000;
+  //     }
 
-      if (SDL_GetTicks() - enemy->start_count > enemy->delay)
-      {
-        enemy->delay = 0;
-        enemy->start_count = 0;
-        enemy->init_action = 0;
-        enemy->is_moving = 0;
-      }
-    }
-    else if (enemy->init_action == 0)
-    {
-      enemy->action_ang = get_Random_Number(&(window->r), 0, 360);
-      enemy->start_count = SDL_GetTicks();
-      enemy->delay = get_Random_Number(&(window->r), 5000, 7000);
-      enemy->init_action = 1;
-    }
-  }
-  else if (enemy->is_moving == 0)
-  {
-    // wait
-    if (enemy->start_count != 0)
-    {
-      if (SDL_GetTicks() - enemy->start_count > enemy->delay)
-      {
-        enemy->is_moving = 1;
-        enemy->delay = 0;
-        enemy->start_count = 0;
-      }
-    }
-    else if (enemy->start_count == 0)
-    {
-      enemy->start_count = SDL_GetTicks();
-      enemy->delay = get_Random_Number(&(window->r), 5000, 15000);
-    }
-  }
+  //     if (SDL_GetTicks() - enemy->start_count > enemy->delay)
+  //     {
+  //       enemy->delay = 0;
+  //       enemy->start_count = 0;
+  //       enemy->init_action = 0;
+  //       enemy->is_moving = 0;
+  //     }
+  //   }
+  //   else if (enemy->init_action == 0)
+  //   {
+  //     enemy->action_ang = get_Random_Number(&(window->r), 0, 360);
+  //     enemy->start_count = SDL_GetTicks();
+  //     enemy->delay = get_Random_Number(&(window->r), 5000, 7000);
+  //     enemy->init_action = 1;
+  //   }
+  // }
+  // else if (enemy->is_moving == 0)
+  // {
+  //   // wait
+  //   if (enemy->start_count != 0)
+  //   {
+  //     if (SDL_GetTicks() - enemy->start_count > enemy->delay)
+  //     {
+  //       enemy->is_moving = 1;
+  //       enemy->delay = 0;
+  //       enemy->start_count = 0;
+  //     }
+  //   }
+  //   else if (enemy->start_count == 0)
+  //   {
+  //     enemy->start_count = SDL_GetTicks();
+  //     enemy->delay = get_Random_Number(&(window->r), 5000, 15000);
+  //   }
+  // }
 }
 
 void alert_herd(GameLogic *logic, Enemie *enemy, float new_speed)
@@ -289,24 +293,87 @@ void alert_herd(GameLogic *logic, Enemie *enemy, float new_speed)
   }
 }
 
-void move(float speed, float d, real_Rect *main_coords, Checkpoint checkpoints[], float deltaTime)
+void move_enemie(Enemie *enemie, Character player, Obstacle obstacles[], int obstacles_num, float deltaTime)
 {
-  // main coords
-  float r = convert_Degree_Radiant(d);
-  main_coords->x += cos(r) * speed * deltaTime;
-  main_coords->y += sin(r) * speed * deltaTime;
 
-  update_checkpoints(*main_coords, checkpoints);
-}
-
-void update_checkpoints(real_Rect main_coords, Checkpoint checkpoints[])
-{
-  Checkpoint checkpoint = {0, 0, 10, 10};
   for (int i = 0; i < 4; i++)
   {
-    checkpoint.coords.x = main_coords.x + ((main_coords.w / 2) - 1) * pow(-1, i + 1);
-    checkpoint.coords.y = main_coords.y + ((main_coords.h / 2) - 1) * pow(-1, i / 2);
-    checkpoints[i] = checkpoint;
+    for (int j = 0; j < enemie->collision_sides[i].collision_num; j++)
+    {
+
+      if (enemie->collision_sides[i].collision_type[j] == 3)
+      {
+        if (j == 0 && (player.action_ang >= 270 || player.action_ang <= 90))
+          enemie->action_ang = 0;
+
+        else if (j == 0 && (player.action_ang >= 90 && player.action_ang <= 270))
+          enemie->action_ang = 180;
+      }
+    }
+  }
+
+  float r = convert_Degree_Radiant(enemie->action_ang);
+  float vx = 0, vy = 0;
+
+  vx = cos(r) * enemie->speed * deltaTime;
+  vy = sin(r) * enemie->speed * deltaTime;
+
+  enemie->coords.x += vx;
+  enemie->coords.y += vy;
+
+  update_checkpoints(enemie->coords, enemie->checkpoints);
+}
+
+void move_player(Character *player, Obstacle obstacles[], int obstacles_num, float deltaTime)
+{
+  float r = convert_Degree_Radiant(player->action_ang);
+  float vx = 0, vy = 0;
+
+  vx = cos(r) * player->speed * deltaTime;
+  vy = sin(r) * player->speed * deltaTime;
+
+  for (int i = 0; i < 4; i++)
+  {
+    for (int j = 0; j < player->collision_sides[i].collision_num; j++)
+    {
+
+      if (player->collision_sides[i].collision_type[j] == 3)
+      {
+        for (int k = 0; k < obstacles_num; k++)
+        {
+
+          if (obstacles[k].id == player->collision_sides[i].collider_id[j] && strcmp(obstacles[k].name, "BOX") == 0)
+          {
+            if (i == 1 && vx > 0)
+              vx = 0;
+
+            if (i == 3 && vx < 0)
+              vx = 0;
+
+            if (i == 0 && vy > 0)
+              vy = 0;
+
+            if (i == 2 && vy < 0)
+              vy = 0;
+          }
+        }
+      }
+    }
+  }
+
+  player->coords.x += vx;
+  player->coords.y += vy;
+  player->distance_walked += player->speed * deltaTime;
+
+  update_checkpoints(player->coords, player->checkpoints);
+}
+
+void update_checkpoints(real_Rect main_coords, real_Rect checkpoints[])
+{
+  for (int i = 0; i < 4; i++)
+  {
+    checkpoints[i].x = main_coords.x + ((main_coords.w / 2) - 1) * pow(-1, (i + 3) / 2);
+    checkpoints[i].y = main_coords.y + ((main_coords.h / 2) - 1) * pow(-1, i / 2);
   }
 }
 
@@ -343,67 +410,74 @@ float get_ang(real_Rect src, real_Rect dst)
   return convert_Radiant_Degree(r_ang);
 }
 
-int set_collision_checkpoints(GameLogic *logic, Checkpoint checkpoints[], int id)
+int check_collision(real_Rect checkpoints_1[], real_Rect checkpoints_2[], real_Rect coords_1, real_Rect coords_2) // 0:noCollision - 1's:obstacle - 10's:enemy - 100's:player
 {
+  float checkpoint_distances[4]; // from 0:top 1:right 2:bottom 3:left
 
-  int is_colliding = 0;
-  // collision with boxes
-  for (int i = 0; i < logic->obstacle_num; i++)
+  for (int j = 0; j < 4; j++)
   {
-    for (int j = 0; j < 4; j++)
+    checkpoint_distances[0] = get_point_line_distance(checkpoints_1[j], checkpoints_2[0], checkpoints_2[1]);
+    checkpoint_distances[1] = get_point_line_distance(checkpoints_1[j], checkpoints_2[1], checkpoints_2[2]);
+    checkpoint_distances[2] = get_point_line_distance(checkpoints_1[j], checkpoints_2[2], checkpoints_2[3]);
+    checkpoint_distances[3] = get_point_line_distance(checkpoints_1[j], checkpoints_2[3], checkpoints_2[0]);
+
+    if (checkpoint_distances[0] + checkpoint_distances[2] < coords_2.h + 20)
     {
-      if (checkpoints[j].coords.x + checkpoints[j].coords.w > logic->obstacles[i].checkpoints[0].coords.x && checkpoints[j].coords.x - checkpoints[j].coords.w < logic->obstacles[i].checkpoints[1].coords.x)
+      if (checkpoint_distances[1] + checkpoint_distances[3] < coords_2.w + 20)
       {
-        if (checkpoints[j].coords.y - checkpoints[j].coords.h < logic->obstacles[i].checkpoints[0].coords.y && checkpoints[j].coords.y + checkpoints[j].coords.h > logic->obstacles[i].checkpoints[2].coords.y)
-        {
-          checkpoints[j].colliding = 1;
-          is_colliding = 1;
-        }
+        int collision_side = 0;
+
+        get_min_max(checkpoint_distances, 4, NULL, &collision_side);
+
+        if (collision_side == (j + 4 - 1) % 4 || collision_side == j)
+          return collision_side;
       }
     }
   }
 
-  // collision with enemies
-  for (int i = 0; i < logic->enemy_num; i++)
+  return -1;
+}
+
+void player_slide_obstacle(Obstacle obstacles[], int obstacle_num, Character *player)
+{
+  for (int i = 0; i < 4; i++)
   {
-
-    if (logic->enemies[i].id != id)
+    for (int j = 0; j < player->collision_sides[i].collision_num; j++)
     {
-
-      for (int j = 0; j < 4; j++)
+      if (player->collision_sides[i].collision_type[j] == 3)
       {
-        if (checkpoints[j].coords.x + checkpoints[j].coords.w > logic->enemies[i].checkpoints[0].coords.x && checkpoints[j].coords.x - checkpoints[j].coords.w < logic->enemies[i].checkpoints[1].coords.x)
+        for (int k = 0; k < obstacle_num; k++)
         {
-          if (checkpoints[j].coords.y - checkpoints[j].coords.h < logic->enemies[i].checkpoints[0].coords.y && checkpoints[j].coords.y + checkpoints[j].coords.h > logic->enemies[i].checkpoints[2].coords.y)
+          if (obstacles[k].id == player->collision_sides[i].collider_id[j])
           {
-            checkpoints[j].colliding = 1;
-            is_colliding = 2;
+            float ang = get_ang(player->coords, obstacles[k].coords);
+
+            if (ang > 0 && ang < 90 && player->action_ang == 0)
+              player->action_ang = 350;
+
+            else if (ang > 270 && ang < 360 && player->action_ang == 0)
+              player->action_ang = 10;
+
+            else if (ang > 0 && ang < 90 && player->action_ang == 90)
+              player->action_ang = 100;
+
+            else if (ang > 90 && ang < 180 && player->action_ang == 90)
+              player->action_ang = 80;
+
+            else if (ang > 90 && ang < 180 && player->action_ang == 180)
+              player->action_ang = 190;
+
+            else if (ang > 180 && ang < 270 && player->action_ang == 180)
+              player->action_ang = 170;
+
+            else if (ang > 180 && ang < 270 && player->action_ang == 270)
+              player->action_ang = 280;
+
+            else if (ang > 270 && ang < 360 && player->action_ang == 270)
+              player->action_ang = 260;
           }
         }
       }
     }
   }
-
-  // collision with players
-  for (int i = 0; i < 2; i++)
-  {
-
-    if (logic->players[i].id != id)
-    {
-
-      for (int j = 0; j < 4; j++)
-      {
-        if (checkpoints[j].coords.x + checkpoints[j].coords.w > logic->players[i].checkpoints[0].coords.x && checkpoints[j].coords.x - checkpoints[j].coords.w < logic->players[i].checkpoints[1].coords.x)
-        {
-          if (checkpoints[j].coords.y - checkpoints[j].coords.h < logic->players[i].checkpoints[0].coords.y && checkpoints[j].coords.y + checkpoints[j].coords.h > logic->players[i].checkpoints[2].coords.y)
-          {
-            checkpoints[j].colliding = 1;
-            is_colliding = 3;
-          }
-        }
-      }
-    }
-  }
-
-  return is_colliding;
 }

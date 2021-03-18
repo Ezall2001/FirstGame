@@ -1,5 +1,106 @@
 #include "../headers/logic.h"
 
+void set_collisions(GameLogic *logic)
+{
+  int collision_side = -1;
+  int collision_num = 0;
+
+  // player <-> player
+
+  // player <-> enemies
+  for (int i = 0; i < 2; i++)
+  {
+    for (int j = 0; j < logic->enemy_num; j++)
+    {
+      collision_side = check_collision(logic->players[i].checkpoints, logic->enemies[j].checkpoints, logic->players[i].coords, logic->enemies[j].coords);
+
+      if (collision_side == -1)
+      {
+        collision_side = check_collision(logic->enemies[j].checkpoints, logic->players[i].checkpoints, logic->enemies[j].coords, logic->players[i].coords);
+        if (collision_side != -1)
+          collision_side = (collision_side + 2) % 4;
+      }
+
+      if (collision_side != -1)
+      {
+        collision_num = logic->players[i].collision_sides[collision_side].collision_num;
+        logic->players[i].collision_sides[collision_side].collision_type[collision_num] = 3;
+        logic->players[i].collision_sides[collision_side].collider_id[collision_num] = logic->enemies[j].id;
+
+        collision_num = logic->enemies[j].collision_sides[(collision_side + 2) % 4].collision_num;
+        logic->enemies[j].collision_sides[(collision_side + 2) % 4].collision_type[collision_num] = 1;
+        logic->enemies[j].collision_sides[(collision_side + 2) % 4].collider_id[collision_num] = logic->players[i].id;
+
+        (logic->enemies[j].collision_sides[(collision_side + 2) % 4].collision_num)++;
+        (logic->players[i].collision_sides[collision_side].collision_num)++;
+      }
+    }
+  }
+
+  // player <-> obstacle
+  for (int i = 0; i < 2; i++)
+  {
+    for (int j = 0; j < logic->obstacle_num; j++)
+    {
+      collision_side = check_collision(logic->players[i].checkpoints, logic->obstacles[j].checkpoints, logic->players[i].coords, logic->obstacles[j].coords);
+
+      if (collision_side == -1)
+      {
+        collision_side = check_collision(logic->obstacles[j].checkpoints, logic->players[i].checkpoints, logic->obstacles[j].coords, logic->players[i].coords);
+        if (collision_side != -1)
+          collision_side = (collision_side + 2) % 4;
+      }
+
+      if (collision_side != -1)
+      {
+        collision_num = logic->players[i].collision_sides[collision_side].collision_num;
+        logic->players[i].collision_sides[collision_side].collision_type[collision_num] = 3;
+        logic->players[i].collision_sides[collision_side].collider_id[collision_num] = logic->obstacles[j].id;
+
+        collision_num = logic->obstacles[j].collision_sides[(collision_side + 2) % 4].collision_num;
+        logic->obstacles[j].collision_sides[(collision_side + 2) % 4].collision_type[collision_num] = 1;
+        logic->obstacles[j].collision_sides[(collision_side + 2) % 4].collider_id[collision_num] = logic->players[i].id;
+
+        (logic->obstacles[j].collision_sides[(collision_side + 2) % 4].collision_num)++;
+        (logic->players[i].collision_sides[collision_side].collision_num)++;
+      }
+    }
+  }
+
+  // enemie <-> enemie
+}
+
+void reset_collisions(GameLogic *logic)
+{
+  // players
+
+  for (int i = 0; i < 2; i++)
+  {
+    for (int j = 0; j < 4; j++)
+    {
+      logic->players[i].collision_sides[j].collision_num = 0;
+    }
+  }
+
+  // enemeies
+  for (int i = 0; i < logic->enemy_num; i++)
+  {
+    for (int j = 0; j < 4; j++)
+    {
+      logic->enemies[i].collision_sides[j].collision_num = 0;
+    }
+  }
+
+  // obstacles
+  for (int i = 0; i < logic->obstacle_num; i++)
+  {
+    for (int j = 0; j < 4; j++)
+    {
+      logic->obstacles[i].collision_sides[j].collision_num = 0;
+    }
+  }
+}
+
 void main_player_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev, GameInput *input)
 {
   if (logic->players[0].is_spawned == 0)
@@ -13,11 +114,8 @@ void main_player_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev, Ga
 
   if (logic->players[0].is_moving == 1)
   {
-    move(logic->players[0].speed, logic->players[0].action_ang, &(logic->players[0].coords), logic->players[0].checkpoints, dev->deltaTime);
-    logic->players[0].distance_walked += logic->players[0].speed * dev->deltaTime;
-    logic->players[1].distance_walked += logic->players[1].speed * dev->deltaTime;
-
-    set_collision_checkpoints(logic, logic->players[0].checkpoints, 0);
+    player_slide_obstacle(logic->obstacles, logic->obstacle_num, &(logic->players[0]));
+    move_player(&(logic->players[0]), logic->obstacles, logic->obstacle_num, dev->deltaTime);
   }
 }
 
@@ -37,10 +135,17 @@ void bird_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev)
     {
       logic->enemies[i].action_ang = get_ang(logic->enemies[i].coords, logic->players[0].coords);
 
-      // move
-      move(logic->enemies[i].speed, logic->enemies[i].action_ang, &(logic->enemies[i].coords), logic->enemies[i].checkpoints, dev->deltaTime);
+      // attack
+      if (get_distance(logic->enemies[i].coords, logic->players[0].coords) < logic->enemies[i].attack_range)
+        logic->enemies[i].is_moving = 0;
+      else
+        logic->enemies[i].is_moving = 1;
 
-      set_collision_checkpoints(logic, logic->enemies[i].checkpoints, logic->enemies[i].id);
+      // move
+      if (logic->enemies[i].is_moving == 1)
+      {
+        move_enemie(&(logic->enemies[i]), logic->players[0], logic->obstacles, logic->obstacle_num, dev->deltaTime);
+      }
     }
   }
 }
@@ -48,42 +153,42 @@ void bird_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev)
 void sheep_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev)
 {
   // spawn
-  int herd_num = 1; ///TODO: make this stage dependent
-  int sheep_num;
-  if (logic->enemy_types[1].num_spawned == 0)
-  {
-    for (int i = 0; i < herd_num; i++)
-    {
-      sheep_num = get_Random_Number(&(window->r), 2, 3);
-      spawn_herd(logic, window, dev, 1, sheep_num);
-    }
-  }
+  // int herd_num = 1; ///TODO: make this stage dependent
+  // int sheep_num;
+  // if (logic->enemy_types[1].num_spawned == 0)
+  // {
+  //   for (int i = 0; i < herd_num; i++)
+  //   {
+  //     sheep_num = get_Random_Number(&(window->r), 2, 3);
+  //     spawn_herd(logic, window, dev, 1, sheep_num);
+  //   }
+  // }
 
-  for (int i = 0; i < logic->enemy_num; i++)
-  {
-    if (strcmp(logic->enemies[i].name, "SHEEP") == 0)
-    {
-      // alert herd
-      alert_herd(logic, &(logic->enemies[i]), 250);
+  // for (int i = 0; i < logic->enemy_num; i++)
+  // {
+  //   if (strcmp(logic->enemies[i].name, "SHEEP") == 0)
+  //   {
+  //     // alert herd
+  //     alert_herd(logic, &(logic->enemies[i]), 250);
 
-      // roam
-      if (logic->enemies[i].is_alerted == 0)
-      {
-        roam(&(logic->enemies[i]), window, dev);
-      }
-      else if (logic->enemies[i].is_alerted == 1)
-      {
-        // get player angle
-        logic->enemies[i].action_ang = get_ang(logic->enemies[i].coords, logic->players[0].coords);
+  //     // roam
+  //     if (logic->enemies[i].is_alerted == 0)
+  //     {
+  //       roam(&(logic->enemies[i]), window, dev);
+  //     }
+  //     else if (logic->enemies[i].is_alerted == 1)
+  //     {
+  //       // get player angle
+  //       logic->enemies[i].action_ang = get_ang(logic->enemies[i].coords, logic->players[0].coords);
 
-        // move
-        if (logic->enemies[i].is_moving == 1)
-        {
-          move(logic->enemies[i].speed, logic->enemies[i].action_ang, &(logic->enemies[i].coords), logic->enemies[i].checkpoints, dev->deltaTime);
-        }
-      }
-    }
-  }
+  //       // move
+  //       if (logic->enemies[i].is_moving == 1)
+  //       {
+  //         move_enemie(&(logic->enemies[i]), logic->obstacles, logic->obstacle_num, dev->deltaTime);
+  //       }
+  //     }
+  //   }
+  // }
 }
 
 void melee_skeleton_Behavior(GameLogic *logic, GameWindow *window, GameDev *dev)
