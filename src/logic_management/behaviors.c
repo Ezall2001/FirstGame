@@ -295,6 +295,10 @@ void alert_herd(GameLogic *logic, Enemie *enemy, float new_speed)
 
 void move_enemie(Enemie *enemie, Character player, Obstacle obstacles[], int obstacles_num, float deltaTime)
 {
+  ///TODO: fix bug "one enemie gets attached"
+  ///TODO: fix bug "enemies stop moving"
+
+  float vx = 1, vy = 1;
 
   for (int i = 0; i < 4; i++)
   {
@@ -303,20 +307,50 @@ void move_enemie(Enemie *enemie, Character player, Obstacle obstacles[], int obs
 
       if (enemie->collision_sides[i].collision_type[j] == 3)
       {
-        if (j == 0 && (player.action_ang >= 270 || player.action_ang <= 90))
-          enemie->action_ang = 0;
+        for (int k = 0; k < obstacles_num; k++)
+        {
+          if (obstacles[k].id == enemie->collision_sides[i].collider_id[j])
+          {
 
-        else if (j == 0 && (player.action_ang >= 90 && player.action_ang <= 270))
-          enemie->action_ang = 180;
+            float ang = get_ang(obstacles[k].coords, player.coords);
+
+            for (int blocked_side = 0; blocked_side < 4; blocked_side++)
+            {
+              int ang_offset1 = (90 * blocked_side + (180 * (blocked_side % 2))) % 360;
+              int ang_offset2 = (90 * (blocked_side + 1) + (180 * (blocked_side % 2))) % 360;
+
+              if (i == blocked_side && ang > ang_offset1 && ang < ((int)(ang_offset1 + 90) % 361))
+                enemie->action_ang = ang_offset1;
+
+              else if (i == blocked_side && ang >= ang_offset2 && ang < ((int)(ang_offset2 + 90) % 361))
+                enemie->action_ang = (ang_offset1 + 180) % 360;
+            }
+          }
+        }
+      }
+
+      if (enemie->collision_sides[i].collision_type[j] != 0)
+      {
+        if (i == 1 && (enemie->action_ang > 270 || enemie->action_ang < 90))
+          vx = 0;
+
+        if (i == 3 && (enemie->action_ang > 90 && enemie->action_ang < 270))
+          vx = 0;
+
+        if (i == 0 && (enemie->action_ang > 0 && enemie->action_ang < 180))
+          vy = 0;
+
+        if (i == 2 && (enemie->action_ang > 180 && enemie->action_ang < 360))
+          vy = 0;
       }
     }
   }
 
   float r = convert_Degree_Radiant(enemie->action_ang);
-  float vx = 0, vy = 0;
-
-  vx = cos(r) * enemie->speed * deltaTime;
-  vy = sin(r) * enemie->speed * deltaTime;
+  if (vx != 0)
+    vx = cos(r) * enemie->speed * deltaTime;
+  if (vy != 0)
+    vy = sin(r) * enemie->speed * deltaTime;
 
   enemie->coords.x += vx;
   enemie->coords.y += vy;
@@ -326,11 +360,8 @@ void move_enemie(Enemie *enemie, Character player, Obstacle obstacles[], int obs
 
 void move_player(Character *player, Obstacle obstacles[], int obstacles_num, float deltaTime)
 {
-  float r = convert_Degree_Radiant(player->action_ang);
-  float vx = 0, vy = 0;
-
-  vx = cos(r) * player->speed * deltaTime;
-  vy = sin(r) * player->speed * deltaTime;
+  ///TODO: add map collision
+  float vx = 1, vy = 1;
 
   for (int i = 0; i < 4; i++)
   {
@@ -344,22 +375,49 @@ void move_player(Character *player, Obstacle obstacles[], int obstacles_num, flo
 
           if (obstacles[k].id == player->collision_sides[i].collider_id[j] && strcmp(obstacles[k].name, "BOX") == 0)
           {
-            if (i == 1 && vx > 0)
+            // slide off the box
+            float ang = get_ang(player->coords, obstacles[k].coords);
+
+            for (int action_ang = 0; action_ang <= 270; action_ang += 90)
+            {
+              float angle_offset_1 = (action_ang + 360 - 90) % 360;
+              float angle_offset_2 = action_ang;
+
+              if (player->action_ang == action_ang)
+              {
+                if (ang > angle_offset_1 && ang < angle_offset_1 + 90)
+                  player->action_ang = (action_ang + 360 + 10) % 360;
+
+                else if (ang > angle_offset_2 && ang < angle_offset_2 + 90)
+                  player->action_ang = (action_ang + 360 - 10) % 360;
+              }
+            }
+
+            // vx vy block
+            if (i == 1 && (player->action_ang > 270 || player->action_ang < 90))
               vx = 0;
 
-            if (i == 3 && vx < 0)
+            if (i == 3 && (player->action_ang > 90 && player->action_ang < 270))
               vx = 0;
 
-            if (i == 0 && vy > 0)
+            if (i == 0 && (player->action_ang > 0 && player->action_ang < 180))
               vy = 0;
 
-            if (i == 2 && vy < 0)
+            if (i == 2 && (player->action_ang > 180 && player->action_ang < 360))
               vy = 0;
           }
         }
       }
     }
   }
+
+  // calculating vx and vy
+  float r = convert_Degree_Radiant(player->action_ang);
+
+  if (vx != 0)
+    vx = cos(r) * player->speed * deltaTime;
+  if (vy != 0)
+    vy = sin(r) * player->speed * deltaTime;
 
   player->coords.x += vx;
   player->coords.y += vy;
@@ -436,48 +494,4 @@ int check_collision(real_Rect checkpoints_1[], real_Rect checkpoints_2[], real_R
   }
 
   return -1;
-}
-
-void player_slide_obstacle(Obstacle obstacles[], int obstacle_num, Character *player)
-{
-  for (int i = 0; i < 4; i++)
-  {
-    for (int j = 0; j < player->collision_sides[i].collision_num; j++)
-    {
-      if (player->collision_sides[i].collision_type[j] == 3)
-      {
-        for (int k = 0; k < obstacle_num; k++)
-        {
-          if (obstacles[k].id == player->collision_sides[i].collider_id[j])
-          {
-            float ang = get_ang(player->coords, obstacles[k].coords);
-
-            if (ang > 0 && ang < 90 && player->action_ang == 0)
-              player->action_ang = 350;
-
-            else if (ang > 270 && ang < 360 && player->action_ang == 0)
-              player->action_ang = 10;
-
-            else if (ang > 0 && ang < 90 && player->action_ang == 90)
-              player->action_ang = 100;
-
-            else if (ang > 90 && ang < 180 && player->action_ang == 90)
-              player->action_ang = 80;
-
-            else if (ang > 90 && ang < 180 && player->action_ang == 180)
-              player->action_ang = 190;
-
-            else if (ang > 180 && ang < 270 && player->action_ang == 180)
-              player->action_ang = 170;
-
-            else if (ang > 180 && ang < 270 && player->action_ang == 270)
-              player->action_ang = 280;
-
-            else if (ang > 270 && ang < 360 && player->action_ang == 270)
-              player->action_ang = 260;
-          }
-        }
-      }
-    }
-  }
 }

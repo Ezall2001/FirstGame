@@ -38,7 +38,7 @@ void init_James(GameLogic *logic)
   strcpy(logic->survivors[0].name, "JAMES");
 
   // properties
-  logic->survivors[0].speed = 300;
+  logic->survivors[0].speed = 700;
 
   // ranges
   logic->survivors[0].dmg_range = 700;
@@ -139,7 +139,7 @@ void init_bird(GameLogic *logic, int stage)
 
   // properties
   logic->enemy_types[0].hp = 30;
-  logic->enemy_types[0].speed = 600;
+  logic->enemy_types[0].speed = 800;
   logic->enemy_types[0].dmg = 15;
 
   // coords
@@ -150,8 +150,8 @@ void init_bird(GameLogic *logic, int stage)
 
   // ranges
   logic->enemy_types[0].avoid_obstacle_range = 500;
-  logic->enemy_types[0].attack_range = 100;
-  logic->enemy_types[0].dmg_range = 150;
+  logic->enemy_types[0].attack_range = 150;
+  logic->enemy_types[0].dmg_range = 200;
 }
 
 void init_sheep(GameLogic *logic, int stage)

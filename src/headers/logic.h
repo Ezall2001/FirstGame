@@ -65,7 +65,6 @@ float get_ang(real_Rect src, real_Rect dst);
 void move_player(Character *player, Obstacle obstacles[], int obstacles_num, float deltaTime);
 
 int check_collision(real_Rect checkpoints_1[], real_Rect checkpoints_2[], real_Rect coords_1, real_Rect coords_2); // 0:noCollision - 1's:obstacle - 10's:enemy - 100's:player
-void player_slide_obstacle(Obstacle obstacles[], int obstacle_num, Character *player);
 
 // input
 void move_Input(GameLogic *logic, GameWindow *window, GameInput *input);
